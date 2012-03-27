@@ -1,0 +1,23 @@
+<h1>Editing contribution_type</h1>
+
+<% form_for(@contribution_type) do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :display_order %><br />
+    <%= f.text_field :display_order %>
+  </p>
+  <p>
+    <%= f.label :public %><br />
+    <%= f.check_box :public %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @contribution_type %> |
+<%= link_to 'Back', contribution_types_path %>

@@ -1,0 +1,33 @@
+<h2>Audit Trail Report</h2>
+<%= link_to '[ Export to Excel ]', :action => :audit_trail_export, :per_page => @per_page -%> </p>
+<%= form_tag :action => :audit_trail -%>
+
+<div id="audit_trail_form">
+  <div id="action_bar">
+    <%= page_entries_info @audit_trails -%> &mdash;
+    <%= select_tag('per_page', options_for_select([25, 50, 75, 100, 150, 200, 300, 999], @per_page)) -%> submissions per page &nbsp;
+    <%= submit_tag 'Refresh' -%>
+  </div>
+  <table style="clear: both;" class="admin_table"> 
+    <tr>
+      <th>
+        <%= select_tag('date_range', options_for_select([['Anytime',0], ['within last 2 weeks',14], ['within last 30 days',30], ['within last 90 days',90], ['within last 180 days',180], ['within last year',365]], @date_range)) -%>
+      </th>
+      <th>User</th>
+      <th>Acted On</th>
+      <th>Article Submission</th>
+      <th>Details</th>
+    </tr>
+    <% @audit_trails.each do |audit_trail| %>
+      <tr>
+        <td><%= audit_trail.created_at.strftime("%x %H:%M") -%></td>
+        <td><%= audit_trail.user.name -%></td>
+        <td><%= audit_trail.user_acted_on && audit_trail.user_acted_on.name -%></td>
+        <td><%= audit_trail.article_submission && audit_trail.article_submission.title[0..100] -%></td>
+        <td><%= link_to audit_trail.details[0..100], :action => 'show_audit_trail', :id => audit_trail.id -%></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+</form>

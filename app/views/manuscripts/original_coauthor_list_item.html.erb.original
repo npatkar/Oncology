@@ -1,0 +1,18 @@
+ <li class="manuscripts_coauthor_links" id="co_author_<%=ca.id%>"><%= "#{ca.full_name}" %>
+       <%contr =Contribution.find_by_article_submission_and_user(article_submission.id, ca.id)%>
+ 
+	   <span><%= link_to_remote '[Edit]', :url => { :action => 'edit_coauthor', :id=> article_submission.id,:coauthor_id=>ca.id} %></span>
+
+	   <span><%= link_to_remote '[Delete]', :url => { :action => 'remove_coauthor', :id=> article_submission.id,:coauthor_id=>ca.id} %></span>
+
+       <span>
+         <%unless  contr.forms_complete?%>
+		  <%= link_to_remote '[Send Disclosure Reminder]',
+          :url => { :action => 'send_disclosure_reminder', :id=> article_submission.id,:coauthor_id=>ca.id},
+          :html=>{:id=>"send_disclosure_#{ca.id}_#{article_submission.id}"}%>
+		  <%=image_tag('x-small.gif',:size=>"10x10")%>
+          <%else%>
+		     <%=image_tag('check-small.gif')%>
+		  <%end%>
+       </span> 
+</li>

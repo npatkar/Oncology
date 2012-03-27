@@ -1,0 +1,10 @@
+<% if article_submission.manuscript_coi_forms.length > 0 %>
+  <h3>Manuscript COI Forms</h3>
+  <ul>
+    <li><%= article_submission.manuscript_coi_forms.collect {|coi| coi.pdf ? "#{pdf_link_with_del(coi.pdf)} #{coi.user.email}" : "No pdf for Manuscript COI - #{coi.submit_date}"}.join("</li><li>") %></li>
+  </ul>
+<% else %>
+  <p>No Manuscript COIs</p>
+<% end %>
+
+

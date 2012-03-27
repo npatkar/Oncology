@@ -1,0 +1,24 @@
+<h1>Listing statuses</h1>
+
+<table>
+  <tr>
+  <th>Internal Status Name</th>
+  <th>Public Name</th>
+  <!--<th>Subject</th>-->
+  <th>Actions</th>
+  </tr> 
+<% @statuses.each do |status| %>
+  <tr>
+	<td><%=status.name%></td>
+  	<td><%=status.human_friendly_name%></td>
+	<!--<td><%=status.entity.entity_type%></td>-->
+    <td>
+   <%= link_to 'Edit', edit_status_path(status) %>
+   </td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New status', new_status_path %>

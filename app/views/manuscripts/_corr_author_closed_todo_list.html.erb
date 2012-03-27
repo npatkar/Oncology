@@ -1,0 +1,10 @@
+<% progress,contribution = article_submission.progress(@user) %>
+
+<% text = link_to(get('manuscripts_checklist_update_coi_page', nil, false),
+                                                                :controller => 'manuscript_coi_forms',
+                                                                :action => 'init',
+                                                                :contribution_id => contribution.id) + ' (Last Update: ' + contribution. latest_committed_manuscript_coi_form.committed.strftime('%x') + ')' %>
+
+<%= render :partial => 'todo_item', :locals => {:text => text,
+                                                :completed =>  progress[:coi][:completed?] }
+-%>

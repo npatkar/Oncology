@@ -1,0 +1,74 @@
+<script type="text/javascript">
+	function get_radio_value(){
+	    el = document.reviewer_invite_form.accept_invite;
+		for (var i=0; i <el.length; i++){
+	      if (el[i].checked){
+		  	return el[i].value;
+		  }
+		}
+	}	
+	
+	function handle_click(el){	
+	     if( $('alternate_reviewer_div').visible()){
+		 	if($('alternate_reviewer_email').value ==''){
+				alert("You Must Enter An Email Address For This User");
+				return false;
+			}
+		 	document.reviewer_invite_form.submit()
+		}
+		else if(get_radio_value()=='no'){			
+            AjaxPopup.CreateModalBox(el,true,"Would You Like To Suggest An Alternate Reviewer?","Yes","No",clicked_yes,clicked_no)
+		}else{
+		  $('alternate_reviewer_div').hide();
+		  document.reviewer_invite_form.submit()		
+		}
+	}
+	
+	function clicked_yes(){
+		 $('alternate_reviewer_div').show()
+	  	
+	}
+
+	function clicked_no(){
+		document.reviewer_invite_form.submit();		
+	}
+	
+</script>
+ <%=error_messages_for 'alternate_reviewer'%>
+
+<%unless @article_submission_reviewer.has_had_any_status?(["reviewer_accepted","reviewer_declined","reviewer_declined_with_alternate"])%>
+		<div style="text-align:center">
+		    <h2>Thank you for your reply <%=@reviewer.full_name%></h2>
+			
+		</div>
+			<%= form_tag({:action=>'process_invite', :id=>@article_submission_reviewer.id}, {:name=>'reviewer_invite_form'}) %>
+		<div style="text-align:center">
+			<p style="font-size:120%">Will you be able to review the article </p>
+				
+			<p><strong>"<%=@article_submission.title%>"</strong></p>	
+			<p> 
+			    <span>Yes:<%= radio_button_tag 'accept_invite', 'yes', 'true'%></span>
+				<span>No:<%= radio_button_tag 'accept_invite', 'no', 'false'%></span>
+			</p>
+			  <p> If so, please return comments by 10 days from requested response (or the following business day)</p>
+	
+			
+			  <div id="alternate_reviewer_div" style="display:none;margin-top:30px;margin:auto;text-align:center;">
+			      <h3>Please Enter The Alternate Reviewers Information</h3>
+	                     <%= render :partial=>"alternate_reviewer"%>
+	         </div>
+			
+			 
+			<p style="margin-top:40px;"><%=submit_tag 'submit',:onclick=>"handle_click(this);return false"%></p>
+			
+			
+			
+		</div>
+		
+		
+		</form>
+
+<%else%>
+You have already accepted or declined
+<%end%>
+

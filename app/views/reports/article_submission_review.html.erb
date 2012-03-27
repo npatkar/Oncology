@@ -1,0 +1,65 @@
+
+<div style="font-size:25px;font-weight:bold;text-align:left;line-height:100%;">
+Article Submission Report for:<p>"<%=@article_submission.title%>"</p></div>
+
+
+
+<p style="font-weight:bold;font-size:120%">Change Submission Status</p>
+<p>History:&nbsp;<%=status_bread_trail(@article_submission)%></p>
+<p>
+<%form_remote_for @status, :url => {:controller => "reports", :action => "assign_article_submission_status"},:html =>{:id=>'article_status_form'} do%>
+<%=hidden_field_tag 'id',@article_submission.id%>
+<%=collection_select(:status, :id, @statuses, :id, :name,{:include_blank => 'Please Select'},{:onchange=>"if(this.value!=''&& confirm('are you sure')){$('article_status_form').onsubmit()}"})%>
+<%end%>
+</p>
+	<h3>Admin Updated Manuscript:
+	<%unless @article_submission.updated_manuscript.nil? %>	
+	  <%= link_to @article_submission.updated_manuscript.file.filename,  @article_submission.updated_manuscript.file.url%>
+    <%else%>
+	   None Uploaded
+	<%end%>
+	</h3>
+
+    <h3>Article Section:<%= @article_section.article_section_name if @article_section%></h3>
+	  <h3>Adhoc Reviewers</h3>
+	<ol>
+		<%@reviewers.each do |r|%>
+		  <li><%=r.full_name%></li>	
+		<%end%>	
+	</ol>
+
+    <h3>Board Members</h3>
+	<ol>	
+		<%if @board_members.empty?%>
+	         No Board Members For This Specialty
+		<%else%>
+		   <%@board_members.each do|b|%>
+			    <li><%=b.full_name%></li>
+		   <%end%>	
+	    <%end%>
+	</ol>
+	
+	<h3>Section Editors</h3>
+	<ol>
+    	  <%if @section_editors.empty?%>
+	       No Section Editors For This Specialty
+		  <%else%>
+			  <%@section_editors.each do|e|%>
+			   <li><%=e.full_name%></li>
+			  <%end%>
+	    <%end%>
+	</ol>
+	<hr/>
+
+	<h3>Abstract</h3>
+	<p>	<%=@article_submission.abstract || "No Abstract Yet"%></p>
+<div class="block" style='text-align:left;'>
+<style>table {border: 1px solid black;}</style>
+<% (1..4).each do |n| %>
+  
+  <%= get("reports_article_submission_section_#{n}", @article_submission) -%>
+
+<% end %>
+</div>
+
+

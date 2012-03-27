@@ -1,0 +1,110 @@
+<% @credit_card ||= @article_submission.corresponding_author.credit_card || CreditCard.new %>
+
+<%= get('credit_card_header') -%>
+
+<%= form_tag({:action => 'submit_credit_card', :id => @article_submission.id}, {:id => "form"}) %>
+
+<%= error_messages_for :credit_card %>
+
+<% if @article_submission.corresponding_author.credit_card %>
+<br />
+<div id='update_credit_card_choice' classx='section'>
+  <div><%= get('credit_card_choice_1', @article_submission.corresponding_author.credit_card) -%></div>
+  <p style='padding: 2em;'>
+  <%= radio_button_tag 'update_credit_card', 1, false, :onclick => 'check_field(this, this.value)' %><label for="update_credit_card_1"> <%= get('update_credit_card_1') -%> </label>
+  <%= radio_button_tag 'update_credit_card', 0, true, :onclick => 'check_field(this, this.value)'  %><label for="update_credit_card_0"> <%= get('update_credit_card_0', @article_submission.corresponding_author.credit_card) -%> </label>
+  </p>
+</div>
+<% end %>
+
+
+<div id='update_credit_card_div'  class='section'>
+       <br />
+                        <div class="block"><%= get('fees_credit_instructions') -%></div>
+                        <table>
+                        <tbody>
+                                <tr>
+                                                <td class="questionlabel">
+                                                        <span class="requiredflag">*</span> Card Type:
+                                                </td>
+                                                <td class="answer">
+                                                        <%= radio_button 'credit_card', 'cc_type', 'MasterCard', :onclick=>"check_field(this, this.value)" %><label for="credit_card_cc_type_MasterCard"> MasterCard </label>
+                                                        <%= radio_button 'credit_card', 'cc_type', 'Visa', :onclick=>"check_field(this, this.value)" %><label for="credit_card_cc_type_Visa"> Visa </label>
+                                                        <%= radio_button 'credit_card', 'cc_type', 'American_Express', :onclick=>"check_field(this, this.value)" %><label for="credit_card_cc_type_American_Express"> American Express </label>
+                                                </td>
+                                        </tr>
+
+                                        <tr>
+                                                <td nowrap="nowrap" class="questionlabel">
+                                                        <span class="requiredflag">*</span> First Name on Credit Card:
+                                                </td>
+                                                <td class="answer">
+                                                        <%= text_field 'credit_card', 'first_name', :size=>'30', :maxlength=>'50' %>
+                                                </td>
+                                        </tr>
+
+                                        <tr>
+                                                <td nowrap="nowrap" class="questionlabel">
+                                                        <span class="requiredflag">*</span> Last Name on Credit Card:
+                                                </td>
+                                                <td class="answer">
+                                                        <%= text_field 'credit_card', 'last_name', :size=>'30', :maxlength=>'50' %>
+                                                </td>
+                                        </tr>
+
+                                        <tr>
+                                                <td nowrap="nowrap" class="questionlabel">
+                                                        <span class="requiredflag">*</span> Card Number:
+                                                </td>
+                                                <td class="answer">
+                                                        <%= text_field 'credit_card', 'num', :size=>'18', :maxlength=>'24' %>
+                                                </td>
+                                        </tr>
+
+                                        <tr>
+                                                <td nowrap="nowrap" class="questionlabel">
+                                                        <span class="requiredflag">*</span> Expiration Date:
+                                                </td>
+                                                <td class="answer">
+                                                        <%= text_field 'credit_card', 'exp_mo', :size=>'3', :maxlength=>'2' %>
+                                                        /
+                                                        <%= text_field 'credit_card', 'exp_yr', :size=>'3', :maxlength=>'2' %>
+                                                </td>
+
+   </tr>
+
+                                        <tr>
+                                                <td nowrap="nowrap" class="questionlabel">
+                                                        <span class="requiredflag">*</span> Card Security Code:
+                                                </td>
+                                                <td class="answer">
+                                                        <%= text_field 'credit_card', 'cvv', :size=>'5', :maxlength=>'4' %> <span class="note"><%= get('fees_cvv_note') -%></span>
+                <!--                                    <a href="#" class="topNav" onClick="flexipop('assets/help/cvv.php',240,400)"><img src="assets/buttons/help.gif" width="18" height="16" border="0" alt="help button" /></a>-->
+                                                </td>
+                                        </tr>
+
+                                        <tr>
+                                                <td nowrap="nowrap" class="questionlabel">
+                                                        <span class="requiredflag">*</span> Billing Address Zip/Postal Code:
+                                                </td>
+                                                <td class="answer">
+                                                        <%= text_field 'credit_card', 'zip', :size=>'15', :maxlength=>'15' %>
+                                                </td>
+                                        </tr>
+                                </tbody>
+                        </table>
+</div>
+
+<%=render :partial=>'charge_sig'%>
+
+
+<div class="button-nav">
+  <%= submit_tag 'Charge my card' -%>
+</div>
+</form>
+
+
+
+
+  <%= javascript_tag('check_field($("update_credit_card_1"), $("update_credit_card_1").value )') -%>
+  <%= javascript_tag('check_field($("update_credit_card_0"), $("update_credit_card_0").value )') -%>

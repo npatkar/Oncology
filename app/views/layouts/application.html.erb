@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <%= render :partial=>'/layouts/new_head' -%>
+  <body class='interior'>
+    <div id="left_shadow"></div>
+    <div id="right_shadow"></div>
+    <div style="width:100%; background-color:#FFF;">
+      <%= render :partial => '/layouts/new_header' %>
+
+      <%= render :partial => '/layouts/app_menu' %>
+  
+      <div style="margin:auto; width:900px" id="content">
+        <div id="page_title"><%= @title %></div>
+        <% if flash[:notice] %>
+          <div id="flash_notice"><%= flash[:notice] %></div>
+        <% end %>
+        <%= yield %>
+      </div>
+    </div>
+    <%= render :partial=>'/layouts/new_footer' -%>
+
+  </body>
+</html>

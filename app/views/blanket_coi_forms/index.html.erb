@@ -1,0 +1,18 @@
+<h1>Listing blanket COI forms</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% for blanket_coi_form in @blanket_coi_forms %>
+  <tr>
+    <td><%= link_to 'Show', blanket_coi_form %></td>
+    <td><%= link_to 'Edit', edit_blanket_coi_form_path(blanket_coi_form) %></td>
+    <td><%= link_to 'Delete', blanket_coi_form, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New blanket_coi_form', new_blanket_coi_form_path %>

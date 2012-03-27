@@ -1,0 +1,36 @@
+<% progress,contribution = @article_submission.progress(@user) %>
+
+<ul id = "progress_list">
+<li><div>
+         <%text = progress[:coi][:completed?] ? get('manuscripts_checklist_update_coi_page') + " (#{progress[:coi][:time_stamp]})" : get('manuscripts_checklist_complete_coi_page') %>
+     <%= link_to "#{text}", :controller=>'manuscript_coi_forms', :action=>'init', :contribution_id=>contribution.id -%>
+ </div></li>
+    <% unless contribution.copyright_sig_time %>
+<li><div>
+	  <%= link_to(get('manuscripts_checklist_complete_copyright_page'), :controller=>'forms', :action=>'copyright_assignment', :contribution_id=>contribution.id) -%>
+ </div></li>
+    <% end %>
+
+
+</ul>
+
+
+
+<div id="co_author_todo_block">
+
+           <div class="header">Coauthors
+	      <% if ! @article_submission.committed %>
+			    <%= button_to "Edit", :controller=>'article_submissions', :action=>'coauthors', :id=>@article_submission.id -%></td></tr>
+		  <% end %>
+		  </div>
+        <%@article_submission.coauthors.each do |coauthor| %>
+				<% manuscript_coi_form = @article_submission.latest_manuscript_coi_form_by_user_id(coauthor.id) %>
+	            <% contribution = @article_submission.contribution_by_user_id(coauthor.id) %>
+				<p class="coauthor_todo_header"><%= coauthor.full_name -%></p>
+				<ul class="coauthor_todo_status">
+				   <li><div>Completed COI</div><%= progress_link(!contribution.manuscript_coi_status.blank?)%></li>
+				   <li><div>Completed Copyright Assignment</div><%= progress_link(!contribution.copyright_status.blank?) -%></li>	
+				</ul>
+	   <%end%>
+			
+   </div>

@@ -1,0 +1,13 @@
+<%form_remote_tag :url => {:controller => "admin", :action => "send_generic_message"},:html =>{:id=>'user_email_form'} do%>
+	<textarea name="message" rows="20" cols="40" id="message" class="mceEditor">
+			<%=UserTemplate.get_template('generic_email_link', @user)%>
+
+  	</textarea>
+    <%=hidden_field_tag 'id',@user.id%>	
+   <%= submit_tag 'Send Message',:onclick=>"this.style.display='none';tinyMCE.triggerSave();" -%>
+<%end%>
+
+ <%= link_to 'Edit This Template', '/edit_template_inline?template_alias=manuscript_coi_link',:popup => true%>
+
+
+<%= render :partial => '/admin/tinymce_init' -%> 

@@ -1,0 +1,2 @@
+module ReviewerCommentsRevisionsHelper
+end

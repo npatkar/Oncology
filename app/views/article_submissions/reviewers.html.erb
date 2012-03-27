@@ -1,0 +1,31 @@
+<% @title = "Suggest Reviewers" %>
+
+<%= get('reviewers_instructions') -%>
+
+<%= form_tag :action => 'update_reviewers', :id => @article_submission.id %>
+<%= error_messages_for :article_submission -%>
+	<div id="reviewers">
+	   <% [1,2,3].each do |index| %>
+	     <%= render :partial => "reviewer", :locals => {:index => index, :reviewer => @article_submission.send('reviewer' + index.to_s)} %>
+	  <% end %>
+	</div><!-- end #reviewers -->
+	
+	<table align="center" bgcolor="#cccccc" border="0" cellpadding="8" cellspacing="0" width="100%">
+		<tbody>
+			<tr>
+				<td  colspan="3" align="right">
+				<!--	<%= submit_tag " Previous Page ", :accesskey=>'p', :name=>'previous' %>
+					&nbsp;&nbsp;
+					<%= submit_tag " Continue to Next Page ", :accesskey=>'r', :name=>'next' %>			-->
+					<%=render :partial=>'submit_tags'%>	
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+</form>
+
+<!-- focus on the newly added reviewer -->
+<script type="text/javascript">
+	$("<%= "reviewer1_first_name" -%>").focus();
+</script>

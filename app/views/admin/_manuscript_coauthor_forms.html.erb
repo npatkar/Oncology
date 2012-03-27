@@ -1,0 +1,49 @@
+<h3>Coauthor Files</h3>
+
+<table id="coauthor_forms">
+    <tr>
+        <th>
+            Author
+        </th>
+        <th>
+            Coi Form
+        </th>
+        <th>
+            Copyright Assigment
+        </th>
+        <th>
+            Author Responsibilities
+        </th>
+    </tr>
+    <%article_submission.contributions.each do|ca| %>
+	 
+    <tr>
+        <td>
+        	 <%=ca.corresponding_author? ? "*" : ""%>
+            <%=ca.user.name %>
+        </td>
+        <td>
+            <%if ca.latest_committed_manuscript_coi_form %>
+			<%form = ca.latest_committed_manuscript_coi_form%>
+            <%=pdf_link(form.pdf,{:text=>"coi_form(#{form.submit_date()})"}) %>
+            <%else %>
+            <%=coauthor_coi_reminder_popup_link(ca) %>
+            <%end %>
+        </td>
+        <td>
+            <%if ca.copyright_pdf%> 
+            <%= pdf_link(ca.copyright_pdf,{:text=>"copyright_form(#{fmt_date(ca.copyright_pdf.created_at)})"}) %>
+            <%else %>
+              <%=generic_email_popup_link(ca.user) %>
+            <%end %>
+        </td>
+		<td>
+            <%if ca.responsibilities_pdf%> 
+            <%= pdf_link(ca.responsibilities_pdf,{:text=>"resp_form(#{fmt_date(ca.responsibilities_pdf.created_at)})"}) %>
+            <%else %>
+              <%=generic_email_popup_link(ca.user) %>
+            <%end %>
+        </td>
+    </tr>
+    <%end %>
+</table>

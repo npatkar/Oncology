@@ -1,0 +1,8 @@
+<%form_remote_tag :url => {:controller => "admin", :action => "save_publisher_comments"},:html =>{:id=>'publisher_comments_form'} do%>
+	<textarea name="comments" rows="20" cols="40" id="comments" style="text-align:left">
+		<%=@as.publisher_comments%>
+	</textarea>
+    <%=hidden_field_tag 'id',@as.id%>	
+	<br/>
+	<%=submit_tag 'Save Comments'-%>
+<%end%>

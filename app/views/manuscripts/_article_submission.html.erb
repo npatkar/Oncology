@@ -1,0 +1,38 @@
+	<div class="article_submission">		
+		  <%# Don't allow editing of manuscripts that have been committed %>
+		  <% if @article_submission.committed %>
+			<% if @article_submission.corresponding_author == current_user %>
+			    <span class='edit_manuscript_link'>Submitted: <%= @article_submission.committed.strftime("%x") -%> &mdash; Closed for Review</span>
+			<% end %>	
+		  	<h2 class='submission_title_header'><%= @article_submission.title -%>
+			
+			   <%="(Version:#{@article_submission.version})" if @article_submission.version%>
+			</h2>		
+	    	    <%begin%>				
+				<%= render :partial=>'submitted_task_list'%>	
+		    <%rescue%>			
+			
+  		    <%end%>		
+			 <%if @article_submission.reviewers.include?@user%>
+		    	  <%= render :partial => 'reviewer_view', :locals => {:article_submission => @article_submission, :user => @user} %>
+			 <%end%>			 
+		  <% else %>
+		
+			<% if @article_submission.corresponding_author == @user #View for corresponding author %>
+				<%= render :partial => 'corresponding_author_view', :locals => {:article_submission => @article_submission, :user => @user} %>							
+			
+			<% else 	# View for co-author %>	
+			   <h2><%= @article_submission.title -%></h2>
+               <h3><%= get('forms_title') -%></h3>			
+			    <%if @article_submission.coauthors.include?@user%>
+				<%= render :partial => 'coauthor_view', :locals => {:article_submission => @article_submission, :user => @user} %>
+			    <%end%>
+				
+			
+				 <%if @article_submission.reviewers.include?@user%>
+				 <h2>Reviewed Article</h2>
+				 <%= render :partial => 'reviewer_view', :locals => {:article_submission => @article_submission, :user => @user} %>
+			    <%end%>
+			<% end %>
+		  <% end %>
+	</div>	

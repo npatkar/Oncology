@@ -1,0 +1,24 @@
+
+<table class="outstanding_coi_report admin_table">
+<tr>
+<th>Manuscript Num</th>
+<th>Title</th>
+<th>Submitted</th>
+</tr>
+<%@submissions.each do |sub|%>
+  <% next if sub.contributions_with_outstanding_cois.length == 0 %> 
+  <tr>
+    <td><%= sub.article ? sub.article.manuscript_num : 'Not Imported' -%></td>
+    <td><%= render :partial => '/partials/link_to_submission', :locals => {:submission => sub} -%></td>
+    <td><%= sub.committed ? sub.committed.strftime('%x') : 'Not Submitted' -%></td>
+  </tr>
+  <%sub.contributions_with_outstanding_cois.each do |contribution|%>
+    <tr>
+      <td></td>
+      <td><%= contribution.user.name -%> - 
+        <%= render :partial => '/partials/send_manuscript_coi_reminder_link', :locals => {:contribution => contribution} -%>
+      </td>
+    </tr>
+  <%end%>
+<%end%>
+</table>

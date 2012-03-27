@@ -1,0 +1,25 @@
+ <div id="conflicts_group" style="padding-bottom:0px;">
+      <p><%=get('financial_relationships_header')%></p>
+	  <table id="finanical_relationship_table">
+	  	<tr>
+	  		<th><%=get('financial_relationships_checkbox_label') -%></th>
+			<th><%=get('financial_relationships_type_label') -%></th>
+			<th><%=get('financial_relationships_commerical_interests_label') -%></th>
+			<th><%=get('financial_relationships_compensated_label') -%></th>
+			<th><%=get('financial_relationships_uncompensated_label') -%></th>
+	  	</tr>
+	
+			 <% %w(employment ip consultant honoraria research ownership expert other).each do|attr|%>
+			     <tr>
+			     	 
+					 <td style="text-align:center"><%=@coi_form.send(attr) ? "X" : ""%></td>
+					 <td><%= get("coi_#{attr}") -%></td>
+					 <td><%=@coi_form.send("#{attr}_details")%></td>
+					 <td style="text-align:center"><%=@coi_form.send("#{attr}_comp") ? "X" : ""%></td>
+					 <td style="text-align:center"><%=@coi_form.send("#{attr}_uncomp") ? "X" : ""%></td>
+			     </tr>
+			 <%end%>
+	  </table>
+	</div>
+	 
+	

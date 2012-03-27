@@ -1,0 +1,15 @@
+
+<%offset = 30%>
+<%count = (ArticleSection.count/offset).floor%>
+<%(0..count).each do |i|%>
+<div class="rev_subject_box" style="float:left;margin-right:20px;">
+<% for subject in ArticleSection.find(:all,:offset=>i*offset,:limit => offset) %>
+  <div>
+    <%= check_box_tag "article_section_ids[]", subject.id, @user.article_sections.include?(subject) %>	
+	<%= h subject.article_section_name%>
+  </div>
+<% end %>
+</div>
+<%end%>
+
+<div style="clear:both"></div>

@@ -1,0 +1,14 @@
+admin_controller.rb:14:      if Notifier.deliver_process_pub_charge_reminder(@article_submission) 
+admin_controller.rb:34:    if @parent && Notifier.deliver_manuscript_coi_link(@parent,email_hash)
+admin_controller.rb:51:    if @user&& Notifier.deliver_generic_email(@user,email_hash,params[:message])
+admin_controller.rb:523:    if @parent && Notifier.deliver_custom_manuscript_coi_link(@parent,email_hash,params[:message])
+blanket_coi_forms_controller.rb:111:        if Notifier.deliver_blanket_coi_notice(@coi_form.user)
+manuscript_coi_forms_controller.rb:100:          email_sent = Notifier.deliver_manuscript_coi_notice @coi_form
+manuscripts_controller.rb:176:    if  Notifier.deliver_manuscript_coi_link(contribution,email_hash)
+manuscripts_controller.rb:185:    if  Notifier.deliver_manuscript_coi_link(contr,email_hash)
+manuscripts_controller.rb:265:      if Notifier.deliver_manuscript_submission_notice(@article_submission)#and @article_submission.notify_coauthors_of_coi
+manuscripts_controller.rb:266:        if Notifier.deliver_manuscript_files(@article_submission)
+reports_controller.rb:498:     if  Notifier.deliver_reviewer_comments_report(@comments)
+reports_controller.rb.new:498:     if  Notifier.deliver_reviewer_comments_report(@comments)
+users_controller.rb:113:        Notifier.deliver_reset_password_link(user)
+users_controller.rb:363:      if Notifier.deliver_blanket_coi_link(user,email_hash)

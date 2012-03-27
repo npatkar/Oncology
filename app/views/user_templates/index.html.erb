@@ -1,0 +1,28 @@
+<h1>Templates</h1>
+
+<%= link_to 'New user_template', new_user_template_path %>
+<%= link_to 'Clear Template Cache', {:action => 'clear_template_cache'}, :class => :align_right -%>
+
+<table cellpadding='10px'>
+  <tr>
+  	<th>Title</th>
+	<th style="width: 20em;">Description</th>
+	<th>Alias</th>
+	<th>Actions</th>
+  </tr>
+
+<% for user_template in @user_templates %>
+  <tr>
+  	<td><%= user_template.title -%></td>
+	<td><%= user_template.description -%></td>
+	<td><%= user_template.alias -%></td>
+    <td><%= link_to 'Edit', edit_user_template_path(user_template), :target => '_blank' -%> |
+    <%= link_to 'Copy', :action => 'clone_template', :id => user_template.id -%> |
+    <%= link_to 'Delete', user_template, :confirm => 'Are you sure you want to delete this email template? This CANNOT be undone.', :method => :delete -%></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New user_template', new_user_template_path %>

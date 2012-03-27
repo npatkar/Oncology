@@ -1,0 +1,203 @@
+<style type="text/css">
+    .main_container {
+        width: 1100px;
+        margin: auto;
+    }
+</style>
+<p>
+    Click on a submission to view the associated files
+</p>
+<div id="page-info">
+    <!--<%#= page_entries_info @article_submissions -%>Show: <%= select_tag('per_page', options_for_select([25, 50, 75, 100, 150, 200, 300, 999], @per_page)) -%>submissions per page &nbsp; -->
+    <%= form_indicator %>
+    <br/>
+    <%= link_to 'Download ALL submissions', :action => :export_article_submissions, :date_range => 0, :committed => 'all', :per_page => 999 -%>
+
+   <br/>
+   
+   <%if @show_urgent%>
+     <%= link_to 'Show All', :action => :article_submissions -%>
+
+    <%else%>
+	  <%= link_to 'Show Only Urgent', :action => :article_submissions,:show_urgent=>true-%>
+	<%end%>
+      
+     
+</div>
+<%= will_paginate @article_submissions,:params => { "status[key]"=>@search_by_status} -%>
+<div id="article_submissions_form">
+    <div id="action_bar">
+        <div class="searchField">	
+            <%= text_field_tag :search, @search %>
+            <%= link_to_remote 'Search', :url => {:action => :update_article_submissions_list},:with => "'search=' + $F('search').escapeHTML()" %>
+        </div>
+        <%= link_to_remote 'Delete Selected Submissions',
+        :url=>{:action=>'destroy_article_submissions'},
+        :confirm=>'Please confirm you want to delete the selected submissions.',
+        :submit=>'article_submissions_form' -%>&nbsp;&nbsp;	
+		 &nbsp;&nbsp;Select All<%= check_box_tag "select_all", 1, false, {:onchange=>"$$('.check_article_submission').each( function(s){ s.checked = $('select_all').checked }); " } -%>
+         &nbsp;&nbsp;<%= link_to 'Cancel Search'%>
+	     &nbsp;&nbsp;<%statuses = Entity.find_by_entity_type("article_submission").statuses%>
+		 <%=form_tag({:controller => "admin", :action => "article_submissions"},{:id=>'article_status_form'})%>
+		  Search By Status:
+		    <%=collection_select(:status, :key, statuses, :key, :name,{:include_blank => 'Please Select',:selected => @search_by_status},{:onchange=>"if(this.value!=''){$('article_status_form').submit()}"})%>
+         </form>
+    </div>
+    <table style="clear: both;" class="admin_table" style="width:700px">
+        <tr>
+            <th>Select</th>
+			<th>Current Status</th>
+			<th>Manuscript Number</th>
+            <th>
+                <%= link_to_unless (@sort_by == 'create_date'),
+                'Started',
+                :sort_by => 'create_date',
+                :action => :article_submissions,
+                :committed => @committed,
+                :title => @title,
+                :date_range => @date_range -%>
+            </th>
+            <th>
+                <%= link_to_unless (@sort_by == 'title'),
+                'Title',
+                :sort_by => 'title',
+                :action => :article_submissions,
+                :committed => @committed,
+                :title => @title,
+                :date_range => @date_range -%>
+            </th>
+            <th style="width:400px">
+                Actions
+            </th>
+            <th colspan='1'>
+                Name
+                <br/>
+                Email
+            </th>
+            <th>
+                Submitted? <%= select_tag('committed', options_for_select([['Any','all'], ['Yes','yes'], ['No','no']], @committed)) -%>
+                <br/>
+                <%= select_tag('date_range', options_for_select([['Anytime',0], ['within last 2 weeks',14], ['within last 30 days',30], ['within last 90 days',90], ['within last 180 days',180], ['within last year',365]], @date_range)) -%>
+            </th>
+
+            <th>
+                Imported
+                <br/>
+                to PF
+            </th>
+
+        </tr>
+     <!--   <tr>
+            <td>
+            </td>
+        </tr>-->
+        <%for article_submission in @article_submissions %>
+            <%removed = article_submission.isRemoved? %>
+		    <%#TODO REMOVE THIS EVENTUALLY%>
+		    <% next if removed %>
+            <tr id='article_submission_<%= article_submission.id -%>' class='<%= submission_listing_color(article_submission) -%> primary_data' onclick='$("article_submission_forms_<%= article_submission.id -%>").toggle()'>           
+            <td align='center'>
+                <%= check_box_tag "article_submission_ids[]",
+                article_submission.id,
+                false, {:class=>'check_article_submission'} -%>
+            </td>
+			 <td>
+                <div id='article_submission_<%= article_submission.id -%>_status'>
+                	<%=article_submission.current_status.name if article_submission.current_status%>
+					<%if article_submission.version%>
+					  <strong>
+					  <%="Revision:#{article_submission.version}"%>					  
+					  </strong>
+					<%end%>
+                </div>
+			</td>
+			<td id='article_submission_<%= article_submission.id -%>_man_num'>
+				 <%if article_submission.article %>
+                   <%=article_submission.article.manuscript_num||"none"%>
+                <%else %>
+                    No Man. number
+			    <%end %>
+            </td>
+            <td>
+                <%= article_submission.create_date? ? article_submission.create_date.strftime("%x %l:%M%P") : '?' -%>
+            </td>
+            <td class='title_column'>
+                <%= link_to article_submission.title.trunc(100),
+                :controller => 'reports',
+                :action => 'article_submission',
+                :id => article_submission.id -%><br/>
+               
+				<%if article_submission.article && !article_submission.article.publish_date.blank?%>
+				  <%="Published At #{article_submission.article.publish_date}"%>
+				<%end%>
+				
+				
+            </td>
+            <td>
+                <ul style="padding:0px;list-style-type:none;;margin-left:0px;width:100%">
+                    <li>
+                        <%= link_to "Initial Report", :controller => 'reports',
+                        :action => 'article_submission_review',
+                        :id => article_submission.id -%>
+                    </li>
+                    <li>
+                        <%= link_to_if article_submission.reviewable? , "Manage Review", :controller => 'admin',
+                        :action => 'manage_manuscript_review',
+                        :id => article_submission.id -%>
+                    </li>
+                    <li>
+                        <%= link_to "Reviewer Comments Reports", :controller => 'reports',
+                        :action => 'reviewer_comments_report',
+                        :id => article_submission.id -%>
+                    </li>
+					 <li>
+                        <%= link_to "Coi Report", :controller => 'reports',
+                        :action => 'manuscript_coi_info',
+                        :id => article_submission.id -%>
+                    </li>
+                    <li>
+                        <%= link_to_remote "Delete Submission", :url=>{:controller => 'admin',
+                        :action => 'remove_article_submission',
+                        :id => article_submission.id} -%>
+                    </li>
+                    <%if article_submission.has_current_status_of?(:article_submission_published) %>
+    <li>
+                    	<%=link_to 'Assign Publish Date',"javascript:void(0)",{:onclick=>"attachSmartCalendar(this,null,null,null,null,null,function(){
+                             $('submission_publish_date_form_#{article_submission.id}').onsubmit();
+                        },$('date_#{article_submission.id}'))"}%>
+                    	<%form_remote_tag  :url => {:controller => "admin", :action => "change_publish_date"},:html =>{:id=>"submission_publish_date_form_#{article_submission.id}"} do%>						    
+								<%=hidden_field_tag :id,article_submission.id%>	
+								<%=hidden_field_tag "date_#{article_submission.id}",article_submission.article.publish_date%>		
+                        <%end%>   
+                    </li>
+                    <%end %>
+                </ul>
+            </td>
+            <td>
+                <%=h article_submission.corresponding_author ? article_submission.corresponding_author.rev_name : '(user doesn\'t exist)' -%>
+                <br/>
+                <%= article_submission.corresponding_author ? article_submission.corresponding_author.email_link : '' -%>
+            </td>
+            <td>
+                <%= article_submission.committed ? article_submission.committed.strftime("%x %l:%M%P") : 'Not Submitted' -%>
+            </td>
+        
+            <td>
+                <span id='imported_to_pf_<%= article_submission.id -%>'><% if article_submission.imported_to_pf %>
+                    <%= article_submission.imported_to_pf.strftime("%x") %>
+                    <% elsif !removed %>
+                    <%= link_to_remote "Import to PF", :url => {:action => :import_to_pf, :id => article_submission.id} -%>
+                    <% end %>
+                </span>
+            </td>
+        </tr>
+        <tr id='article_submission_forms_<%= article_submission.id -%>' class='form_data' style='display:none;'>
+            <td colspan='99'>
+               <%=render :partial=>"admin/article_submission_details",:locals=>{:article_submission=>article_submission}%>
+            </td>
+        </tr>
+        <% end %>
+    </table>
+    <%= will_paginate @article_submissions,:params => { "status[key]"=>@search_by_status} -%>
+</div>
+<%= observe_fields(:fields => [:per_page, :committed, :date_range], :url => @update_url) %>

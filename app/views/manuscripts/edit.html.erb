@@ -1,0 +1,12 @@
+<% if @article_submission.corresponding_author == @user %>
+  <%= render :partial => 'corr_author_view', :locals => {:article_submission => @article_submission, :user => @user} %>
+
+<% elsif @article_submission.coauthors.include?(@user) %>
+  <%= render :partial => 'coauthor_view', :locals => {:article_submission => @article_submission, :user => @user} %>		
+
+<% elsif @article_submission.reviewers.include?(@user) %>
+  <%= render :partial => 'reviewer_view', :locals => {:article_submission => @article_submission, :user => @user} %>		
+
+<% else %>
+  Problem... I don't know what to do with this manuscript. Please let the site admin know you saw this error.
+<% end %>

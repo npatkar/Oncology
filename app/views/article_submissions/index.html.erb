@@ -1,0 +1,18 @@
+<h1>Listing article_submissions</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% for article_submission in @article_submissions %>
+  <tr>
+    <td><%= link_to 'Show', article_submission %></td>
+    <td><%= link_to 'Edit', edit_article_submission_path(article_submission) %></td>
+    <td><%= link_to 'Delete', article_submission, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New article_submission', new_article_submission_path %>

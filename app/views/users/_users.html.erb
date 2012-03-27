@@ -1,0 +1,108 @@
+<div id="page-info"><%#= page_entries_info @users -%>
+  <!--<%#= select_tag('per_page', options_for_select([25, 50, 75, 100, 150, 200, 300, 999], @per_page)) -%> users per page &nbsp; -->
+  <%= form_indicator %>
+  <%=link_to 'Undo Search',:action=>"index"%>
+  <%if @show_disabled%>
+    <%=link_to 'Show Active Users',:action=>"index"%>
+  <%else%>
+    <%=link_to 'Show Disabled Users',:action=>"index",:show_disabled=>"true"%>
+  <%end%>
+</div>
+
+<div id="users_form">
+	<div id="action_bar">
+                <div class="searchField">
+                  <%= text_field_tag :search_string, @search_string %>
+                  <%= link_to_remote 'Search', :url => @update_url, :with => "'search_string=' + $F('search_string').escapeHTML()" %>
+                </div>
+		<%= link_to_remote 'Delete Selected Users', 
+							:url=>{:action=>'destroy_users'}, 
+							:confirm=>'Please confirm you want to delete the selected users.', 
+							:submit=>'users_form' -%> &mdash;
+							
+		<%= link_to_remote 'Send Blanket COI Links to Selected Users', 
+							:url=>{:action=>'send_coi_links'}, 
+							:confirm=>'Please confirm you want to send COI notices to each of the selected users.', 
+							:submit=>'users_form'  -%> &mdash;
+							
+		<%= link_to 'Add Users', :action => 'new_users' -%>
+		<br />
+		<%= link_to_remote 'Add Role &mdash;>', :url=>{:action=>'add_to_role'}, :submit=>'users_form' -%>
+		<%= select_tag('act_on_role_id', options_for_select(all_roles_for_options)) -%>
+		<%= link_to_remote '<&mdash; Remove Role', :url=>{:action=>'remove_from_role'}, :submit=>'users_form' -%>
+	</div>
+	<table style="clear: both;" class="admin_table">
+	  <tr>
+	  	<th></th><th id="action_check_all"><%= check_box_tag "select_all", 1, false, {:onchange=>"$$('.check_user').each( function(s){ s.checked = $('select_all').checked }); " } -%></th>
+	
+		<th><%= link_to_unless (@sort_by == 'create_date'), 
+								'Created', 
+								:sort_by => 'create_date', 
+								:action => :index, 
+								:role_id => @role_id, 
+								:blanket_coi_committed => @blanket_coi_committed, 
+								:blanket_coi_date_range => @blanket_coi_date_range -%></th>
+		
+		<th><%= link_to_unless (@sort_by == 'last_name'), 
+								'Name', 
+								:sort_by => 'last_name', 
+								:action => :index, 
+								:role_id => @role_id, 
+								:blanket_coi_committed => @blanket_coi_committed, 
+								:blanket_coi_date_range => @blanket_coi_date_range -%></th>
+		
+	  	<th><%= link_to_unless (@sort_by == 'email'), 
+								'Email', 
+								:sort_by => 'email', 
+								:action => :index, 
+								:role_id => @role_id, 
+								:blanket_coi_committed => @blanket_coi_committed, 
+								:blanket_coi_date_range => @blanket_coi_date_range -%></th>
+	
+		<th><%= select_tag('role_id', options_for_select(all_roles_for_options, @role_id )) -%></th>
+		
+		<th>Blanket&nbsp;COI&nbsp;
+		     <%= select_tag('blanket_coi_committed', options_for_select([['All','all'], ['Updated','yes'], ['Not Updated','no']], @blanket_coi_committed)) -%>
+			 &nbsp;in&nbsp;last&nbsp;<%= select_tag('blanket_coi_date_range', options_for_select([['Anytime',0], ['2 weeks',14], ['30 days',30], ['90 days',90], ['180 days',180], ['1 year',365]], @blanket_coi_date_range)) -%>
+		</th>
+	  </tr>
+	
+		<% for user in @users %>
+	       
+		       <tr id='user_<%= user.id -%>' class='<%= user.isDisabled? ? 'disabled' : 'primary_data' -%>' onclick='$("user_forms_<%= user.id -%>").toggle()'>
+			  	<td align='center'>
+			  	  <div id='user_<%= user.id -%>_status'></div>
+
+<%= check_box_tag "user_ids[]", user.id, false, {:class=>'check_user'} -%></td>
+				<td><%= user.create_date? ? user.create_date.strftime("%x") : '?' -%></td>
+				<td><%= link_to user.rev_name, :action => 'edit', :id => user.id -%></td>
+			  	<td><%= user.email_link -%>
+				</td>
+				<td id='user_<%= user.id -%>_roles'><%= user.disp_roles -%></td>
+				<td><%= user.latest_committed_blanket_coi_form ? user.latest_committed_blanket_coi_form.committed.strftime("%x") : 'None' -%></td>
+		   </tr>
+                  <tr id='user_forms_<%= user.id -%>' class='form_data' style='display:none;'>
+                        <td colspan='99'>
+                         <div class="pdfs" style="float:left;width:20%">
+							 <h3>User Forms</h3>
+							 <%= render :partial => '/users/blanket_cois_for_user', :locals => {:user => user} %>
+						</div>
+                          <div class="user_actions" style="float:left;width:20%">
+                             <h3>User Actions</h3>   
+                              <%= render :partial => '/users/user_actions', :locals => {:user => user} %>
+						  </div>
+
+						  <div class="user_actions" style="float:left;width:60%"%>
+                            <h3>Submissions</h3>
+                            <%= render :partial => '/users/user_submissions', :locals => {:user => user} %>
+						  </div>
+						  <div style="clear:both"/>
+                        </td>
+                  </tr> 
+		<% end %>
+	</table>
+	<%= will_paginate @users,:params => params -%>
+
+</div>
+
+<%= observe_fields(:fields => [:per_page, :role_id, :blanket_coi_committed, :blanket_coi_date_range], :url => @update_url) %>

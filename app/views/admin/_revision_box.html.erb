@@ -1,0 +1,9 @@
+<h3>Editing <%=@type.titleize%></h3>
+<%form_remote_tag :url => {:controller => "admin", :action => "create_revision"},:html =>{:id=>'reviewer_revision_form'} do%>
+     <% param = "reviewer_comment_revisions[#{@type}]"%>
+     <%= text_area_tag param,@value,{:class=>'mceEditor'}%>
+     <%= hidden_field_tag 'id',@reviewer_comments.id%>	
+     <%= submit_tag 'Submit',:onclick=>"this.style.display='none';tinyMCE.triggerSave();" -%>
+<%end%>
+
+<%= render :partial => '/admin/tinymce_init' -%>

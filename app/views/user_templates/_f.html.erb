@@ -1,0 +1,25 @@
+<div class="field">
+	<label for="user_template_title">Title:</label><br />
+	<%= f.text_field :title %>
+</div>
+
+<div class="field">
+	<label for="user_template_alias">Alias:</label><br />
+	<%= f.text_field :alias %> <span class="note">(must not change!)</span>
+</div>
+<!--
+<div class="field">
+	<%= f.check_box :to_html %> 
+	<label for="user_template_to_html">Convert to HTML?:</label>
+	<span class="note">(must be unchecked for email templates, checked for page templates!)</span>
+</div>
+-->
+<div class="field">
+	<label for="user-templates_description">Description</label><br />
+	<%= f.text_area :description, :cols=>80, :rows=>'4' %>
+</div>
+
+<div class="field">
+	<label for="user-template_body">Body: </label><br />
+	<%= f.text_area :body, :cols=>'80', :rows=>'20',:class=>"mceEditor" %>
+</div>

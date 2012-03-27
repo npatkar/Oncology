@@ -1,0 +1,7 @@
+  <ul>
+		<% if user.blanket_coi_forms.count > 0 %>
+		    <li><%= user.blanket_coi_forms.collect {|coi| coi.pdf ? pdf_link_with_del(coi.pdf) : "No pdf for blanket COI - #{coi.submit_date}"}.join("</li><li>") %></li>
+		<% else %>
+		   <li> No Blanket COIs</li>
+		<% end %>
+ </ul>

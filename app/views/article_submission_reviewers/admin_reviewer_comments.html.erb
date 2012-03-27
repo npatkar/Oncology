@@ -1,0 +1,195 @@
+
+<style type="text/css">
+#radio_table{
+	width:auto;
+    margin:auto;
+	text-align:left;
+}	
+
+#radio_table thead{
+	text-align:left;
+}
+#radio_table td{
+	padding:5px 10px;
+}
+.section_container{
+	text-align:center;
+	width:70%;
+	margin-bottom:50px;
+}
+	
+</style>
+<h2>
+	Manually Entering Reviewer Comments for <%=@article_submission_reviewer.user.full_name%><br/>
+	regarding the manuscript <%=@article_submission_reviewer.article_submission.title%>	
+</h2>
+
+
+<% form_for :comments, @comments, :url => {:controller=>"article_submission_reviewers" ,:action=>"admin_save_comments" },:html=>{:id=>"comments_form"} do |f| %>
+<%=hidden_field_tag :id,@article_submission_reviewer.id%>
+
+
+<p> <label>Comments Received Date</label>
+	<%=text_field_tag :date_received,@article_submission_reviewer.current_status_date,:size=>8,:onclick=>"attachSmartCalendar(this,null)"%>
+
+</p>
+
+<div class="section_container">
+<!-- <h3>*Manuscript Rating:&nbsp;&nbsp;&nbsp; A - Outstanding&nbsp; B - Good&nbsp;&nbsp;  C - Fair &nbsp;&nbsp;D  - Substandard</h3>
+ -->
+<%=get('reviewer_form_question_legend')%>
+<table id="radio_table">  
+<tr><td>Question</td><td>A</td><td>B</td><td>C</td><td>D</td><td>N/A</td></tr>
+<tr>
+  
+	<td><%=get('reviewer_form_question_1')%><!--Apropriateness Of Topic--></td> 	
+	
+	<%=render :partial=>"comments_radio_questions" ,:locals=>{:question=>:apropriateness}%>
+</tr> 
+<tr>  
+    <td><%=get('reviewer_form_question_2')%><!--Bridges Gap between Current and Best Practices--></td>
+	<%=render :partial=>"comments_radio_questions" ,:locals=>{:question=>:bridges_gap}%>
+</tr>
+
+<tr><td><%=get('reviewer_form_question_3')%><!--Clinical Relevance and Significance to the Field--> </td>  
+	<%=render :partial=>"comments_radio_questions" ,:locals=>{:question=>:clinical_relevance}%>
+	
+</tr>
+
+<tr> 
+     <td><%=get('reviewer_form_question_4')%><!--Scientific Quality--></td>    
+	    <%=render :partial=>"comments_radio_questions" ,:locals=>{:question=>:scientific_quality}%>
+</tr>
+
+<tr>
+    <td><%=get('reviewer_form_question_5')%><!--Potential for Positive Impact on Physician Competencies and/or Patient Outcomes--></td>
+	<%=render :partial=>"comments_radio_questions" ,:locals=>{:question=>:positive_impact}%>
+
+</tr>
+
+
+<tr> 
+     <td><%=get('reviewer_form_question_6')%><!--Usefulness to the Practitioner--></td> 
+     <%=render :partial=>"comments_radio_questions" ,:locals=>{:question=>:usefullness_to_practioner}%>
+</tr>
+
+<tr>  
+    <td><%=get('reviewer_form_question_7')%><!--Clarity of Writing--></td>    
+    <%=render :partial=>"comments_radio_questions" ,:locals=>{:question=>:clarity_of_writing}%>
+</tr>
+</table>
+
+</div>
+
+<div clas="section_container">
+<%=get('reviewer_form_yes_no_question_header')%>
+<table>
+<tr><td></td><td>Yes</td><td>No</td></tr>
+<tr>
+	<td><%=get('reviewer_form_question_8_yes_no')%><!--Yes Scientific studies cited conform to standards accepted by the scientific community.--></td> 
+    <td><%=radio_button(:comments, :study_conforms, "true")%></td>
+	<td><%=radio_button(:comments, :study_conforms, "false")%></td>
+</tr>
+<tr><td><%=get('reviewer_form_question_9_yes_no')%><!--Yes Patient treatment recommendations are evidence-based.--></td>
+     <td><%=radio_button(:comments, :evidence_based, "true")%></td>
+	<td><%=radio_button(:comments, :evidence_based, "false")%></td>
+   
+</tr>
+<tr><td><%=get('reviewer_form_question_10_yes_no')%><!--No Topic is fair, balanced, and free of commercial bias.--></td>
+    <td><%=radio_button(:comments, :fair_topic, "true")%></td>
+	<td><%=radio_button(:comments, :fair_topic, "false")%></td>
+
+</tr>
+<tr><td><%=get('reviewer_form_question_11_yes_no')%>
+   <!--Yes Statistical data requires validation by a statistician.--></td>  
+     <td><%=radio_button(:comments,:stats_need_validation, "true")%></td>
+	<td><%=radio_button(:comments, :stats_need_validation, "false")%></td>
+</tr>
+<tr>
+	<!--Yes Article is appropriate for CME accreditation.-->
+	<td class="test"><%=get('reviewer_form_question_12_yes_no')%></td>
+    <td><%=radio_button(:comments, :appropriate_for_cme, "true")%></td>
+	<td><%=radio_button(:comments, :appropriate_for_cme, "false")%></td>
+</tr>
+<tr>   
+   <td><%=get('reviewer_form_question_20_recommendation')%><!--If submitted, I am willing to<br/> review a revised version<br/> of this manuscript.--></td>
+   <td><%=radio_button(:comments, :will_review_revised,true)%></td>
+   <td><%=radio_button(:comments, :will_review_revised,false)%></td>
+</tr>
+</table>	
+
+<%=get('reviewer_form_comments_header')%><br/>
+<%=text_area(:comments, :question_comments, :cols => 70, :rows => 15,:style=>"overflow:auto")%>	
+</div>
+
+<div class="section_container" style="text-align:left;width:300px;margin-top:40px">
+    <%=get('reviewer_form_recommendations_header')%>
+	<table style="width:100%">
+	<tr>
+	  <td><%=get('reviewer_form_question_13_recommendation')%><!--Accept without Revision--></td>
+	  <td> <%=check_box(:comments, :accept_with_revision, {}, true, false)%></td>
+	</tr>
+	<tr>
+	   <td><%=get('reviewer_form_question_14_recommendation')%><!--Accept without Revisions In:--></td>
+	   <td></td>
+	 </tr>
+	 <tr>
+		 <td><%=get('reviewer_form_question_15_recommendation')%><!--Text--></td>
+		  <td> <%=check_box(:comments, :accept_with_revisions_text, {}, true, false)%></td>
+	</tr>
+    <tr>
+		   <td><%=get('reviewer_form_question_16_recommendation')%><!--Figures--></td>
+		   <td><%=check_box(:comments, :accept_with_revisions_figures, {}, true, false)%></td>
+    </tr>
+	<tr style="padding-bottom:10px">
+		   <td  style="padding-bottom:30px"><%=get('reviewer_form_question_17_recommendation')%><!--Grammar--></td>
+		   <td  style="padding-bottom:30px"><%=check_box(:comments, :accept_with_revisions_grammer, {}, true, false)%></td>
+   </tr>
+
+<tr>
+	   <td><%=get('reviewer_form_question_18_recommendation')%><!--Get Further Information--></td>
+	   <td><%=check_box(:comments, :get_further_info, {}, true, false)%></td>
+</tr>
+<tr>
+	   <td><%=get('reviewer_form_question_19_recommendation')%><!--Reject--></td>
+	   <td><%=check_box(:comments, :reject, {}, true, false)%></td>
+</tr>
+
+</table>
+</div>
+
+<div class="section_container" style="text-align:left">
+	<h3 style="margin-bottom:20px"><%=get('reviewer_form_conf_remarks_header')%><!--Confidential Remarks to the Editor--></h3>
+	<%=text_area(:comments, :remarks_to_editor, :cols => 40, :rows => 20,:style=>"overflow:auto",:class=>"mceEditor")%>	
+</div>
+
+
+<div class="section_container" style="text-align:left">
+	<h3 style="margin-bottom:20px"><%=get('reviewer_form_anonymous_comments_header')%><!--Anonymous Comments to the Author--></h3>
+	<%=text_area(:comments, :comments_to_author, :cols => 40, :rows => 20,:style=>"overflow:auto",:class=>"mceEditor")%>	
+	
+</div>
+
+<%=hidden_field_tag :submit_comments%>
+
+<%unless @comments.has_current_status_of?(:reviewer_comments_submitted)%>
+<%= submit_tag 'Save Draft',:name=>'save' -%>  <%= submit_tag 'Save And Submit Comments',:name=>'save_submit',:onclick=>"AjaxPopup.CreateModalBox(this,true,'Are You Sure You Want To Do This. It cannot be undone','Yes','No',function(){$('comments_form').submit_comments.value='true';$('comments_form').submit()},AjaxPopup.CloseWindow);return false;"-%>
+<%end%>
+
+<%end%>
+
+<script type="text/javascript">
+tinyMCE.init({
+	mode : "specific_textareas",
+	editor_selector : "mceEditor",
+	theme : "advanced",
+	plugins : "spellchecker,pagebreak,style,table,advhr,advimage,advlink,iespell,insertdatetime,preview,searchreplace,print,contextmenu,paste,noneditable,visualchars,nonbreaking,xhtmlxtras",
+	theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
+	theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor,print",
+	theme_advanced_buttons3 : "moveforward,movebackward,absolute,|,styleprops,spellchecker,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,blockquote,pagebreak,|insertimage",
+	theme_advanced_toolbar_location : "top",
+	theme_advanced_toolbar_align : "left",
+	theme_advanced_resizing : true
+ 
+}); 
+</script>

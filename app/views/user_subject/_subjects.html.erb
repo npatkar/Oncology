@@ -1,0 +1,22 @@
+<%form_remote_tag :url => {:controller => "user_subject", :action => "update"} do%>
+     <%offset = 30%>
+	 <%sections = @is_editor ? @user.sections : @user.article_sections%>
+    <%count = (ArticleSection.count/offset).floor%>
+	<%(0..count).each do |i|%>
+			<div class="rev_subject_box" style="float:left;margin-right:20px;">
+				<% for subject in ArticleSection.find(:all,:offset=>i*offset,:limit => offset) %>
+				  <div>
+				    <%= check_box_tag "article_section_ids[]", subject.id, sections.include?(subject) %>	
+					<%= h subject.article_section_name%>
+				  </div>
+				<% end %>
+			</div>
+	<%end%>
+ <%= hidden_field_tag 'id' ,@user.id %>
+  <%if @is_editor%>
+    <%= hidden_field_tag 'role',"editor"%>
+  <%end%>
+ 
+ <div><%= submit_tag 'Make Changes' %></div>
+
+<%end%>

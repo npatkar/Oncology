@@ -1,0 +1,101 @@
+<% @title = coi_form_title(@coi_form) %>
+
+<%= error_messages_for :coi_form %>
+
+<div class="block warning  right"><%= get('review_page_warning') -%></div>
+<div class="block"><%= get('manuscript_coi_header') %></div>
+<div class="block"><%= get('manuscript_coi_user_info', @parent) %></div>
+
+<DIV style="page-break-after:always"></DIV>
+
+<!--
+	<table width="100%"><tbody>
+	    <tr><td class="groupname">
+	        <div id="alternate_use_group">
+		
+	          <table class="question" border="1" cellpadding="0" cellspacing="0" width="100%"><tbody>
+	              <tr><td align="left">
+
+	                  <table border="0" cellpadding="8" cellspacing="0" width="100%"><tbody>
+	                      <tr><td width="100%">
+	                          <table class="question"><tbody>
+	                              <tr class="dontprint">
+	                                <th colspan="2" align="left" class="array2">&nbsp;</th>
+	                                <th align="left" class="array1" ><%= get('manuscript_coi_explain_label') -%></th>
+	                              </tr>                                              
+	                              <tr>
+	                                <td class="array1a" align="right"><%= get('manuscript_coi_alternative_use_question') -%></td>
+	                                <td  class="array2" ><%= yes_or_no :coi_form, :alternative_use, @coi_form.alternative_use %></td>
+	                                <td class="array2" ><%=h @coi_form.details_on(true, 'alternative_use') -%></td>
+	                              </tr>
+	                           </tbody>
+							   </table>
+
+	                        </td></tr>
+	                    </tbody></table>
+
+	                </td></tr>
+	            </tbody></table>
+                  
+	        </div>
+	      </td></tr>
+	 </tbody></table>
+-->
+
+	<div class="group" ><%= get('coi_conflicts') -%> 
+		<!--<%= yes_or_no :coi_form, :conflicts, @coi_form.conflicts %>-->
+		<%=@coi_form.conflicts ? "YES" : "NO"%>
+	</div>
+
+     <%=render :partial=>"partials/financial_groups_review"%>
+	  
+		  <table id="unbiased_table" style="margin-top:0px;border:1px solid;border-top:0px;">
+     	<tr>
+     		<td>
+     	      <% template = @parent.instance_of?(ArticleSubmissionReviewer) ? 'coi_reviewer_reported_bias' : 'coi_has_reported_bias'%>
+
+			<label><%= get(template) -%></label>
+			<span class="array2yn"><%= @coi_form.unbiased ? "YES" : "NO"%></span>
+     		</td>
+     	</tr>
+     </table>
+		
+<br />
+
+
+<div class="group">
+	<%= get('coi_by_signing_below') -%>
+	<br />
+	<br />  
+
+	<%= form_tag({:action=>'commit', :id=>@coi_form.id}, {:id=>'form'}) %>
+
+	<%= coi_signature_block('coi_form', 'Financial Disclosure Form') -%> 
+		
+</div>
+
+<% unless @generating_pdf %>
+<div class="dontprint button-nav">
+	<div style="float: right; margin-left: 25px;">
+		<%= submit_tag " Submit Financial Disclosure Form ", :name=>'next' %></form>
+		</div>
+
+		<div style="float: right;">
+		<%= form_tag({:action=>'edit', :id=>@coi_form.id}, {:id=>'form'}) %><%= submit_tag " Edit My Answers ", :name=>'previous' %></form>
+		</div>
+    </div>
+</div>
+<div class="clearing"></div>
+
+<div align="center" class="dontprint"><h3><%= get('please_print') -%></h3></div>
+<% end %>
+
+<br />
+<hr size="1" />
+<%= get('office_use_only') -%>
+<script>
+	FormFunctions.convert_to_text("conflicts_group")
+</script>
+
+
+

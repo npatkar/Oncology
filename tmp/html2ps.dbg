@@ -1,0 +1,49 @@
+***** html2ps version 1.0 beta5
+***** Command: /usr/bin/html2ps -n -g -d -f ./html2ps.css
+***** Perl: 5.008008
+***** HTML2PSPATH=
+Warning: cannot open the global resource file: /etc/html2psrc
+***** Personal file ./html2ps.css:
+
+
+@html2ps {
+  header {
+    right: "header text";
+  }
+}
+
+BODY {
+  color: #ff0000; 
+  border: 1px solid black;
+}
+
+
+BODY {
+  font-size: 12pt;
+  font-family: Helvetica;
+}
+
+A {
+  border: none;
+  text-decoration: none;
+}
+A:link {
+  border: none;
+  text-decoration: none;
+}
+
+@page {
+  margin-left: 1cm;
+  margin-right: 1cm;
+  margin-top: 2cm;
+  margin-bottom: 2cm;
+}
+*****
+html2ps version 1.0 beta5
+Image: http://forms.theoncologist.com/images/logo.gif
+Retrieving http://forms.theoncologist.com/images/logo.gifgiftopnm /tmp/fileCbxteD
+ppmtopgm /tmp/fileCbxteD
+Size: 335*110
+Image: http://forms.theoncologist.com/images/alphamed_infinity_logo_sm.gif
+Retrieving http://forms.theoncologist.com/images/alphamed_infinity_logo_sm.gifTransparent
+giftopnm /tmp/fileCbxteD

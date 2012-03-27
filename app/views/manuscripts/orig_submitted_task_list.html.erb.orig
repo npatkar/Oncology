@@ -1,0 +1,37 @@
+<% progress,contribution = @article_submission.progress(@user) %>
+
+<ul id = "progress_list">
+<li><div>
+   	 <%text = progress[:coi][:completed?] ? "Update Conflict Of Interest Form (#{progress[:coi][:time_stamp]})" : "Complete the Conflict Of Interest Form" %>
+	   <%= link_to "1. #{text}", :controller=>'manuscript_coi_forms', :action=>'init', :contribution_id=>contribution.id -%>
+	 
+	  </div><%=progress_link progress[:coi][:completed?]%></li>
+	  <li><div>	  	
+		<%= link_to("2. Complete the Copyright Assigment Form.", :controller=>'forms', :action=>'copyright_assignment', :contribution_id=>contribution.id) -%>
+		</div><%=progress_link progress[:copyright][:completed?] %></li>
+	  <li><div>
+	     <%= link_to("3. Complete the Author Responsibilities Form", :controller=>'forms', :action=>'author_responsibilities', :contribution_id=>contribution.id) -%>	  
+	    </div><%=progress_link progress[:responsibilities][:completed?] %></li>
+</ul>
+
+
+
+
+<div id="co_author_todo_block">
+
+           <div class="header">Coauthors
+	      <% if ! @article_submission.committed %>
+			    <%= button_to "Edit", :controller=>'article_submissions', :action=>'coauthors', :id=>@article_submission.id -%></td></tr>
+		  <% end %>
+		  </div>
+        <%@article_submission.coauthors.each do |coauthor| %>
+				<% manuscript_coi_form = @article_submission.latest_manuscript_coi_form_by_user_id(coauthor.id) %>
+	            <% contribution = @article_submission.contribution_by_user_id(coauthor.id) %>
+				<p class="coauthor_todo_header"><%= coauthor.full_name -%></p>
+				<ul class="coauthor_todo_status">
+				   <li><div>Completed COI</div><%= progress_link(!contribution.manuscript_coi_status.blank?)%></li>
+				   <li><div>Completed Copyright Assignment</div><%= progress_link(!contribution.copyright_status.blank?) -%></li>	
+				</ul>
+	   <%end%>
+			
+   </div>

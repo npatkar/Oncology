@@ -1,0 +1,22 @@
+
+<table class="outstanding_coi_report admin_table">
+<tr>
+<th style="width:300px;">Title</th>
+<th>Name</th>
+<th>Last Reminder Sent</th>
+<th>Send Reminder</th>
+</tr>
+<%@reviewers.each do |rev|%>
+  <% next unless rev.user and rev.article_submission # TODO: Why do we have reviewers without users attached??? WE NEED TO PREVENT THIS CASE - AMA - 12 Nov 2010
+   %>
+  <tr>
+   <td><%= render :partial => '/partials/link_to_submission', :locals => {:submission => rev.article_submission} -%></td>
+   <td><%=rev.user.name%></td>
+   <td><%=fmt_date_time rev.email_sent_at(EmailLog::SENT_REVIEWER_COI_REMINDER)%></td>
+   <td> <%= link_to_remote 'Send COI reminder', {
+                           :confirm => 'Send COI reminder email to this Reviewer?',
+                           :url => { :controller=>:admin,:action => :send_coi_reminder_to_reviewer, :article_submission_reviewer_id =>rev.id}
+            } -%></td>
+  </tr>
+<%end%>
+</table>

@@ -1,0 +1,2 @@
+<%# locals => >{:submission => article_submission} %>
+<%= link_to submission.title, {:controller => :admin, :action => :article_submissions, :search => submission.title} -%>

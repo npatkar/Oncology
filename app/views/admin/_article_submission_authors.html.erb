@@ -1,0 +1,15 @@
+
+	
+<div class="details_block">
+	<h3>Authors</h3>
+  <ol>
+    <% article_submission.contributions.each do |contribution| %>
+
+    <li><a href="<%= render :partial=> 'login_as_href', :locals => {:user => contribution.user} -%>"><%= contribution.user.name -%></a> &mdash; 
+		   <%=coauthor_coi_reminder_popup_link(contribution)%></li>  
+        <span id="manuscript_coi_link_status_<%= contribution.id -%>"></span>
+    <% end %>
+  </ol>
+
+<%= get('coauthor_coi_message')%>
+</div>

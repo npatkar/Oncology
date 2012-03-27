@@ -1,0 +1,51 @@
+<%
+  if @article_submission and coauthor and ! coauthor.new_record?
+    contribution = Contribution.find_by_article_submission_and_user(@article_submission.id, coauthor.id)
+  end
+  
+  contribution ||= Contribution.new
+
+  @coauthor = coauthor
+%>
+<%title = coauthor.new_record? ? "Add Coauthor" : "Edit Coauthor" %>
+<h2><%=title%></h2>
+<% remote_form_for :coauthor, coauthor, :url =>{:controller=>"manuscripts", :action=>"update_coauthor"}, :html=>{ :method => :put,:class=>"edit_post", :id => "edit_post_45" } do |f| %>
+
+<div id="coauthor_<%= index %>" class="coauthor">
+	<div class="block"><%= get('coauthor_already_exists_header') -%></div>
+<%=hidden_field_tag :id,@article_submission.id%>
+  <%= f.error_messages %>
+  <%= f.hidden_field :email %>
+  <p>
+	<label>Coauthor:<label> <%= coauthor.full_name -%>
+  </p>
+  <p>
+	<label>Email:</label> <%= coauthor.email -%>
+  </p>
+  <table>
+	<tbody>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				Contribution(s):
+			</td>
+			<td class="answer">
+				<%= render :partial => "contribution_types_multiple",:locals => {:user => coauthor,:contribution => contribution} %>
+			</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag">Is First Author?</span>
+			</td>
+			<td colspan="2">
+				<%=check_box_tag "first_author",1,contribution.first_author,{:class=>"first_author_box",:onclick=>"ArticleSubmissionFunctions.handleFirstAuthorClick(this)"}%>     
+	       </td>
+		   </tr>
+		</tbody>
+	</table>
+	  <div style="text-align:right">
+	   <%= submit_tag 'Submit' %>
+	   </div>
+</div><!-- /#<%= "coauthor_#{index}" -%> -->
+
+
+<%end%>

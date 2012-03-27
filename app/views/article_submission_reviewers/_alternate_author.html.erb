@@ -1,0 +1,186 @@
+
+
+<div id="alternate" style="border:1px solid black;padding:20px;width:400px;margin:auto;">	
+  <% fields_for "reviewer", @alternate_reviewer||=User.new do |f| %>
+  <%= f.error_messages %>
+
+  <table>
+	<tbody>
+			<tr>
+				<td nowrap="nowrap" class="questionlabel">
+					<span class="requiredflag"></span>Email:
+				</td>
+				<td class="answer">													
+					<%= f.text_field :email, :size => 20, :id => "alternate_reviewer_email" %>
+				
+				</td>
+			</tr>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Title:
+			</td>
+			<td class="answer">													
+				<%= f.select :pre_title, ['Dr.', 'Mr.', 'Ms.', 'Mrs.', 'Professor'], { :include_blank => true }, :id => "alternate_reviewer_pre_title" %>
+			</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag">*</span>First Name:
+			</td>
+			<td class="answer">
+		  		<%= f.text_field :first_name, :size => 20, :id => "alternate_reviewer_first_name" %>
+			</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Middle Name:
+			</td>
+			<td class="answer">
+				<%= f.text_field :middle_name %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag">*</span>Last Name:
+			</td>
+			<td class="answer">
+				      <%= f.text_field :last_name, :size => 20, :id => "alternate_reviewer_last_name" %>
+			</td>
+		</tr>
+		
+		<% [1,2].each do |n| %>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Degree <%= n -%>:
+			</td>
+			<td class="answer">
+				<%= f.select "degree#{n}", degrees_for_select, { :include_blank => true } %>
+				<span id="alternate_reviewer_degree<%= n -%>_other_span" <%= hide_on(false, @alternate_reviewer.send("degree#{n}") == 'Other') -%>>
+					-> 
+					<%= f.text_field "degree#{n}_other" %>
+				</span> 
+				<%= observe_field "alternate_reviewers__degree#{n}", :function => "check_field(element, value)"  %>
+			</td>
+		</tr>
+		<% end %>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Institution:
+			</td>
+			<td class="answer">
+				<%= f.text_field :employer %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Department:
+			</td>
+			<td class="answer">
+				<%= f.text_field :department %>
+			</td>
+		</tr>											
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Position Title:
+			</td>
+			<td class="answer">
+				<%= f.text_field :position_title %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Address 1:
+			</td>
+			<td class="answer">
+				<%= f.text_field :address_1 %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Address 2:
+			</td>
+			<td class="answer">
+				<%= f.text_field :address_2 %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>City:
+			</td>
+			<td class="answer">
+				<%= f.text_field :city %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>State/Province:
+			</td>
+			<td class="answer">
+				<%= state_province_select(f) %>
+				<span class="note">required for US/Canada addresses.</span>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Zip/Postal Code:
+			</td>
+		  	<td class="answer">
+		  		<%= f.text_field :zip_postalcode, :size => '15', :maxlength => '15' %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Country:
+			</td>
+			<td class="answer">
+				<%= country_select(f) %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Telephone:
+			</td>
+		 	<td class="answer">
+		 		<%= f.text_field :phone_preferred, :size => '18', :maxlength => '30' %>
+		 	</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Fax:
+			</td>
+			<td class="answer">
+				<%= f.text_field :phone_fax, :size => '18', :maxlength => '30' %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Website:
+			</td>
+			<td class="answer">
+				http://<%= f.text_field :url, :size => '30', :maxlength => '70' %>
+			</td>
+		</tr>
+		
+		<tr><td colspan="2">
+			<a href="javascript:void(0)" style="display:block;font-weight:bold;font-size:130%;color:red;margin-top:10px" onlick = "$('alternate_reviewer_div').hide();$('alternate_reviewer_form').reset()">Cancel</a></td>
+		</tr>
+		
+		</tbody>
+	</table>
+  <% end # /fields_for %>
+</div><!-- /#<%= "alternate_reviewer_" -%> -->
+
+
+

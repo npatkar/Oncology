@@ -1,0 +1,129 @@
+<% @title = 'Manuscript Checklist' %>
+<%= error_messages_for :article_submission, :header_message=>"Your form could not be saved", :message=>"Please correct the following errors:" -%>
+<div class="block"><%= get('manuscript_checklist_header') -%></div>
+<%= form_tag({:action => 'update_checklist', :id => @article_submission.id}, {:id => "form"}) %>
+	<table cellspacing="6" cellpadding="3">
+		<tbody>			
+		
+			<tr>
+				<td class="questionlabel">
+					<span>&nbsp;</span>
+						<label> <%= get('gap_learn_label') -%></label>
+				</td>
+				<td  class="array2" >
+					<%= check_box :article_submission, :has_gap_and_learn_objs,:onclick=>'handleManuscriptTypes()' %>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+		 <div id = "extra_manuscript_fields" style="display:none">
+    <div class ="quest_container" style="height:300px">
+    	<div nowrap="nowrap" class="left questionlabel" ><%= get('learn_obj_section_label') -%></div>
+		<div class="right">
+			<p>
+			    <%= get('learn_obj_instructions') -%>
+			</p>
+        <p>
+            <label nowrap="nowrap" class="questionlabel">
+                
+				<%= get('learn_obj_1') -%>
+            </label>
+            <%= text_area :article_submission, :learn_obj_1 , :size => "50x3" %>
+        </p>
+		<p>
+            <label nowrap="nowrap" class="questionlabel">
+               
+				<%= get('learn_obj_2') -%>
+            </label>
+            <%= text_area :article_submission, :learn_obj_2 , :size => "50x3" %>
+        </p>
+		<p>
+            <label nowrap="nowrap" class="questionlabel">
+            
+				<%= get('learn_obj_3') -%>
+            </label>
+            <%= text_area :article_submission, :learn_obj_3 , :size => "50x3" %>
+        </p>
+		<p>
+            <label nowrap="nowrap" class="questionlabel">
+				<%= get('learn_obj_4') -%>
+            </label>
+            <%= text_area :article_submission, :learn_obj_4 , :size => "50x3" %>
+        </p>
+		</div>
+    </div>
+	<div style="clear:both"></div>
+
+	 <div class ="quest_container" style="height:300px">
+	 	<div  class="left questionlabel"><%= get('gap_analysis_section_label') -%></div>
+		<div class="right">
+		  <p><%= get('gap_analysis_instructions')-%></p>
+		  <table>
+		  		 <tr>
+		  		 	<td stylex="padding:0px 20px;">&nbsp;</td> 
+					<th><%= get('gap_analysis_header_1') -%></th>
+					<th><%= get('gap_analysis_header_2') -%></th>
+					<th><%= get('gap_analysis_header_3') -%></th>
+				</tr>
+		  		<tr> 
+				    <td><%= get('gap_analysis_label_1') -%></td>
+					<td><%= text_area :article_submission, :gap_1 , :size => "30x3" %></td>
+					<td><%= text_area :article_submission, :gap_2 , :size => "30x3" %></td>
+					<td><%= text_area :article_submission, :gap_3 , :size => "30x3" %></td>
+				</tr>
+				<tr>
+					<td><%= get('gap_analysis_label_2') -%></td>
+					<td><%= text_area :article_submission, :gap_4, :size => "30x3" %></td>
+					<td><%= text_area :article_submission, :gap_5 , :size => "30x3" %></td>
+					<td><%= text_area :article_submission, :gap_6 , :size => "30x3" %></td>
+				</tr>
+				<tr>
+					<td><%= get('gap_analysis_label_3') -%></td>
+					<td><%= text_area :article_submission, :gap_7 , :size => "30x3" %></td>
+					<td><%= text_area :article_submission, :gap_8 , :size => "30x3" %></td>
+					<td><%= text_area :article_submission, :gap_9, :size => "30x3" %></td>
+			   </tr>
+		  	</table>
+		  
+		</div>
+	</div>
+<div style="clear:both"></div>
+</div>
+		
+		
+		<table cellspacing="6" cellpadding="3">
+				</tbody>		
+				<tr>
+				<td class="questionlabel">
+					<span class="requiredflag">*</span><label> <%= get('indemnify_label') -%></label>
+				</td>
+				<td  class="array2" >
+					<%= yes_no_radio 'article_submission', 'indemnify', @article_submission.indemnify %>
+				</td>
+			</tr>	
+			
+			
+		
+			<tr><td colspan="2">&nbsp;</td></tr>
+		</tbody>
+	</table>
+ 
+ 
+  
+
+<!-- This needs to be called so that the extra manuscript field show if appropriate -->
+<script>
+	handleManuscriptTypes();	
+</script>
+   
+	<table align="center" bgcolor="#cccccc" border="0" cellpadding="8" cellspacing="0" width="100%">
+		<tbody>
+			<tr>
+				<td  colspan="3" align="right">
+					<%=render :partial=>'submit_tags'%>				
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+</form>

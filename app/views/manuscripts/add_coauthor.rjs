@@ -1,0 +1,11 @@
+
+page << "AjaxPopup.CreateBox($('coauthors_#{@article_submission.id}'),true)"
+
+if @coauthor.new_record? or @coauthor.user_can_edit == current_user.id
+  page.replace_html :ajax_popup_content, :partial => 'add_coauthor_info_long', :locals => { :coauthor => @coauthor, :index => params[:index] }
+else
+  page.replace_html :ajax_popup_content, :partial => 'add_coauthor_info', :locals => { :coauthor => @coauthor, :index => params[:index] }  
+end
+
+page << "$('coauthor_email_#{@article_submission.id}').value=''"
+

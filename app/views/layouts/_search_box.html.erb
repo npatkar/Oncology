@@ -1,0 +1,12 @@
+<% unless @generating_pdf %>
+<!-- start search box -->
+  <div id="faq_search" class='dontprint'>
+    <form action="http://manuscriptsubmissions.theoncologist.com/faq/index.php?action=search" method="get" target="_blank">
+      <label for="suchbegriff"><a href='http://manuscriptsubmissions.theoncologist.com/faq/' target='_blank'>Help</a></label>&nbsp;
+      <input alt="search..." class="inputfield" type="text" name="search" id="suchbegriff" size="18" />
+      <input type="submit" name="submit" value="Search" class="submit" />
+      <input type="hidden" name="action" value="search" />
+    </form>
+  </div>
+<!-- end search box -->
+<% end %>

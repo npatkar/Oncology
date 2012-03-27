@@ -1,0 +1,14 @@
+<%form_remote_tag :url => {:controller => "admin", :action => "send_check_in_for_packet"},:html =>{:id=>'reviewer_checkin_form'} do%>
+	<textarea name="message" rows="20" cols="40" id="message" class="mceEditor">
+		
+		<%= get('check_in_with_reviewer_regarding_packet',[@reviewer,@article_submission,@article_submission_reviewer,@article_submission.corresponding_author.full_name,])%>
+	</textarea>
+    <%=hidden_field_tag 'id',@article_submission_reviewer.id%>	
+	<%= submit_tag 'Send Email',:onclick=>"this.style.display='none';tinyMCE.triggerSave();" -%>
+	
+<%end%>
+
+ <%= link_to 'Edit This Template', '/edit_user_template/?template_alias=check_in_with_reviewer_regarding_packet',:popup => true%>
+
+
+<%= render :partial => '/admin/tinymce_init' -%>

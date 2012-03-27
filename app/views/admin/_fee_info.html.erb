@@ -1,0 +1,36 @@
+
+<div class="filess details_block">
+		<h3>Fee Info</h3>
+		<table class="collapse">
+			<tr><th>CC Last Four</th><th>Initial Charge</th><th>Pub. Fee</th></tr>
+			<tr>
+				<td>
+                <% if article_submission.corresponding_author %>
+                <%= article_submission.corresponding_author.credit_card ? article_submission.corresponding_author.credit_card.num_last_four : 'No Credit Card' -%>
+                <% end %>
+                 </td>
+				 <td>
+<span id='initial_charge_processed_<%= article_submission.id -%>'><% if article_submission.corresponding_author && article_submission.corresponding_author.credit_card %>
+                    <% if article_submission.initial_charge_processed %>
+                    <%= article_submission.initial_charge_processed.strftime("%x") %>
+                    <% else %>
+                    <%= link_to_remote "Process Initial  Fee", :url => {:action => :process_initial_charge, :id => article_submission.id} -%>
+                    <% end %>
+                    <% else %>
+                    No Credit Card<% end %>
+                </span>
+                </td>
+       <td>
+  <span id='pub_charge_processed_<%= article_submission.id -%>'><% if article_submission.corresponding_author  && article_submission.corresponding_author.credit_card %>
+                    <% if article_submission.pub_charge_processed %>
+                    <%= article_submission.pub_charge_processed.strftime("%x") %>
+                    <% else %>
+                    <%= link_to_remote "Process Pub Fee", :url => {:action => :process_pub_charge, :id => article_submission.id} -%>
+                    <% end %>
+                    <% else %>
+                    No Credit Card<% end %>
+</span> 
+     </td>
+     </tr>
+   </table>
+</div>

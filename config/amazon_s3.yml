@@ -1,0 +1,14 @@
+development:
+  bucket_name: oncology-development
+  access_key_id: 1G9QA0G3K1FK0DR8G6R2
+  secret_access_key: LF710eTL+noH02vZinMbXJr85PPDyyscCFHHhcDx
+
+test:
+  bucket_name: appname_test
+  access_key_id: 
+  secret_access_key: 
+
+production:
+  bucket_name: appname
+  access_key_id: 
+  secret_access_key: 

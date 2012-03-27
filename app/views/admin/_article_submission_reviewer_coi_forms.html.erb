@@ -1,0 +1,8 @@
+ <p class="sub_header_label" style="margin-top:10px">Manuscript COI Forms</p>
+<% if @a_s_r.manuscript_coi_forms.length > 0 %>
+  <ul style="list-style-position:outside;list-style-type:none;margin-left:0px;padding:0px">
+    <li><%= @a_s_r.manuscript_coi_forms.collect {|coi| coi.pdf ? "#{pdf_link(coi.pdf)}" : "No pdf for Manuscript COI - #{coi.submit_date}"}.join("</li><li>") %></li>
+  </ul>
+<% else %>
+  <p>No Manuscript COIs</p>
+<% end %>

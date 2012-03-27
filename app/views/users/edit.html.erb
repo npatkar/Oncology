@@ -1,0 +1,15 @@
+<% @title="Update Your Information" %>
+<%= get('my_info_title') -%>
+<%= get('my_info_header') -%>
+
+<%= form_tag :action => 'update', :id => @user.id %>
+  <%= error_messages_for :user %>
+
+  <%= render :partial => 'f' -%>
+
+  <div class='button-nav'><%= submit_tag " Save Information " %></div>
+</form>
+
+
+<%= get('my_info_footer') -%>
+

@@ -1,0 +1,22 @@
+<h1>Editing Template</h1>
+
+<div id="user_template_form">
+<% form_for(@user_template ||= UserTemplate.new(:title => params[:template_alias].humanize, :alias => params[:template_alias])) do |f| %>
+  <%= f.error_messages %>
+  
+  <%= render :partial=>'f', :object=>f %>
+  
+  <p><%= link_to_close_redbox "Save Update", {:onclick => remote_function(
+         :url => {:controller=>'user_templates', :action=>'update', :id=>@user_template.id},
+         :submit => 'user_template_form',
+         :complete => "$('spinner').show(); window.location.reload()",
+         :before => (@html_edit ? "tinyMCE.triggerSave(); $('spinner').show();" : '')
+        )
+      } %><%= image_tag('redbox_spinner.gif', :id=>'spinner', :style=>'display: none;') -%> &nbsp; |  &nbsp;
+	     <%= link_to_close_redbox "Cancel" -%></p>
+<% end %>
+</div>
+
+<% if @html_edit %>
+  <%= render :partial => '/user_templates/tiny_mce_init' -%>
+<% end %>

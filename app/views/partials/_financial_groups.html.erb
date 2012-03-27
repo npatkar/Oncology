@@ -1,0 +1,28 @@
+ <div id="conflicts_group" style="padding-bottom:0px;">
+      <p><%=get('financial_relationships_header')%></p>
+	  <table id="finanical_relationship_table">
+	  	<tr>
+	  		<th><%=get('financial_relationships_checkbox_label') -%></th>
+			<th><%=get('financial_relationships_type_label') -%></th>
+			<th><%=get('financial_relationships_commerical_interests_label') -%></th>
+			<th><%=get('financial_relationships_compensated_label') -%></th>
+			<th><%=get('financial_relationships_uncompensated_label') -%></th>
+	  	</tr>
+	
+			 <% %w(employment ip consultant honoraria research ownership expert other).each do|attr|%>
+			    <%comp_id = "coi_form_#{attr}_comp"%>
+				<%uncomp_id = "coi_form_#{attr}_uncomp"%>
+			     <tr>
+					 <td><%= check_box 'coi_form', attr,:class=>"coi_role",:onclick=>"DisclosureFunctions.disable_disclosure_fields(this)" %></td>
+					 <td><%= get("coi_#{attr}") -%></td>
+					 <td><%= text_field 'coi_form', "#{attr}_details", :size=>"50", :maxlength=>"100" %></td>
+					 <td><%= check_box 'coi_form', "#{attr}_comp" %></td>
+					 <td><%= check_box 'coi_form', "#{attr}_uncomp" %></td>
+			     </tr>
+			 <%end%>
+	  </table>
+	</div>
+	 
+	<script>
+	 	DisclosureFunctions.set_coi_checkbox_events();             
+	</script>

@@ -1,0 +1,22 @@
+
+<div id ='<%= "reviewers_#{article_submission.id}"%>' class="filesx details_block">
+<h3>Reviewers 
+(<%=link_to_function "Add Reviewer","AjaxPopup.OpenBoxWithUrl(this,true,'/admin/article_reviewers/#{article_submission.id}?section_id=#{article_submission.article_section.id}',null,true)"%>)
+</h3>
+<%article_submission.article_submission_reviewers.each do |asrev|%>
+  <% rev = asrev.user %>
+  <%# TODO: Figure out why we need this next line... why do we have ArticleSubmissionReviewers without a User? (AMA - 10 Nov 2010) #%>
+  <% next unless rev %>
+  <% article_submission = asrev.article_submission %>
+  <div>
+    <a href="<%= render :partial=> 'login_as_href', :locals => {:user => rev} -%>"><%= rev.name -%></a>
+    &nbsp;
+    <%= link_to 'Enter Comments',{:controller=>"article_submission_reviewers" ,:action=>"admin_reviewer_comments",:id=>asrev.id},:popup => true%>
+    <%=link_to_remote "X",
+                      :url => { :action => "remove_article_reviewer", :id => asrev.id}%>
+    <%=reviewer_coi_reminder_popup_link(asrev)%>
+  </div>
+<%end%>
+  
+</div>
+

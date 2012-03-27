@@ -1,0 +1,16 @@
+<div id="article_nav" class="dont_print">
+	<% form_state = :general; css_class = ''  %>
+	<ul>
+	<% while ! form_state.nil? %>
+		<li class="<%= css_class -%>">
+			<% next if @article_submission.sections(form_state).nil? %>
+						<%= link_to @article_submission.sections(form_state)[:title], 
+												  {:action=>form_state, :id=>@article_submission.id}, 
+												  {:class=>css_class} -%> 
+												  
+												  
+												  </li>
+		<% form_state = @article_submission.sections(form_state)[:next] %>
+	<% end %>
+	</ul>
+</div>

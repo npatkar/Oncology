@@ -1,0 +1,47 @@
+
+<div class="filesx details_block">
+	<h3>Manuscript Files</h3>
+  <ol>
+	  <% if article_submission.manuscript && article_submission.manuscript.file %>
+	    <% manuscript_path = App::Config::base_url.chop + article_submission.manuscript.file.url %>
+	    <li><%= link_to "Mansuscript" , manuscript_path%><%#=link_to "Cover Letter" , cover_path%></li>
+	  <% end %>
+	
+	  <% if article_submission.cover_letter && article_submission.cover_letter.file %>
+	    <% cover_path = App::Config::base_url.chop + article_submission.cover_letter.file.url %>
+	    <li><%= link_to article_submission.cover_letter.file.filename, cover_path%><br/></li>
+	  <% end %>
+	 
+	  <% if article_submission.permission && article_submission.permission.file %>
+	    <% permission_path = App::Config::base_url.chop + article_submission.permission.file.url %>
+	    <li><%= link_to article_submission.cover_letter.file.filename, permission_path%></li>
+	  <% end %>
+	
+	<% i=0 %>
+	<% article_submission.additional_files.each do |af| %>
+	  <%i+=1%>
+	  <li><%=link_to "#{af.file.filename}", App::Config::base_url.chop + af.file.url%></li>
+	<% end %>
+</ol>
+
+<h4>Admin Updated Manuscript File</h4>
+<%if article_submission.updated_manuscript%>
+<% permission_path = App::Config::base_url.chop + article_submission.updated_manuscript.file.filename %>
+<%= link_to article_submission.updated_manuscript.file.filename, App::Config::base_url.chop + article_submission.updated_manuscript.file.url%>
+<%end%>
+
+<%if article_submission.manuscript%>
+<%= upload_form_tag({:controller=>"admin", 
+			  					  :action=>"upload_updated_manuscript", 
+								  :id=>article_submission.id,:manuscript_id=>article_submission.manuscript.id,:page=>@page}) %>
+		    <%= upload_column_field 'updated_manuscript', 'file' -%> &nbsp;
+			<%= submit_tag(" Upload Updated Manuscript") -%>
+			</form>
+<%elsif article_submission.isVideo?%>
+  No Manuscirpt Uploaded. This is a video link submission		
+<%else%>
+ No Manuscript For this Submission
+<%end%>
+
+
+</div>

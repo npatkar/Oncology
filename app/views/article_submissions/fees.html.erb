@@ -1,0 +1,96 @@
+<% @title = "Edit Manuscript Details" %>
+<% @subtitle = "Fees" %>
+
+<%= error_messages_for :article_submission, :header_message=>"Your form could not be saved", :message=>"Please correct the following errors:"  %>
+<div class="block"><%= get('fees_header') -%></div>
+<%= form_tag({:action => 'update_fees', :id => @article_submission.id}, {:id => "form"}) %>
+	<table>
+		<tbody>
+			<tr>
+				<td class="questionlabel">
+                                  <span class="requiredflag">*</span>
+<%= get('was_invited_label') -%> </td>
+				<td  class="answer" nowrap="nowrap"><%= yes_no_radio 'article_submission', 'invited', @article_submission.invited,'ArticleSubmissionFunctions.showIsLetter(this)' %></td>
+			</tr>
+			<tr id="is_letter_row" style="display:none">
+				<td class="questionlabel">
+                                  <span class="requiredflag">*</span>
+<%= get('is_letter_label') -%> </td>
+				<td  class="answer" nowrap="nowrap"><%= yes_no_radio 'article_submission', 'is_letter', @article_submission.is_letter,'ArticleSubmissionFunctions.showPaymentBox(this,"article_submission[invited]")'%></td>
+			</tr>
+			
+			<tr><td colspan="2">&nbsp;</td></tr>
+		</tbody>
+	</table>
+    <script>
+    	ArticleSubmissionFunctions.handleFeesPage();
+    </script>
+	<span id="article_submission_proffered_span" <%= hide_on(true, @article_submission.invited || @article_submission.is_letter) -%> >
+		<br />
+		<span class="note"><%= get('fees_pubfee_note') -%></span>
+		<table>
+			<tbody>
+				<tr>
+					<td class="questionlabel">
+                                  <span class="requiredflag">*</span>
+						<label><%= get('fees_pubfee_label') -%></label>
+					</td>
+					<td class="answer">
+						
+						<br />
+						<%= radio_button 'article_submission', 'fees_pubfee_status', 'will_pay', :onclick=>"check_field(this, this.value)" %>
+						<label for="article_submission_fees_pubfee_status_willpay"><%= get('fees_will_pay_label') -%></label>
+						
+						<br />
+						<%= radio_button 'article_submission', 'fees_pubfee_status', 'cant_pay', :onclick=>"check_field(this, this.value)" %>
+						<label for="article_submission_fees_pubfee_status_cant_pay"><%= get('fees_cant_pay_label') -%></label>
+																	
+						<span id="article_submission_cant_pay_reason_span" <%= hide_on(true, @article_submission.fees_pubfee_status != 'cant_pay') -%> >
+							<br />
+							<span class="note">-&gt; please explain: </span>
+							<%= text_field 'article_submission', 'cant_pay_reason', :size=>'70', :maxlength=>'100' %> 
+						</span>
+
+                <span id="article_submission_can_pay_span" <%= hide_on(false, @article_submission.fees_pubfee_status != 'cant_pay') -%>
+		<br />
+		<span class="note"> <div class="block"><%= get('fees_proferred_note') -%></div> </span>
+			<label><%= get('fees_how_paying') -%></label>
+				<ul class="nobullet">
+					<li><%= radio_button 'article_submission', 'payment_type', 'credit', :onclick=>"check_field(this, this.value)" %><label for="article_submission_payment_type_credit"> Credit Card </label></li>
+					<li><%= radio_button 'article_submission', 'payment_type', 'check', :onclick=>"check_field(this, this.value)" %><label for="article_submission_payment_type_check"> Check </label></li>
+				</ul>
+                </span>
+
+					</td>
+				</tr>
+				
+				<tr><td colspan="2">&nbsp;</td></tr>
+			</tbody>
+		</table>
+
+		
+		<span id="article_submission_payment_type_check_span" <%= hide_on(true, @article_submission.payment_type != 'check') %> >
+		   <div class="block">	<%= get('fees_check_instructions') -%></div>
+		</span>
+		
+		<br />
+		<span id="article_submission_fees_pubfee_status_span" <%= hide_on(true, @article_submission.payment_type == 'exempt') -%>>
+
+
+
+		</span>
+	</span> 
+	
+	
+    
+	<table align="center" bgcolor="#cccccc" border="0" cellpadding="8" cellspacing="0" width="100%">
+		<tbody>
+			<tr>
+				<td  colspan="3" align="right">
+					<%=render :partial=>'submit_tags'%>				
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+</form>

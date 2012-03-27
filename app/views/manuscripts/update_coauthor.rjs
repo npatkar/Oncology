@@ -1,0 +1,15 @@
+page.reload
+
+ if @new
+     page << "AjaxPopup.CloseWindow()"
+     page.insert_html :bottom, "coauthor_list_#{@article_submission.id}", :partial => 'coauthor_list_item', :locals => {:ca => @coauthor, :article_submission => @article_submission}
+     page.replace_html "#{@article_submission.id}_coauthor_progress", image_tag('done.png')
+  else
+     page.replace_html :ajax_popup_content, "Co Author Updated" 
+  end
+ 
+
+#page.replace "add_coauthor_link_#{@article_submission.id}", :partial => 'add_coauthor_link',
+#  :locals => { :index => (params[:index].to_i(10) + 1) }
+
+

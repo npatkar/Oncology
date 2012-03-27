@@ -1,0 +1,18 @@
+
+<%@comments.each do |c|%>
+	<div class="block" style='text-align:left;border:1px solid;margin:10px'>
+	<%as = c.article_submission%>
+	<h1><%=as.is_original? ? "Original Revision" : "Revision:#{as.version}"%></h1>
+	<style>table {border: 1px solid black;}</style>
+	 <%= get("reviewer_comments_report",c) -%>
+	 <%= link_to_remote "Send Reviewer Comments Reports to managing editor (#{App::Config.managing_editor_email})",:url=> {:controller => 'reports',
+	                                                             :action => 'send_reviewer_comments_report',
+	                                                             :id => as.id},:html=>{:id=>"send_report_link"} -%>		
+	
+	</div>
+<%end%>
+<p>
+	
+	
+				
+</p>

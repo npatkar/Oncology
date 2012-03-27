@@ -1,0 +1,13 @@
+<div class="block" style='text-align:left;'>
+<style>table {border: 1px solid black;}</style>
+<% (1..4).each do |n| %>
+  <%= get("reports_article_submission_section_#{n}", @article_submission) -%>
+<% end %>
+<h2>Article Submission Status</h2>
+
+<%form_remote_for @status, :url => {:controller => "reports", :action => "assign_article_submission_status"},:html =>{:id=>'article_status_form'} do%>
+<%=hidden_field_tag 'id',@article_submission.id%>
+<%=collection_select(:status, :id, @statuses, :id, :name,{:include_blank => 'Please Select'},{:onchange=>"if(this.value!=''){$('article_status_form').onsubmit()}"})%>
+<%end%>
+
+</div>

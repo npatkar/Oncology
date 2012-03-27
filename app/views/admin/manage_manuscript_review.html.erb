@@ -1,0 +1,89 @@
+<style type="text/css">
+	#reviewer_manage_info div{
+		
+		font-weight:bold;
+		padding-bottom:5px;
+	}	
+	
+	.header{
+		font-weight:bold;
+		font-size:120%;
+	}
+	
+	.review_box{
+		margin:20px;
+	}
+	
+	#reviewer_section_header{
+		font-weight:bold;
+		font-size:105%;
+	}
+	
+	#report_form_links{
+		margin-top:20px;
+	}
+	
+	#report_form_links span{
+		padding-right:20px;
+	}
+	#actions_box div{
+		margin:5px;
+		font-style:italic;
+	}
+	
+	.section_box{
+		margin:20px 0px
+	}
+	
+	.comments_box span{
+		margin-right:60px;
+	}
+	
+	#actions_and_comm p{
+		font-style:italic;
+	}
+	
+	.sub_header_label{
+	font-style:italic;
+	text-decoration:underline;
+	}
+	.pdf_link a{
+		margin-right:10px;
+		display:inline-block;
+	}
+</style>
+
+<p class="header">Manage Manuscript Review</h2>
+<div id="reviewer_manage_info">
+	<div><span>Num:</span> <%=@article.manuscript_num if @article -%></div>
+	<div><span>Title:</span> <%=@article_submission.title -%>&nbsp;&nbsp;<%="Version:#{@article_submission.version}" if @article_submission.version -%></div>
+	<div><span>Submitted:</span> <%=@article_submission.committed.strftime("%m/%d/%y") -%></div>
+        <div><span>Status:</span><span style="font-weight:bold;color:red"> <%=@article_submission.current_status_name%></span></div>
+</div>
+
+<div id ="report_form_links" class="section_box">
+
+	 <span>
+	 	 <%= link_to_function("Edit Recused Editor Section Notes","AjaxPopup.OpenBoxWithUrl(this,true,'/admin/edit_article_submission_field/#{@article_submission.id}?field=note_of_recused_editors',null,true)")%>
+	 </span>
+	 
+	 <span>
+	  <%= link_to_function("Edit Section Editor Correspondence","AjaxPopup.OpenBoxWithUrl(this,true,'/admin/edit_article_submission_field/#{@article_submission.id}?field=section_editor_correspondence',null,true)")%>
+     </span>
+	
+</div>
+
+<h3>Reviewers</h3>
+<%@article_submission.article_submission_reviewers.each do|local_a_s_r|
+	@a_s_r = local_a_s_r
+%>
+	<div class="review_box" style="width:100%">
+	     <%=render :partial=>'reviewer_manage_block'%>
+	</div>
+<%end%>
+
+<%if @article_submission.article_submission_reviewers.empty? %>
+ No Reviewers For This Article Submission Have Been Assigned.
+<%end%>
+
+

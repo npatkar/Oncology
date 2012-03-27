@@ -1,0 +1,15 @@
+<h1>Editing charge_type</h1>
+
+<% form_for(@charge_type) do |f| %>
+  <%= f.error_messages %>
+  <label>Code <%= f.text_field :code -%></label>
+  <label>Description <%= f.text_field :description -%></label>
+  <label>Amount (in cents) <%= f.text_field :amount -%></label>
+  
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @charge_type %> |
+<%= link_to 'Back', charge_types_path %>

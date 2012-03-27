@@ -1,0 +1,18 @@
+<h1>Listing degrees</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% for degree in @degrees %>
+  <tr>
+    <td><%= link_to 'Show', degree %></td>
+    <td><%= link_to 'Edit', edit_degree_path(degree) %></td>
+    <td><%= link_to 'Delete', degree, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New degree', new_degree_path %>

@@ -1,0 +1,103 @@
+<div id="head-sidebar"><%= get('files_title', nil, false) -%></div>
+
+<% unless @article_submission.isVideo? %>
+  <div class="file-<%= even_or_odd -%>">
+    <div class="sidebar-files-head"><%= get('cover_letter_title', nil, false) -%></div>
+    <span class="sidebar-files-texts"><%=get('cover_letter_text', nil, false) -%></span>
+    <br />
+    
+      <% if !@article_submission.hiding_original_file_or_files?(:cover_letter) and @article_submission.cover_letter.file  -%>
+        <span class="sidebar-files-title">
+          <%= link_to File.basename(@article_submission.cover_letter.file.url), 
+                                    @article_submission.cover_letter.file.url, 
+                                    :target => 'blank',
+                                    :title => 'Download File' -%>&nbsp;&nbsp;
+        </span>
+      <% else %>
+      <span class="sidebar-files-title">
+        None
+      </span>
+      <% end %>
+  </div>
+  
+  <div class="file-<%= even_or_odd -%>">
+    <div class="sidebar-files-head"><%= get('manuscript_upload_title', nil, false) -%></div>
+    <span class="sidebar-files-texts"><%= get('manuscript_upload_text', nil, false) -%></span>
+    <br />
+    <% if !@article_submission.hiding_original_file_or_files?(:manuscript) and @article_submission.manuscript.file  %>
+      <span class="sidebar-files-title">
+        <%= link_to File.basename(@article_submission.manuscript.file.url), 
+            @article_submission.manuscript.file.url, 
+            :target => 'blank',
+            :title => 'Download' -%>&nbsp;&nbsp;
+      </span>
+    <% else %>
+      <span class="sidebar-files-title">
+        None
+      </span>
+    <% end %>
+  </div>
+  
+<% else %>
+  <div class="file-<%= even_or_odd -%>">
+    <div class="sidebar-files-head"><%= get('video_link_upload_title', nil, false) -%></div>
+    <span class="sidebar-files-texts"><%= get('video_link_upload_texts', nil, false) -%></span>
+    <br />
+    <div>Link to video manuscript</div>
+      <% form_remote_tag :url => {:controller => "article_submissions", :action => "upload_video_link"}  do -%>
+        <%= text_field_tag :manuscript_video_link%>
+        <%= hidden_field_tag :id, @article_submission.id%>
+        <%= submit_tag 'Add Link' %>
+      <% end %>
+      <div id="video_link_div">
+        <% unless @article_submission.manuscript_video_link.blank? %>       
+          Video Link: <a href="<%= @article_submission.manuscript_video_link %>"><%= @article_submission.manuscript_video_link -%></a>
+        <% else %>
+          No Video URL
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end # unless @article_submission.isVideo? %>
+
+
+
+<div class="file-<%= even_or_odd -%>">
+    <div class="sidebar-files-head"><%= get('figures_upload_title', nil, false) -%></div>
+    <span class="sidebar-files-texts"><%=get('figures_upload_text', nil, false) -%></span>
+    <br />
+    <% if !@article_submission.hiding_original_file_or_files?(:additional_files)%>
+      <% @article_submission.additional_files_to_show.each do |additional_file| %>
+        <% if additional_file.file %>
+          <span class="sidebar-files-title">
+            <%= link_to File.basename(additional_file.file.url), 
+                      additional_file.file.url, 
+                      :target=>'blank',
+                      :title=>'Download File' -%>&nbsp;&nbsp;
+          </span>
+        <% end %>
+      <% end %>
+    <% end %>
+</div>
+
+
+<div class="file-<%= even_or_odd -%>">
+  <div class="sidebar-files-head"><%= get('perm_upload_title', nil, false) -%></div>
+  <span class="sidebar-files-texts"><%= get('perm_upload_text', nil, false) -%></span>
+  <br />
+  <% if !@article_submission.hiding_original_file_or_files?(:permission) and @article_submission.permission.file -%>
+    <span class="sidebar-files-title">
+      <%= link_to File.basename(@article_submission.permission.file.url),
+            @article_submission.permission.file.url, 
+            :target => 'blank',
+            :title => 'Download File' -%>&nbsp;&nbsp;
+    </span>
+  <% else %>
+    <span class="sidebar-files-title">
+      None
+    </span>
+  <% end %>
+</div>
+
+
+

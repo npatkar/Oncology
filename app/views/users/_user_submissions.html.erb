@@ -1,0 +1,14 @@
+
+<ul>
+<% user.article_submissions.each do |as| %>
+<li><%= render :partial => '/partials/link_to_submission', :locals => {:submission => as} -%></li>
+<% end %>
+</ul>
+  <h3>Legacy Articles (These were submitted manually)</h3>
+<ul>
+<% user.articles.each do |a| %>
+  <% next if a.article_submissions # We don't want to display the submissions her as well, only the old articles that don't have submissions %>
+<li><%= a.title -%></li>
+<% end %>
+</ul>
+</div>

@@ -1,0 +1,37 @@
+<h2>Manuscripts in Review Report</h2>
+  <ul>
+  <li>Less than 2 weeks in current status</li>
+  <li style='background-color: yellow'>2-4 weeks in status</li>
+  <li style='background-color: orange'>5-6 weeks in status</li>
+  <li style='background-color:#ff7744'>more than 6 weeks in status</li>
+  </ul>
+<%= form_tag :action => :manuscripts_in_review -%>
+
+
+<% as_groups = ArticleSubmission.in_review_grouped_by_status %>
+
+<div id="manuscripts_in_review">
+    <% as_groups.each do |key, as_group| %>
+  <table style="clear: both; width: 100%;" class="admin_table"> 
+      <tr ><td colspan = 5><h3>Submissions in Status: <strong><%= key -%></strong></h3></td></tr>
+    <tr>
+      <th style='width: 10%;'>Started</th>
+      <th style='width: 9%;'>ID</th>
+      <th>Manuscript Title</th>
+      <th style='width: 13%;'>Date Entered Status</th>
+      <th style='width: 13%;'>Days in Current Status</th>
+    </tr>
+      <% as_group.each do |as| %>
+      <tr style="<%=color_background as%>">
+        <td><%= as.create_date.strftime("%m/%d/%y") -%></td>
+        <td><%= as.article ? as.article.manuscript_num : 'Not Imported' -%></td>
+        <td><%= link_to as.title, {:controller => :admin, :action => :article_submissions, :search => as.title}, :target => '_blank' -%></td>
+        <td><%= as.current_entity_status.created_at.strftime("%m/%d/%y") -%></td>
+        <td><%= as.days_in_current_status -%> days</td>
+      </tr>
+    <% end %>
+  </table><br /><br />
+    <% end %>
+</div>
+
+</form>

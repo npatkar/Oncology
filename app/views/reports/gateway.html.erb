@@ -1,0 +1,35 @@
+<h2>Credit Card Gateway Transactions Report</h2>
+<p><%= link_to '[ Authorize.net ]', 'https://account.authorize.net/', :target => '_blank' -%></p>
+
+<%= form_tag :action => :gateway -%>
+
+
+<div id="cc_transactions_form">
+  <div id="action_bar">
+    <%= page_entries_info @cc_transactions -%> &mdash;
+    <%= select_tag('per_page', options_for_select([25, 50, 75, 100, 150, 200, 300, 999], @per_page)) -%> submissions per page &nbsp;
+    <%= submit_tag 'Refresh' -%>
+  </div>
+  <table style="clear: both;" class="admin_table"> 
+    <tr>
+      <th>
+        <%= select_tag('date_range', options_for_select([['Anytime',0], ['within last 2 weeks',14], ['within last 30 days',30], ['within last 90 days',90], ['within last 180 days',180], ['within last year',365]], @date_range)) -%>
+      </th>
+      <th>User</th>
+      <th>Charge</th>
+      <th>Details</th>
+    </tr>
+    <% @cc_transactions.each do |cc_transaction| %>
+      <% next unless cc_transaction.charge %>
+      <tr>
+        <td><%= cc_transaction.created_at.strftime("%x %H:%M") -%></td>
+        <td><%= cc_transaction.charge.article_submission.corresponding_author.full_name -%></td>
+        <td><%= cc_transaction.charge.label -%></td>
+        <td><%= cc_transaction.details.join("<br />") -%></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+
+</form>

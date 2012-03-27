@@ -1,0 +1,12 @@
+
+<div style="text-align:center">
+    <h2>Thank you for your reply <%=@reviewer.full_name%></h2>
+</div>
+
+
+<%= form_tag({:action=>'process_invite', :id=>@article_submission_reviewer.id}, {:id=>'reviewer_acceptance_form'}) %>
+
+
+
+
+<%end%>

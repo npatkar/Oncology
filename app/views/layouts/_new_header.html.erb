@@ -1,0 +1,17 @@
+<div id="header">
+
+  <div style="margin:auto; position:relative; width:900px">
+    <div id="logo">
+      <%= link_to image_tag(App::Config::base_url.chop + "/images/ms_logo.png", :width=>'450', :height=>'85', :alt=>'The Oncologist & STO logo'), '/' -%>
+    </div>
+    <div id="flower"></div>
+  </div>
+
+  <% if @generating_pdf %>
+    <div style="position: absolute; top: 0; right: 0;" class='timestamp'><%= Time.now.strftime("%x %X") -%></div>
+  <% else %>
+    <%= render(:partial=>'/layouts/user_nav') -%>
+    <%= render :partial => '/layouts/search_box' if current_user and current_user.has_admin? %>
+  <% end %>
+
+</div>

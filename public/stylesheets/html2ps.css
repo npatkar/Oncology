@@ -1,0 +1,9 @@
+.dontprint { display: none; }
+.hide_pdf { display: none; }
+
+A:link {text-decoration: none; border: none; }
+a {text-decoration: none; border: none; }
+
+#header {
+height:120px;
+}

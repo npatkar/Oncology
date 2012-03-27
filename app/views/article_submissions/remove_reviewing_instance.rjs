@@ -1,0 +1,2 @@
+page.visual_effect :fade, "reviewing_instance_#{params[:index]}"
+page["reviewing_instance_#{params[:index]}"].remove

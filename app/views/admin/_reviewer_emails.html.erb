@@ -1,0 +1,10 @@
+<%@a_s_r.email_logs.each do|email|%>
+<div>
+	<%text = "#{fmt_date_time email.created_at}"%>
+	<%content = email.content.nil? ? "" : email.content.gsub(/[\"]/,"'").gsub(/\s+/," ") %>
+	<%after = "function(){$('ajax_popup_content').innerHTML = \"#{content}\"}"%>
+	<%= link_to_function email.subject,"AjaxPopup.OpenBoxWithContent(this,true,#{after})"%>
+	<br/>
+	<%="(#{text})"%>
+</div>
+<%end%>

@@ -1,0 +1,2 @@
+
+page.replace_html 'ajax_popup_content',:partial=>"update_success", :object => @user

@@ -1,0 +1,26 @@
+<% unless @article_submission.sole_author %>
+<% coauthors = @article_submission.coauthors %>
+<div id="add_coauthor">
+  <div id="add_coauthor_head">Coauthors</div>
+  <div id="coauthors_<%= @article_submission.id -%>" >
+    <ol id="coauthor_list_<%= @article_submission.id -%>" style="coauthors_list">
+      <% coauthors.each_with_index do |ca, index| %>
+         <%= render :partial => "coauthor_list_item", :locals => {:ca => ca, :article_submission => @article_submission} -%>
+      <% end %>
+    </ol>
+    <div class="add_coauthor_block" id="add_coauthor_link_<%= @article_submission.id -%>">
+      <label>
+        Email:
+      </label>
+      <%= text_field_tag :coauthor_email,'',:id=>"coauthor_email_#{@article_submission.id}" %>
+      <%= image_tag 'spinner.gif', :id => "spinner_#{@article_submission.id}", :style => 'display: none;' %>
+      &nbsp; <span id='link_<%=@article_submission.id%>'><%= link_to_remote '<span class="blue bold">+</span> Add a Co-Author',
+        :url => {:action => 'add_coauthor', :index => @article_submission.coauthors.size,:id=>@article_submission.id },
+        :loading => "$('spinner_#{@article_submission.id}').show(); $('link_#{@article_submission.id}').hide()",
+        :success => "$('spinner_#{@article_submission.id}').hide(); $('link_#{@article_submission.id}').show()",
+        :submit => "add_coauthor_link_#{@article_submission.id}" %>
+      </span>
+    </div>
+  </div>
+</div>
+<% end %>

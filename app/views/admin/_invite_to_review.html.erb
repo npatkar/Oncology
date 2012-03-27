@@ -1,0 +1,14 @@
+
+<%@authors = @article_submission.authors.collect{|a| a.full_name + "<br/>"}%>
+<%form_remote_tag :url => {:controller => "admin", :action => "send_reviewer_invite"},:html =>{:id=>'reviewer_invite_form'} do%>
+	<textarea name="message" rows="20" cols="40" id="message" class="mceEditor">
+		<%= get('reviewer_input_template',[@reviewer,@article_submission,@article_submission_reviewer, @reviewer.generic_auto_sign_in_url("article_submission_reviewers/accept_invite/#{@article_submission_reviewer.id.to_s}"),@authors.to_s])%>
+	</textarea>
+    <%=hidden_field_tag 'id',@article_submission_reviewer.id%>	
+	<%= submit_tag 'Send Email',:onclick=>"this.style.display='none';tinyMCE.triggerSave();" -%>
+	
+<%end%>
+
+ <%= link_to 'Edit This Template', '/edit_user_template/?template_alias=reviewer_input_template',:popup => true%>
+
+<%= render :partial => '/admin/tinymce_init' -%>

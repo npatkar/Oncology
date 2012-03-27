@@ -1,0 +1,8 @@
+<span class='edit_manuscript_link'>
+	<%= button_to("Edit Manuscript", :controller=>'article_submissions', :action=>'general', :id=>article_submission.id) -%>
+</span>
+<h2><%= article_submission.title -%></h2>
+
+<%= render :partial=>'forms', :locals => {:article_submission => article_submission, :user => user} %>
+
+<%= render :partial=>'files', :locals => {:article_submission => article_submission, :user => user} %>

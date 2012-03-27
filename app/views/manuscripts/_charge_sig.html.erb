@@ -1,0 +1,12 @@
+<div style="width:80%;margin:auto">
+<%unless @generating_pdf%>
+  <input id="charge_consent" name="sig_assent" value="1" type="checkbox">
+<%else%>
+   YES
+<%end%>
+I 
+	<%= @article_submission.corresponding_author.full_name%> ,
+	understand that my credit card will be charged a $50 processing fee, and if
+	my manuscript is accepted for publication, an additional $1500 publication fee. I also understand
+	that the processing fee is non-refundable, and will be charged when this
+	form is submited </div>

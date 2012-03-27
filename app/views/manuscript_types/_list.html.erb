@@ -1,0 +1,21 @@
+
+<table class="admin_table">
+  <tr>
+    <th>Name</th>
+	<th>Order Num</th>
+	<th>Enabled</th>
+	<th>Modified Date</th>
+	<th colspan=2>Actions</th>
+  </tr>
+
+<% for manuscript_type in @manuscript_types %>
+  <tr>
+    <td><%=h manuscript_type.name %></td>
+	<td><%=manuscript_type.order_num %></td>
+	<td><%=manuscript_type.enabled%></td>
+	<td><%= manuscript_type.updated_at.strftime("%x")%></td>
+    <td><span><%= link_to_remote "Edit", :url=>edit_manuscript_type_path(manuscript_type), :method => :get%></span></td>
+  </tr>
+<% end %>
+</table>
+

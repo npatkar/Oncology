@@ -1,0 +1,57 @@
+<h2>Admin Page</h2>
+<h3>Maintenance</h3>
+
+<p>
+	<b>Current Manuscript Sequence: </b>
+	<span id="manuscript_sequence"><%=get_manuscript_sequence%></span>
+	<br/>
+	 <%= link_to_remote "Advance Sequence Number",
+    :url => {:action => "advance_manuscript_sequence"},
+    :update => "manuscript_sequence"%>
+</p>
+<ul>
+  <li><%= link_to "Users", :controller=>'users' -%></li>
+  <li><%= link_to "Article Submissions", :controller=>'admin', :action => 'article_submissions' -%></li>
+  <li><%= link_to "Accepted Reviewer List", :controller=>'admin', :action => 'accepted_reviewer_list'  -%></li>
+  <li><%= link_to "Manuscript Types", manuscript_types_url -%></li>
+<li><%= link_to "Statuses", statuses_url -%></li>
+
+</ul>
+
+<h3>Reports</h3>
+<ul>
+  <li><%= link_to "Manuscripts Status", :controller => 'reports', :action => 'manuscripts_status' -%>
+      <%= link_to "(.csv)", :controller => 'reports', :action => 'manuscripts_status_csv' -%>
+  </li>
+  <li><%= link_to "Manuscripts in Review (Detailed)", :controller => 'reports', :action => 'manuscripts_in_review_detailed' -%></li>
+  <li><%= link_to "Manuscripts in Review", :controller => 'reports', :action => 'manuscripts_in_review' -%>
+      <%= link_to "(.csv)", :controller => 'reports', :action => 'manuscripts_in_review_csv' -%>
+  </li>
+  <li><%= link_to "Manuscripts Summary", :controller => 'reports', :action => 'manuscripts_summary' -%>
+      <%=link_to "(.csv)", :controller => 'reports', :action => 'manuscripts_summary_csv' -%>
+  </li>
+  
+  <li><%= link_to "Outstanding Coauthor COIs", :controller => 'reports', :action => 'outstanding_coi_report' -%>
+  <li><%= link_to "Outstanding Reviewer COIs", :controller => 'reports', :action => 'outstanding_reviewer_coi_report' -%></li>
+  <li><%= link_to "Reviewers who need to comment", :controller => 'reports', :action => 'current_reviewers' -%>
+  <li><%= link_to "Rejected Articles", :controller => 'reports', :action => 'rejected_manuscripts' -%>
+  <li><%= link_to "Sales Report", {:controller=>'reports',:action=>'sales_report'}-%>
+          <%=link_to "(.csv)", :controller => 'reports', :action => 'sales_report_csv' -%>
+  </li>
+  <li><%= link_to "Section Editors potential conflicts based on blanket COI forms", :controller => 'reports', :action => 'blanket_potential_coi_report' -%>
+  <li><%= link_to "Credit Card Charges", :controller => 'reports', :action => 'charge' -%></li>
+  <li><%= link_to "Credit Card Gatway", :controller => 'reports', :action => 'gateway' -%></li>
+<% if current_user.has_role?(:admin) %>
+  <li><%= link_to "Audit Trail", :controller => 'reports', :action => 'audit_trail' -%></li>
+  <li><%= link_to "Users Export (CSV)", :controller => 'reports', :action => 'users_export' -%></li>
+  <li><%= link_to "Users of Accepted Articles Export (CSV)", :controller => 'reports', :action => 'users_of_accepted_articles_export' -%></li>
+<% end %>
+</ul>
+
+<% if current_user.has_role?(:admin) %>
+<h3>Site Config</h3>
+<ul>
+  <li><%= link_to "Templates", :controller=>'user_templates' -%></li>
+  <li><%= link_to "Roles", :controller=>'roles' -%></li>
+</ul>
+<% end %>

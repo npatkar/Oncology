@@ -1,0 +1,145 @@
+<% @title = "Edit Manuscript Details" %>
+<% @subtitle = "General Information" %>
+<%= error_messages_for :article_submission, :header_message=>"Your form could not be saved", :message=>"Please correct the following errors:" -%>
+<div class="block">
+    <%= get('manuscript_edit_header') -%>
+</div>
+<table>
+    <tbody>
+        <tr>
+            <td nowrap="nowrap" class="questionlabel">
+                <span class="requiredflag">*</span>Manuscript Title:
+            </td>
+            <td class="answer">
+                <%= text_area :article_submission,  :title, :rows => '2', :cols => '65' -%>
+            </td>
+        </tr>
+        <tr>
+            <td nowrap="nowrap" class="questionlabel">
+                <span class="requiredflag">*</span>Short Title:
+            </td>
+            <td class="answer">
+                <%= text_field :article_submission,  :short_title, :maxlength => 50 -%>
+            </td>
+        </tr>
+        <tr>
+            <td nowrap="nowrap" class="questionlabel">
+                <span class="requiredflag">*</span>Keywords (Four<br /> to six key words or phrases,<br /> using terms from the most recent<br /> Medical Subject Headings of Index Medicus):
+            </td>
+            <td class="answer">
+                <%= text_area :article_submission,  :keywords, :rows => '5', :cols => '65' -%>
+            </td>
+        </tr>
+        <tr>
+            <td nowrap="nowrap" class="questionlabel">
+                <span class="requiredflag">*</span>Primary Subject Category:
+            </td>
+            <td class="answer">
+                <%= article_section_select -%>
+            </td>
+        </tr>
+        <tr>
+            <td nowrap="nowrap" class="questionlabel">
+                <%= get('manuscript_type_label') -%>
+            </td>
+            <td>
+                <span class="answer" style="font-weight:bold"><% type= @article_submission.manuscript_type %>
+                    <%= type.name if type -%>
+                </span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table>
+    <tbody>
+        <tr>
+            <td nowrap="nowrap" class="questionlabel">
+               <span class="requiredflag">*</span><%= get('abstract_label') -%>
+            </td>
+            <td>
+                <%= text_area :article_submission,  :abstract, :rows => '40', :cols => '85' -%>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table>
+    <tbody>
+        <tr>
+            <td colspan="2">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td nowrap="nowrap" class="questionlabel">
+               <span class="requiredflag">*</span>
+                Your Author Contribution(s):
+            </td>
+            <td class="answer">
+                <%= render :partial => "contribution_types", :locals => { :user => @user, :contribution => @contribution } %>
+            </td>
+        </tr>
+        <tr>
+            <td nowrap="nowrap" class="questionlabel">
+               <span class="requiredflag">*</span>
+                I am the sole author of this manuscript 
+            </td>
+            <td class="answer">
+              <% handler = @article_submission.coauthors.size > 0 ? "ArticleSubmissionFunctions.removeCoauthors(this,'#{@article_submission.id}')" : "" %>
+                <%= yes_no_radio 'article_submission', 'sole_author', @article_submission.sole_author,handler -%>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="array2">
+                <br/>
+                <%= get('manuscript_number_directions') -%>
+            </td>
+        </tr>
+        <tr>
+            <td nowrap="nowrap" class="questionlabel">
+                <span class="requiredflag">*</span>Pages:
+            </td>
+            <td class="answer">
+                <%= text_field :article_submission, :num_pages, :size => '4', :maxlength => '3' -%>
+            </td>
+        </tr>
+        <tr>
+            <td nowrap="nowrap" class="questionlabel">
+                <span class="requiredflag">*</span>References:
+            </td>
+            <td class="answer">
+                <%= text_field :article_submission, :num_refs, :size => '4', :maxlength => '3' -%>
+            </td>
+        </tr>
+        <tr>
+            <td nowrap="nowrap" class="questionlabel">
+                <span class="requiredflag">*</span>Tables:
+            </td>
+            <td class="answer">
+                <%= select :article_submission, :num_tables, (0..7) -%>
+                <span class="note"><%= get('manuscript_num_tables_footnote') -%></span>
+            </td>
+        </tr>
+        <tr>
+            <td nowrap="nowrap" class="questionlabel">
+                <span class="requiredflag">*</span>Figures:
+            </td>
+            <td class="answer">
+                <%= select :article_submission, :num_figures, (0..7) -%>
+            </td>
+        </tr>
+        <tr>
+            <td nowrap="nowrap" class="questionlabel">
+                <span class="requiredflag">*</span>Supplemental Materials:
+            </td>
+            <td class="answer">
+                <%= select :article_submission, :num_suppl_mtrls, (0..10) -%>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                &nbsp;
+            </td>
+        </tr>
+    </tbody>
+</table>
+<%= hidden_field :article_submission, :manuscript_type_id -%>

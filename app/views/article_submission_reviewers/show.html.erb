@@ -1,0 +1,13 @@
+<p>
+  <b>Article submission:</b>
+  <%=h @article_submission_reviewer.article_submission_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @article_submission_reviewer.user_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_article_submission_reviewer_path(@article_submission_reviewer) %> |
+<%= link_to 'Back', article_submission_reviewers_path %>

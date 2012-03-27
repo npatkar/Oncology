@@ -1,0 +1,10 @@
+
+
+<%form_remote_tag :url => {:controller => "admin", :action => "send_urgent_message"},:html =>{:id=>'reviewer_message_form'} do%>
+	<textarea name="message" rows="20" cols="40" id="message" class="mceEditor">
+  	</textarea>
+    <%=hidden_field_tag 'id',@a_s_r.id%>	
+   <%= submit_tag 'Send Message',:onclick=>"this.style.display='none';tinyMCE.triggerSave();" -%>
+<%end%>
+
+<%= render :partial => '/admin/tinymce_init' -%>

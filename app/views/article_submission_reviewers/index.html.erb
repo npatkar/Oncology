@@ -1,0 +1,22 @@
+<h1>Listing article_submission_reviewers</h1>
+
+<table>
+  <tr>
+    <th>Article submission</th>
+    <th>User</th>
+  </tr>
+
+<% @article_submission_reviewers.each do |article_submission_reviewer| %>
+  <tr>
+    <td><%=h article_submission_reviewer.article_submission_id %></td>
+    <td><%=h article_submission_reviewer.user_id %></td>
+    <td><%= link_to 'Show', article_submission_reviewer %></td>
+    <td><%= link_to 'Edit', edit_article_submission_reviewer_path(article_submission_reviewer) %></td>
+    <td><%= link_to 'Destroy', article_submission_reviewer, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New article_submission_reviewer', new_article_submission_reviewer_path %>

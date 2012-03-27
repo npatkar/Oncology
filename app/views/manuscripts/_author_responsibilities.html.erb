@@ -1,0 +1,89 @@
+
+			<tr>
+				<td class="array1"><%= get('author_resp_agree') -%></td>
+				 <%= auth_respons_rev_data('agree_contents')%>
+			</tr>
+			
+			<tr>
+				<td class="array1"> <%= get('author_resp_sole_submission') -%></td>
+            			<td class="array2" nowrap="nowrap">
+				<% if @contribution.assisted %>
+				  <%= @contribution.sole_submission ? 'Not submitted elsewhere' : 'Submitted elsewhere' -%>
+				<% else %>
+				  Not applicable
+				<% end %>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="array1">
+				<%= get('author_resp_received_payment') -%> </td>	
+			     <%= auth_respons_rev_data('received_payment')%>
+			</tr>
+			
+			<tr>
+				<td class="array1">
+						 <%= get('author_resp_tobacco') -%> </td>
+			     <%= auth_respons_rev_data('tobacco')%>
+			</tr>
+			
+			<tr>
+				<td class="array1">
+						 <%= get('author_resp_published_elsewhere')%> </td>
+			            <%= auth_respons_rev_data('published_elsewhere')%>
+			</tr>										
+			
+			<tr>
+				<td class="array1"> 
+				 <%= get('author_resp_dna_research') -%></td>
+			     <%= auth_respons_rev_data('dna_research')%>
+			</tr>										
+			
+			<tr>
+				<td class="array1">
+						 <%= get('author_resp_human_experiment') -%> </td>
+						<%= auth_respons_rev_data('human_experiment')%>
+			</tr>					
+			
+			<tr>
+				<td class="array1">
+						 <%= get('author_resp_clintrials') -%> </td>
+						<%= auth_respons_rev_data('clintrials')%>
+			</tr>			
+			
+			<tr>
+				<td class="array1"> <%= get('author_resp_consort_guidelines') -%> </td>
+				<%= auth_respons_rev_data('consort_guidelines')%>
+			</tr>
+													
+			<tr>
+				<td class="array1"><%= get('author_resp_proprietary_guidelines') -%> </td>
+				   <%= auth_respons_rev_data('proprietary_guidelines')%>
+			</tr>
+													
+			<tr>
+				<td class="array1"> <%= get('author_resp_agree_policies') -%> </td>
+				   <%= auth_respons_rev_data('agree_policies')%>
+				   
+			</tr>
+	
+	        <%label = "contribution_arynq7_label"%>
+			<tr>
+			   <td class="array1"><%= get(label) -%></td>
+			      <%= auth_respons_rev_data('arynq7')%>
+			</tr>
+
+
+			<tr>
+				<td class="array1">
+				<%= get('author_resp_assisted_label') -%></td>
+				 <%= auth_respons_rev_data('assisted')%>
+			</tr>	
+					
+            <% [1,2,3,6,4,5].each do |n| %>
+					<%label = "contribution_arynq#{n}_label"%>
+					<tr>
+					   <td class="array1"><%= get(label) -%></td>
+						<%= auth_respons_rev_data("arynq#{n}",true)%>
+					 </tr>
+            <% end %>

@@ -1,0 +1,183 @@
+<% @title = coi_form_title(@coi_form) %>
+
+<%= form_tag({:action=>'update', :id=>@coi_form.id}, {:id=>'form',:onSubmit=>"FormFunctions.enable_section_fields('financial_interests_group')"}) %>
+  <%= error_messages_for :coi_form, :header_message=>"Your form could not be saved", :message=>"Please correct the following errors:"   %>
+
+  <div class='block'><%= get('blanket_coi_header') %>
+  <%= get('blanket_coi_user_info', @user) %></div>
+  <%= hidden_field :coi_form, :roles_list, :value=>@user.disp_roles %>
+  
+  <div style="page-break-after:always"></DIV>
+                <table width="100%">
+                  <tbody>
+                    <tr>
+                      <td>
+                <div style='padding: 1em;'>
+                        <label><%= get('coi_conflicts') -%></label>
+                        <span class="array2yn"><%= yes_no_radio 'coi_form', 'conflicts', @coi_form.conflicts ,"FormFunctions.disable_form_fields_in_section($('form')['coi_form[conflicts]'],'financial_interests_group',0)"%></span> 
+                </div>
+                        <div id="financial_interests_group">
+                          <table class="question" border="1" cellpadding="0" cellspacing="0" width="100%">
+                            <tbody>
+                              <tr>
+                                <td align="left">
+                                  <table border="0" cellpadding="8" cellspacing="0" width="100%">
+                                    <tbody>
+                                      <tr>
+                                        <td width="100%">
+                                          <table class="question">
+                                            <tbody>
+                                              <tr>
+                                                <th colspan="2" align="left" class="array2">&nbsp;</th>
+                                                <th align="left" class="array1a" >
+                                                  <%= get('blanket_coi_specify') -%>
+                                                </th>
+                                              </tr>
+                                              
+                                              <tr>
+                                                <td class="array1a" align="right"><%= get('coi_employment') -%></td>
+                                                <td  class="array2yn" >
+	                        	                     <%= yes_no_radio 'coi_form', 'employment', @coi_form.employment %>
+                                                </td>                                                
+												<td class="array2" >
+													
+                                               	<span id="coi_form_employment_span" <%= hide_on(false, @coi_form.employment) -%> >
+                                               		-&gt;
+													<%= text_area 'coi_form',:employment_details, :size=>"50"%>
+												</span>
+                                                </td>
+                                              </tr>
+                                          
+                                          
+                                              <tr>
+                                                <td class="array1a" align="right"><%= get('coi_ip') -%></td>
+                                                <td  class="array2yn" >
+                            	                     <%= yes_no_radio 'coi_form', 'ip', @coi_form.ip %>
+                                                </td>
+                                                <td class="array2" >
+                                                	<span id="coi_form_ip_span" <%= hide_on(false, @coi_form.ip) -%> >
+                                               		-&gt;
+													<%= text_area 'coi_form', :ip_details, :size=>"50"%>
+												</span>
+												
+                                                  
+                                                </td>
+                                              </tr>
+                                              
+                                          
+                                              <tr>
+                                                <td class="array1a" align="right"><%= get('coi_consultant') -%></td>
+                                                <td  class="array2yn" >
+                                	                     <%= yes_no_radio 'coi_form', 'consultant', @coi_form.consultant %>
+                                                </td>
+                                                <td class="array2" >
+                                                	<span id="coi_form_consultant_span" <%= hide_on(false, @coi_form.consultant) -%> >
+                                               		-&gt;
+													<%= text_area 'coi_form', :consultant_details, :size=>"50" %>
+												</span>
+                                                </td>
+                                              </tr>
+                                              
+                                              <tr>
+                                                <td class="array1a" align="right"><%= get('coi_honoraria') -%></td>
+                                                <td  class="array2yn" >
+                            	                     <%= yes_no_radio 'coi_form', 'honoraria', @coi_form.honoraria %>
+                                                </td>
+                                                <td class="array2" >
+                                                 <span id="coi_form_honoraria_span" <%= hide_on(false, @coi_form.honoraria) -%> >
+                                               		-&gt;
+													<%= text_area 'coi_form', :honoraria_details, :size=>"50" %>
+												</span>
+                                                </td>
+                                              </tr>    
+                                          
+                                              <tr>
+                                                <td class="array1a" align="right"><%= get('coi_research') -%></td>
+                                                <td  class="array2yn" >
+						    	                     <%= yes_no_radio 'coi_form', 'research', @coi_form.research %>	
+                                                </td>
+                                                <td class="array2" >
+                                                  <span id="coi_form_research_span" <%= hide_on(false, @coi_form.research) -%> >
+                                               		-&gt;
+													<%= text_area 'coi_form', :research_details, :size=>"50" %>
+												</span>
+                                                </td>
+                                              </tr>    
+                                          
+                                              <tr>
+                                                <td class="array1a" align="right"><%= get('coi_ownership') -%></td>
+                                                <td  class="array2yn" >
+                                	                     <%= yes_no_radio 'coi_form', 'ownership', @coi_form.ownership %>
+                                                </td>
+                                                <td class="array2" >
+                                                  <span id="coi_form_ownership_span" <%= hide_on(false, @coi_form.ownership) -%> >
+                                               		-&gt;
+													<%= text_area 'coi_form', :ownership_details, :size=>"50" %>
+												</span>
+                                                </td>
+                                              </tr>    
+                                          
+                                              <tr>
+                                                <td class="array1a" align="right"><%= get('coi_expert') -%></td>
+                                                <td  class="array2yn" >
+                                    	                     <%= yes_no_radio 'coi_form', 'expert', @coi_form.expert %>
+                                                </td>
+                                                <td class="array2" >
+                                                  <span id="coi_form_expert_span" <%= hide_on(false, @coi_form.expert) -%> >
+                                               		-&gt;
+													<%= text_area 'coi_form', :expert_details, :size=>"50", :maxlength=>"100" %>
+												</span>
+                                                </td>
+                                              </tr>    
+                                          
+                                              <tr>
+                                                <td class="array1a" align="right"><%= get('coi_other') -%></td>
+                                                <td  class="array2yn" >
+                                        	                     <%= yes_no_radio 'coi_form', 'other', @coi_form.other %>
+                                                </td>
+                                                <td class="array2" >
+                                                  <span id="coi_form_other_span" <%= hide_on(false, @coi_form.other) -%> >
+                                               		-&gt;
+													<%= text_area 'coi_form', :other_details, :size=>"50", :maxlength=>"100" %>
+												</span>
+                                                </td>
+                                              </tr>                                              
+                                              
+                                            </tbody>
+                                          </table>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                                
+                         
+                        </div>
+						
+						 <div id="unbiased_group" class="answertext group"><%= get('coi_reviewer_reported_bias') -%>
+                            <span class="array2yn"> 
+                                             <%= yes_no_radio 'coi_form', 'unbiased', @coi_form.unbiased %>
+                            </span>
+                          </div>  
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+
+	<div class="dontprint button-nav">
+		<p align="right">
+			<%= submit_tag(" Review Answers ", :name => 'next', :accesskey=>'n' ) -%>
+		</p>
+		</div>
+		
+</form>
+
+
+<script>
+	FormFunctions.disable_form_fields_in_section($('form')['coi_form[conflicts]'],'financial_interests_group',0)
+	
+</script>

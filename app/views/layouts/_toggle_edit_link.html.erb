@@ -1,0 +1,6 @@
+                  . <%= link_to_function("Toggle Edit", nil, :id => "toggle_edit_text_link") do |page|
+                        page.select('.ut_edit_link').each do |value|
+                          value.toggle
+                        end
+			            page.call('placeTemplateLinks')
+                      end -%>

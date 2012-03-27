@@ -1,0 +1,23 @@
+<h1>Listing roles</h1>
+
+<table>
+  <tr>
+	<th>id</th>
+  	<th>Key</th>
+  	<th>Title</th>
+	<!--<th>Actions</th>-->
+  </tr>
+
+<% for role in @roles %>
+  <tr>
+    <td><%= role.id -%></td>
+    <td><%= role.key -%></td>
+    <td><%= link_to role.role_title, edit_role_path(role) %></td>
+    <!--<td><%= link_to 'Delete', role, :confirm => "Please confirm you want to delete the '#{role.role_title}' role. This CANNOT be undone.", :method => :delete %></td> -->
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<!--<%= link_to 'New role', new_role_path %>-->

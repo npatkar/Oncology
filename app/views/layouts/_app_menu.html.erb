@@ -1,0 +1,13 @@
+<div id="uline"><div id="ulinelight"></div></div>
+<div id="ms-mainmenu">
+  <div id="my-ms">
+<!-- ##to_do## need to find a way to assign current_user id here -->
+    <%= link_to 'My Manuscripts', {:controller => 'manuscripts', :id =>  '0'} -%>
+  </div>
+  <div id="acc-info">
+    <%= link_to "Account Information", :controller=>'users', :action=>'edit', :id=> '0' -%>
+  </div>
+  <div id="s-out">
+    <%= link_to "Sign out", :controller => :users, :action => :logout -%>
+  </div>
+</div>

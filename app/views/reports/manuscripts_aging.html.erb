@@ -1,0 +1,60 @@
+<p>Filter Results</p>
+<%= form_tag({:controller => "reports", :action => "manuscripts_aging"},{:id=>'article_status_form'}) %>
+  <%= collection_select(:status, :key, @statuses, :key, :name,{:include_blank => 'Please Select'},{:onchange=>"if(this.value!=''){$('article_status_form').submit()}"}) %>
+  <label>Filter CSV File</label><input name ="csv" type="checkbox" />
+  <% i = 0 %>
+  <br/>
+  <div style='width:100%;margn-top:30px'>
+    <% ManuscriptType.find(:all).each do|mt| %>
+      <label><%= mt.name %></label>
+      <%= check_box_tag "types[#{i}]",mt.id %>
+      <% i+=1 %>
+    <% end %>
+  </div>
+</form>
+
+<% if @types %>
+  <% vals = @types.collect {|t| ManuscriptType.find(t).name} %>
+  <p>Filtering On</p>
+  <%= vals.join(",") %>
+<% end %>
+
+<h2>Manuscripts Aging Report</h2>
+
+<%= form_tag :action => :manuscripts_aging -%>
+<% as_groups = ArticleSubmission.find_all_and_group_by_status(:committed_before => Date.today - 46.days, 
+                                                              :statuses_to_drop => [:article_submission_removed, 
+                                                                                    :article_submission_withdrawn,
+                                                                                    :article_submission_final_decision,
+                                                                                    :article_submission_published,
+                                                                                    :article_submission_retracted]) %>
+<div id="manuscripts_aging">
+  <table style="clear: both; width: 100%;" class="admin_table"> 
+    <% @keys.each do |key| %>
+        <% as_group = as_groups[key] %>
+        <% next unless as_group and as_group.first %>
+      <tr><th colspan = 5><%= key && as_group.first.current_status ? as_group.first.current_status.name : 'No Status' -%>, <%= as_group.length -%> manuscript(s)</th></tr>
+    <tr>
+      <th style='width: 10%;'>Submitted</th>
+      <th style='width: 5%;'>ID</th>
+      <th>Manuscript Title</th>
+      <th style='width: 10%;'>Date of Status</th>
+      <th style='width: 11%;'>Time in Status</th>
+    </tr>
+      <% as_group.each do |as| %>
+	     <% type_id = as.manuscript_type.id.to_s %>
+	   <% next if (@types && !@types.include?(type_id)) %>
+      <tr style="<%= color_background as %>">
+        <td><%= as.committed ? as.committed.strftime("%m/%d/%y") + (Date.today.jd - as.committed.date.jd).to_s : 'Not Submitted' -%></td>
+        <td><%= as.article ? as.article.manuscript_num : 'Not Imported' -%></td>
+        <td><%= as.title -%></td>
+        <td><%= as.current_entity_status.created_at.strftime("%m/%d/%y") -%></td>
+        <td><%= as.days_in_current_status -%> days</td>
+      </tr>
+    <% end %>
+      <tr><td colspan = 5>&nbsp;</td></td>
+    <% end %>
+  </table>
+</div>
+
+</form>

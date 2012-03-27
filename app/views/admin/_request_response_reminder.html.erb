@@ -1,0 +1,12 @@
+<%form_remote_tag :url => {:controller => "admin", :action => "send_request_response_reminder"},:html =>{:id=>'reviewer_reminder_form'} do%>
+	<textarea name="message" rows="20" cols="40" id="message" class="mceEditor">
+    <%initial_date = fmt_date_time (@article_submission_reviewer.time_of_status("reviewer_invited_awaiting_response"))%>
+    <%= get('reviewer_request_response_reminder',[@reviewer,@article_submission,@article_submission.corresponding_author.full_name,initial_date])%>
+	</textarea>
+    <%=hidden_field_tag 'id',@article_submission_reviewer.id%>	
+	<%= submit_tag 'Send Email',:onclick=>"this.style.display='none';tinyMCE.triggerSave();" -%>
+	
+<%end%>
+
+
+<%= render :partial => '/admin/tinymce_init' -%>

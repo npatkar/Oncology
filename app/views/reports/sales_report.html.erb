@@ -1,0 +1,36 @@
+
+<table class="sales_report_table">
+<tr>
+<th>Manuscript Number</th>	
+<th>Manuscript Title</th>	
+<th>Pub Date</th>
+<th>Manuscript Specialty</th>			
+</tr>
+<%@months.each do |month,value|%>
+   <%unless value.empty?%>
+     <tr><td colspan="3"><%=month%></td></tr>
+	  <%value.each do |sub|%>
+	    <tr>
+	    	<td><%=sub.article.manuscript_num%></td>
+			<td><%=sub.title%></td>
+			<td>
+			<%unless month=="No Publish Date"%>
+			<%=sub.article.publish_date.strftime("%m/%d/%y")%>
+			<%else%>
+			  No Publish Date Entered
+			  <br/>
+			  <%=link_to 'Assign Publish Date',"javascript:void(0)",{:onclick=>"attachSmartCalendar(this,null,null,null,null,null,function(){
+                             $('submission_publish_date_form_#{sub.id}').onsubmit();
+                        },$('date_#{sub.id}'))"}%>
+                    	<%form_remote_tag  :url => {:controller => "admin", :action => "change_publish_date"},:html =>{:id=>"submission_publish_date_form_#{sub.id}"} do%>						    
+								<%=hidden_field_tag :id,sub.id%>	
+								<%=hidden_field_tag "date_#{sub.id}",sub.article.publish_date%>		
+                        <%end%>   
+			<%end%>
+			</td>
+			<td><%=sub.article_section.article_section_name%></td>
+	    </tr>
+	  <%end%>
+   <%end%>
+<%end%>
+</table>

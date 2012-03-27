@@ -1,0 +1,9 @@
+<% if article_submission.responsibilities_pdfs.length > 0 %>
+  <h3>Author Responsibilities Forms</h3>
+  <ul>
+    <li><%= article_submission.contributions.collect {|c| c.responsibilities_pdf ? pdf_link_with_del(c.responsibilities_pdf) : "No Author Responsibilities form for - #{c.user.full_name}"}.join("</li><li>") %></li>
+  </ul>
+<% else %>
+  <p>No Author Responsibilities Forms</p>
+<% end %>
+

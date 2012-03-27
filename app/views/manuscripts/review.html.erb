@@ -1,0 +1,315 @@
+<% @title = "Review and Submit" %>
+
+<div class="block warning  right"><%= get('review_page_warning') -%></div>
+<%= error_messages_for :article_submission -%>
+<div class="dontprint">
+	<div class="button-nav">
+			<%= button_to(" Go Back and Make Changes ", :controller=>'manuscripts') -%>
+                        &nbsp;&nbsp; &nbsp;&nbsp;
+			<%= button_to(" Submit ", :accesskey=>"n", :action=>'submit', :id=>@article_submission.id) -%>
+		</div>
+	</form>
+</div>
+<table width="100%"><tbody>
+	<tr>
+		<td colspan="2"> <h3>Corresponding Author:</h3> <hr size="1" /> </td>
+	</tr>
+<tr>
+	<td class="array1 narrow"> Name: </td>
+	<td class="array2"><font size="+1"><%=h @user.full_name -%></font></td> 
+</tr>
+<tr>
+	<td class="array1 narrow"> Title: </td>
+	<td class="array2"><%=h @user.position_title -%></td> 
+</tr>
+<tr>
+	<td class="array1 narrow"> Institution: </td>
+	<td class="array2"><%=h @user.employer -%></td> 
+</tr>
+<% if @user.department -%>
+	<tr>
+		<td class="array1 narrow"> Department: </td>
+		<td class="array2"><%=h @user.department -%></td> 
+	</tr>
+<% end %>
+<tr>
+	<td class="array1 narrow"> Address: </td>
+	<td class="array2">
+		<%=h @user.address_1 -%><br />
+		<%=h @user.address_2 ? @user.address_2 : '' -%><%= @user.address_2 and '<br />' %>
+		<%=h "#{@user.city}, #{@user.state_province.state_2_code if @user.state_province} #{@user.zip_postalcode} #{@user.country.country_name if @user.country}" -%>
+	</td> 
+</tr>
+<tr>
+	<td class="array1 narrow"> Telephone: </td>
+	<td class="array2"><%=h @user.phone_preferred -%></td> 
+</tr>
+<% if @user.url %>
+	<tr>
+		<td class="array1 narrow"> Website: </td>
+		<td class="array2">http://<%=h @user.url -%></td> 
+	</tr>
+<% end %>
+<tr>
+	<td class="array1 narrow"> Email: </td>
+	<td class="array2"><%= @user.email -%></td> 
+</tr>
+<tr>
+	<td class="array1 narrow"> Author Contribution(s): </td>
+	<td class="array2">
+		<%=h @contribution.contribution_types.collect {|ctype| ctype.title }.join(", ") %>
+	</td> 
+</tr>
+</tbody></table>
+<br /> 
+
+
+
+<table width="100%"><tbody>
+<tr>
+	<td colspan="2"> <h3>General Manuscript Information:</h3> <hr size="1" /> </td>
+</tr>
+<tr>
+	<td class="array1 narrow1"> Manuscript Title: </td>
+	<td class="array2"><font size="+1"><%= @article_submission.title -%></font></td> 
+</tr>
+        <tr>
+            <td class="array1 narrow1">Short Title: </td>
+            <td class="array2"><font size="+1"><%= @article_submission.short_title -%></font></td>
+        </tr>
+        <tr>
+            <td class="array1 narrow1">Keywords (Four<br /> to six key words or phrases,<br /> using terms from the most recent<br /> Medical Subject Headings of Index Medicus):</td>
+            <td class="array2"><font size="+1"><%= @article_submission.keywords -%></font></td>
+        </tr>
+<tr>
+	<td class="array1 narrow1"> Manuscript Type: </td>
+	<td class="array2"><%= @article_submission.manuscript_type.name -%></td> 
+</tr>
+<tr>
+	<td class="array1 narrow"> Main Subject Category: </td>
+	<td class="array2"><%= @article_submission.article_section.display_name -%></td> 
+</tr>
+<tr>
+	<td class="array1 narrow"> Manuscript Counts: </td>
+	<td class="array2">
+	  Pages: <%=h @article_submission.num_pages -%>;
+	  References: <%=h @article_submission.num_refs -%>;
+	  Tables: <%=h @article_submission.num_tables -%>;
+	  Figures: <%=h @article_submission.num_figures -%>;
+	  Supplemental Materials: <%=h @article_submission.num_suppl_mtrls -%>;
+	  Co-Authors: <%= @article_submission.coauthors.count -%>;
+	</td> 
+</tr>
+
+</tbody></table>
+<table>
+    <tbody>
+        <tr>
+            <td class="array1 narrow"><%= get('abstract_label') -%></td>
+            <td class='array2'>
+                <%= @article_submission.abstract -%>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br /> 
+
+<% c = 0 %>
+<% @article_submission.contributions.each do |contribution| %>
+  <% next if contribution.role_id = 1 # We already gave the corresponding author's contribution above %>
+  <% coauthor = contribution.user %>
+  <% c = c + 1 %>
+	<table width="100%"><tbody>
+		<tr>
+			<td colspan="2"> <h3>Co-Author <%= "#{c} of #{@article_submission.coauthors.count}" -%>:</h3> <hr size="1" /> </td>
+		</tr>
+		<tr>
+			<td class="array1"> Name: </td>
+			<td class="array2"><font size="+1"><%=h coathor.full_name -%></font></td> 
+		</tr>
+		<tr>
+			<td class="array1"> Title: </td>
+			<td class="array2"><%=h coauthor.position_title -%></td> 
+		</tr>
+		<tr>
+			<td class="array1"> Institution: </td>
+			<td class="array2"><%=h coathor.employer -%></td> 
+		</tr>
+		
+		<% if coauthor.department %>
+			<tr>
+				<td class="array1"> Department: </td>
+				<td class="array2"><%=h coauthor.department -%></td> 
+			</tr>
+		<% end %>
+			
+		<tr>
+			<td class="array1"> Address: </td>
+			<td class="array2">
+				<%=h coauthor.address_1 -%><br />
+				<%=h coauthor.address_2 ? coauthor.address_2 : '' -%><%= coauthor.address_2 and '<br />' %>
+				<%=h "#{coauthor.city}, #{coauthor.state_province.state_2_code if coauthor.state_province} #{coauthor.zip_postalcode} #{coauthor.country.country_name if coauthor.country}" -%>
+			</td> 
+		</tr>
+		<tr>
+			<td class="array1"> Telephone: </td>
+			<td class="array2"><%=h coauthor.phone_preferred -%></td> 
+		</tr>
+		<% if coauthor.url %>
+			<tr>
+				<td class="array1"> Website: </td>
+				<td class="array2">http://<%=h coauthor.url -%></td> 
+			</tr>
+		<% end %>
+		<tr>
+			<td class="array1"> Email: </td>
+			<td class="array2"><%= coauthor.email -%></td> 
+		</tr>
+		<tr>
+			<td class="array1"> Author Contribution(s): </td>
+			<td class="array2">
+				<%=h contribution.contribution_types.collect {|ctype| ctype.title }.join(", ") %>
+			</td> 
+		</tr>
+	</tbody></table>
+		<br /> 
+		
+<% end %>
+
+<table style ="width:auto" widthx="100%">
+<tr>
+	<td colspan="2"> <h3>Author Responsibilities:</h3> <hr size="1" /> </td>
+</tr>
+<%= render :partial =>'author_responsibilities' %>
+</tbody></table>
+<br /> 
+
+
+
+<table width="100%"><tbody>
+<tr>
+	<td colspan="2"> <h3>Suggested Reviewer(s):</h3> <hr size="1" /> </td>
+</tr>
+<% [1,2,3].each do |n| %>
+  <% a = "reviewer#{n.to_s}" %>
+  <% if (reviewer = @article_submission.send(a)) && ! reviewer[:first_name].blank? %>
+	<tr>
+		<td class="array1" nowrap="nowrap"> Reviewer <%= n -%>: </td>
+		<td class="array2">
+			  <%=h reviewer[:last_name] -%>, <%=h reviewer[:first_name] -%>; 
+                          <%=h reviewer[:employer] -%>; &nbsp; <%=h reviewer[:email] -%>
+		</td> 
+	</tr>
+  <% end %>
+<% end %>
+</tbody></table>
+<br /> 
+
+
+
+
+<table width="100%"><tbody>
+<tr>
+	<td colspan="2"> <h3>Fees:</h3> <hr size="1" /> </td>
+</tr>
+
+<tr>
+	<td class="array1">  <%= get('was_invited_label') -%> </td>
+	<td class="array2">
+		<%= @article_submission.invited ? "Yes" : "No" -%>
+	</td> 
+</tr>
+<tr>
+	<td class="array1">  <%= get('is_letter_label') -%> </td>
+	<td class="array2">
+		<%= @article_submission.is_letter ? "Yes" : "No" -%>
+	</td> 
+</tr>
+
+<% if ! @article_submission.invited %>
+	<tr>
+		<td class="array1">
+ <%= get('fees_how_paying') -%> 
+		</td>
+		<td class="array2">
+			<% if @article_submission.payment_type == 'check' %>
+				<%= get('fees_check_instructions') -%>							
+			<% elsif @article_submission.payment_type == 'credit' %>
+				<%#=h @article_submission.credit_card.cc_type -%>
+				<%#=h "with last four digits: #{@article_submission.credit_card.num_last_four}" -%>
+					</td> 
+				</tr>
+		
+			<% end %>
+		</td> 
+	</tr>
+	
+	<tr>
+		<td class="array1">Publication Fee Payment:</td>
+		<td class="array2">
+			<%= case @article_submission.fees_pubfee_status
+				 when 'exempt': get('fees_letter_to_editor')
+			  	 when 'cant_pay': get('fees_cant_pay_label') + @article_submission.cant_pay_reason 
+				 when 'will_pay': get('fees_will_pay_label')
+			end %>
+		</td> 
+	</tr>
+<% end %>
+
+
+</tbody></table>
+<br /> 
+
+
+
+
+
+<table width="100%"><tbody>
+<tr>
+	<td colspan="2"> <h3>Submission Checklist:</h3> <hr size="1" /> </td>
+</tr>
+
+<tr>
+	<td class="array1"> <%= get('best_practices_label') -%> </td>
+	<td class="array2">
+		<!--<%=@article_submission.gapanalysishtml%>-->
+		  <%=render :partial=>'article_submissions/gap_analysis',:locals=>{:article_submission=>@article_submission}%>
+
+		<%#-= yes_or_no :article_submission, :has_gap_analysis?,(@article_submission.has_gap_analysis?) -%></td> 
+</tr>
+
+<tr>
+	<td class="array1"> <%= get('learn_obj_label') -%> </td>
+	<td class="array2"><%#-=@article_submission.learnobjhtml%>
+	  <%=render :partial=>'article_submissions/learn_obj',:locals=>{:article_submission=>@article_submission}%>
+	<!--	<%#-= yes_or_no :article_submission, :incl_learn_obj,(@article_submission.has_learn_obj?) -%></td> 
+-->
+
+</tr>
+
+<tr>
+	<td class="array1"> <%= get('indemnify_label') -%> </td>
+	<td class="array2"><%= yes_or_no :article_submission, :indemnify,(@article_submission.indemnify) -%></td> 
+</tr>
+
+</tbody></table>
+<br /> 
+
+
+<% unless @generating_pdf %>
+<br class="dontprint" />
+<br class="dontprint" />
+<div align="center" class="dontprint"><h3><%= get('please_print') -%></h3></div>
+
+<br />
+<div class="dontprint">
+		<div class="button-nav">
+			<%= button_to(" Go Back and Make Changes ", :controller=>'manuscripts') -%>
+                        &nbsp;&nbsp; &nbsp;&nbsp;
+			<%= button_to(" Submit ", :accesskey=>"n", :action=>'submit', :id=>@article_submission.id) -%>
+		</div>
+	</form>
+</div>
+<% end %>
+
+

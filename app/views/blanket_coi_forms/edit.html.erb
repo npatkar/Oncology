@@ -1,0 +1,37 @@
+<% @title = coi_form_title(@coi_form) %>
+
+<%= form_tag({:action=>'update', :id=>@coi_form.id}, {:id=>'form',:onSubmit=>"FormFunctions.enable_section_fields('conflicts_group')"}) %>
+  <%= error_messages_for :coi_form, :header_message=>"Your form could not be saved", :message=>"Please correct the following errors:"   %>
+
+  <div class='block'><%= get('blanket_coi_header') %>
+  <%= get('blanket_coi_user_info', @user) %></div>
+  <%= hidden_field :coi_form, :roles_list, :value=>@user.disp_roles %>
+  
+  <div style="page-break-after:always"></div>
+	 	<div style='padding: 1em;'> 
+			<label><%= get('coi_conflicts') -%></label>
+			<span class="array2yn"><%= yes_no_radio 'coi_form', 'conflicts', @coi_form.conflicts,"DisclosureFunctions.handle_has_conflicts(this)" %></span> 
+		</div>
+     <%=render :partial=> "partials/financial_groups"%>
+     <table id="unbiased_table" style="margin-top:0px;border:1px solid;border-top:0px;">
+     	<tr>
+     		<td>
+			<label><%= get('coi_reviewer_reported_bias') -%></label>
+			<span class="array2yn"><%= yes_no_radio 'coi_form', 'unbiased', @coi_form.unbiased %></span>
+     		</td>
+     	</tr>
+     </table>
+  
+
+	<div class="dontprint button-nav">
+		<p align="right">
+			<%= submit_tag(" Review Answers ", :name => 'next', :accesskey=>'n' ) -%>
+		</p>
+		</div>
+		
+</form>
+
+
+<script>
+	DisclosureFunctions.handle_has_conflicts($('form')['coi_form[conflicts]'])
+</script>

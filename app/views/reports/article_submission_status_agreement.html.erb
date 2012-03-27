@@ -1,0 +1,31 @@
+<h2>Article Submissions whose statuses don't match with their respective article's statuses</h2>
+<%= form_tag :action => :article_submission_status_agreement -%>
+
+
+
+<div>
+  <table style="clear: both; width: 100%;" class="admin_table"> 
+    <tr>
+      <th style='width: 10%;'>Started</th>
+      <th style='width: 5%;'>id</th>
+      <th style='width: 5%;'>ID</th>
+      <th>Manuscript Title</th>
+      <th style='width: 10%;'>Submission Status</th>
+      <th style='width: 10%;'>Date of Submission Status</th>
+      <th style='width: 10%;'>Article Status</th>
+    </tr>
+      <% @article_submissions.each do |as| %>
+      <tr>
+        <td><%= as.create_date.strftime("%m/%d/%y") -%></td>
+        <td><%= as.id -%></td>
+        <td><%= as.article.manuscript_num -%></td>
+        <td><%= link_to as.title, {:controller => :admin, :action => :article_submissions, :search => as.title} -%></td>
+        <td><%= as.current_status.name -%></td>
+        <td><%= as.current_entity_status.created_at.strftime("%m/%d/%y") -%></td>
+        <td><%= as.article.article_status ? as.article.article_status.status : 'No Article Status' -%></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+</form>

@@ -1,0 +1,88 @@
+
+<div id="reviewer_section_header">
+<div><span><%=@a_s_r.reviewer.full_name%></span>
+<%if @a_s_r.reviewer_comment%>
+  <%if @a_s_r.reviewer_comment.has_current_status_of?(:reviewer_comments_submitted)%>
+    <%=image_tag("check-small.gif")%>
+  <%end%>
+<%end%>
+</div>
+<div style="font-weight:bold;color:red"><span><%=@a_s_r.current_status_name%></span> as of <span><%= @a_s_r.current_status_date %></span></div>
+</div>
+
+<%if @a_s_r.has_current_status_of?("reviewer_need_comments")%>
+<%= render :partial=>'change_reviewer_deadline'%>
+<%end%>
+<div class="section_box">
+	
+</div>
+<div id="actions_and_comms" class="section_box">
+	<div id="actions_box" style="float:left;idth:40%">
+		 <p class="sub_header_label" >Available Actions</p>
+		 <%get_available_reviewer_actions(@a_s_r).each do|link|%>
+		   <%=link%><br/>
+		 <%end%>
+		
+		 <%=render :partial=>'article_submission_reviewer_coi_forms'%>
+		 
+	</div>
+	
+	<div class="emails" style="float:left;margin-left:40px;width:60%">	
+	    <p class="sub_header_label">Emails To Reviewer</p>
+		<div id='<%="emails_box_#{@a_s_r.id}"%>'  style="height:200px;overflow-y:scroll">
+		  <%=render :partial=>"reviewer_emails",:locals =>{:user => @a_s_r.reviewer}%>
+		</div>
+	</div>
+	<div style="clear:both"></div>
+</div>
+
+
+
+<div style="clear:both"></div>
+
+
+
+
+<%if @a_s_r.has_had_status?('reviewer_received_comments') %>
+<div id="comments_box" class="section_box">
+<%if @a_s_r.reviewer_comment%>
+<p>
+	<span>
+	    <%= link_to_function("View Remarks To Editor","AjaxPopup.OpenBoxWithUrl(this,true,'/admin/get_reviewer_comments/#{@a_s_r.id}?remark_type=remarks_to_editor',null,true)")%>
+	</span>
+	|
+	<span>
+	  <%= link_to_function("Edit Remarks To Editor","AjaxPopup.OpenBoxWithUrl(this,true,'/admin/revision_box/#{@a_s_r.reviewer_comment.id}?remark_type=remarks_to_editor',null,true)")%>
+	
+	 <%if @a_s_r.reviewer_comment.latest_revision('remarks_to_editor')%>
+	   Last Edited:(<%=fmt_date_time(@a_s_r.reviewer_comment.latest_revision_create_date('remarks_to_editor'))%>)
+	 <%end%>
+	  
+	
+	</span>
+</p>
+<p>
+	<span>
+	    <%= link_to_function("View Coments To Author","AjaxPopup.OpenBoxWithUrl(this,true,'/admin/get_reviewer_comments/#{@a_s_r.id}?remark_type=comments_to_author',null,true)")%>
+	</span>
+	|
+	<span>
+	  <%= link_to_function("Edit Comments To Author","AjaxPopup.OpenBoxWithUrl(this,true,'/admin/revision_box/#{@a_s_r.reviewer_comment.id}?remark_type=comments_to_author',null,true)")%>
+	   <%if @a_s_r.reviewer_comment.latest_revision('comments_to_author')%>
+	   Last Edited:(<%=fmt_date_time(@a_s_r.reviewer_comment.latest_revision_create_date('comments_to_author'))%>)
+	   
+	 <%end%>
+	
+	</span>
+</p>
+<%else%>
+      No Comments Entered Yet
+<%end%> 
+</div>
+<% end %>
+
+<% if @a_s_r.has_current_status_of?('reviewer_declined_with_alternate') %>
+ <p>
+ Suggested alternate reviewer: <%= @a_s_r.alternate_reviewer ? link_to(@a_s_r.alternate_reviewer.name, :controller => :users, :action => :edit, :id => @a_s_r.alternate_reviewer_id) : "Couldn't find the alternate reviewer.. something's wrong." -%> 
+ </p>
+<% end %>

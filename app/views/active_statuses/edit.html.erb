@@ -1,0 +1,12 @@
+<h1>Editing active_status</h1>
+
+<% form_for(@active_status) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @active_status %> |
+<%= link_to 'Back', active_statuses_path %>

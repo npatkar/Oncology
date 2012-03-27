@@ -1,0 +1,9 @@
+				
+<div class="details_block">    
+    <h3>Publisher Comments 
+				(<%=link_to_function("Update Publisher Comments","AjaxPopup.OpenBoxWithUrl(this,true,'/admin/add_publisher_comments/#{article_submission.id}',null,true)")%>)
+    </h3>
+   <div id='publisher_comments_<%=article_submission.id%>' style= "width:60%">
+      <%=article_submission.publisher_comments||"no publisher comments entered"%>
+	</div>
+</div>

@@ -1,0 +1,13 @@
+<h1>Editing Public Facing Name</h1>
+
+<% form_for(@status) do |f| %>
+  <%= f.error_messages %>
+  <label>Public Facing Name</label>
+  <%=f.text_field :human_friendly_name%>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @status %> |
+<%= link_to 'Back', statuses_path %>

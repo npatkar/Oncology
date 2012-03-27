@@ -1,0 +1,16 @@
+<% @subtitle="General Manuscript Information" %>
+
+<%= form_tag({:action => 'create', :id => @article_submission.id}, {:id => "form"}) %>
+
+	<%= render :partial => "f", :object => @article_submission %>
+	
+	<table align="center" bgcolor="#cccccc" border="0" cellpadding="8" cellspacing="0" width="100%">
+		<tbody>
+			<tr>
+				<td  colspan="3" align="right">
+					<%= submit_tag " Continue to Next Page ", :accesskey=>'r', :next=>'next' %>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</form>

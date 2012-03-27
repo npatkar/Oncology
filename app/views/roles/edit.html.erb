@@ -1,0 +1,17 @@
+<h1>Editing role</h1>
+
+<% form_for(@role) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+  	Key: <%= @role.key -%>
+  </p>
+  <p>
+  	<%= f.text_field :role_title -%>
+  </p>
+  <p>
+    <%= f.submit "Update" %> | 
+<%= link_to 'Back', roles_path %>
+  </p>
+<% end %>
+

@@ -1,0 +1,135 @@
+<% @subtitle = "Author Responsibilities" %>
+<% @title = "Manuscript Submission" %>
+<br/>
+<span class="groupname"><strong>Author Responsibilities: </strong></span>
+
+<%= error_messages_for :contribution, :header_message=>"Your form could not be saved", :message=>"Please correct the following errors:" %>
+
+<div class="block"><%= get('author_responsibilities_header') -%></div>
+
+<%= form_tag({:action => 'update_author_responsibilities', :contribution_id => @contribution.id}, {:id => "form"}) %>
+	<table cellspacing="6" cellpadding="3">
+		<tbody>
+			
+			
+			<tr>
+				<td class="questionlabel-1"><label><%= get('author_resp_assisted_label') -%></label></td>
+				<td  class="array2"><%= yes_or_no 'contribution', :assisted, @contribution.assisted %></td>
+				<td  class="array2"><%= @contribution.details_on(true, 'assisted') %></td>
+			</tr>
+
+		<tr>
+		</tbody>
+		</table>	
+	
+				<div class="block" >
+					<%= get('auth_account_sponsor_header') -%>		
+				</div>
+
+	<table cellspacing="6" cellpadding="3">
+		<tbody>
+			
+                        <% (1..6).each do |n| %>
+                        <tr>
+			  <td class="questionlabel-1"><label><%= get("contribution_arynq#{n}_label") -%></label></td>
+			  <td class="array2"><%= yes_or_no :contribution, "arynq#{n}", @contribution.send("arynq#{n}") -%></td>
+                        </tr>
+                        <% end %>
+             <tr><td></td></tr>
+			<tr>
+				<td class="questionlabel-1"><label><%= get('author_resp_agree') -%></label></td>
+				<td  class="array2"><%= yes_or_no 'contribution', 'agree_contents', @contribution.agree_contents %></td>
+				<td  class="array2"><%= @contribution.details_on(false, 'agree_contents') %></td>
+			</tr>
+			
+			<tr>
+				<td class="questionlabel-1">
+				<label> <%= get('author_resp_sole_submission') -%></label></td>
+				<td  class="array2"><%= yes_or_no 'contribution', :sole_submission, @contribution.sole_submission %></td>
+				<td  class="array2"><%= @contribution.details_on(false, 'sole_submission') %></td>
+			</tr>
+			
+			<tr>
+				<td class="questionlabel-1">
+				 <label><%= get('author_resp_received_payment') -%> </label></td>
+				<td  class="array2"><%= yes_or_no 'contribution', :received_payment, @contribution.received_payment %></td>
+				<td  class="array2"><%= @contribution.details_on(true, 'received_payment') %></td>
+			</tr>
+			
+			<tr>
+				<td class="questionlabel-1">
+				<label> <%= get('author_resp_tobacco') -%> </label></td>
+				<td  class="array2" ><%= yes_or_no 'contribution', :tobacco, @contribution.tobacco %></td>
+				<td  class="array2"><%= @contribution.details_on(true, 'received_payment') %></td>
+			</tr>
+			
+			<tr>
+				<td class="questionlabel-1">
+				<label> <%= get('author_resp_published_elsewhere')%> </label></td>
+				<td  class="array2" >
+					<%= yes_or_no 'contribution', :published_elsewhere, @contribution.published_elsewhere %>					
+				</td>
+			</tr>										
+			
+			<tr>
+				<td class="questionlabel-1">
+				<label> <%= get('author_resp_dna_research') -%> </label></td>
+				<td  class="array2" >
+					<%= yes_or_no 'contribution', :dna_research, @contribution.dna_research %>
+				</td>
+			</tr>										
+			
+			<tr>
+				<td class="questionlabel-1">
+				<label> <%= get('author_resp_human_experiment') -%> </label></td>
+				<td  class="array2"  nowrap="nowrap">
+					<%= yes_or_no 'contribution', :human_experiment, @contribution.human_experiment %>
+				</td>
+			</tr>					
+			
+			<tr>
+				<td class="questionlabel-1">
+				<label> <%= get('author_resp_clintrials') -%> </label></td>
+				<td  class="array2" >
+					<%= yes_or_no 'contribution', :clintrials, @contribution.clintrials %>
+				</td>
+			</tr>			
+			
+			<tr>
+				<td class="questionlabel-1">
+				<label> <%= get('author_resp_consort_guidelines') -%> </label></td>
+				<td  class="array2" >
+					<%= yes_or_no 'contribution', :consort_guidelines, @contribution.consort_guidelines %>
+				</td>
+			</tr>
+													
+			<tr>
+				<td class="questionlabel-1">
+				<label> <%= get('author_resp_proprietary_guidelines') -%> </label></td>
+				<td  class="array2"><%= yes_or_no 'contribution', :proprietary_guidelines, @contribution.proprietary_guidelines %></td>
+				<td  class="array2"><%= @contribution.details_on(true, 'proprietary_guidelines') %></td>
+			</tr>
+													
+			<tr>
+				<td class="questionlabel-1">
+						<span class="requiredflag">*</span><label> <%= get('author_resp_agree_policies') -%> </label></td>
+				<td  class="array2" ><%= yes_or_no 'contribution', :agree_policies, @contribution.agree_policies %></td>
+				<td  class="array2"><%= @contribution.details_on(true, 'agree_policies') %></td>
+			</tr>
+			<tr><td></td></tr>
+                        <%= yes_or_no :contribution, "arynq7", @contribution.send("arynq7")-%>
+
+			<tr><td></td></tr>
+			<tr><td><h3>Author Signature:</h3></td></tr>
+
+			<tr><td colspan="3"><%= signature_block('contribution', "Author Responsibilities Form", 'responsibilities_') %></td></tr>
+
+			<tr><td colspan="2">&nbsp;</td></tr>
+		</tbody>
+	</table>
+     <% unless @generating_pdf %>
+        <div class="button-nav dontprint"><%= submit_tag " I Agree ", :accesskey => 'r', :name=>'next' %></div>
+     <% end %>
+
+</form>
+

@@ -1,0 +1,6 @@
+/* IE doesn't show this float, so we must use absolute positioning */
+.edit_manuscript_link {
+position: absolute;
+right: 1em;
+}
+

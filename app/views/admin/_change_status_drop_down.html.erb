@@ -1,0 +1,6 @@
+
+<%@status = status%>
+<%form_remote_for @status, :url => {:controller => "reports", :action => "assign_article_submission_status"},:html =>{:id=>"article_status_form_#{entity.id}"} do%>
+<%=hidden_field_tag 'id',entity.id%>
+<%=collection_select(:status, :id, statuses, :id, :name,{:include_blank => 'Please Select'},{:onchange=>"if(this.value!=''){$('article_status_form_#{entity.id}').onsubmit()}"})%>
+<%end%>

@@ -1,0 +1,26 @@
+<h1>Section Editors Potential COI based on Blanket COI forms</h1>
+<table class="blanket_potential_coi_report admin_table">
+<tr>
+<th>Name</th>
+<th>Potential Conflicts</th>
+<th>Date of Last Blanket COI</th>
+</tr>
+<tr><th colspan='3'>Senior Editors</th></tr>
+<% Role.find_by_key('senior_editor').users.each do |user| %>
+  <tr>
+    <td><%= user.full_name -%></td>
+    <td><%= user.potential_coi_info -%></td>
+    <td><%= user.latest_committed_blanket_coi_form ? user.latest_committed_blanket_coi_form.create_date.strftime('%x') : 'COI Outstanding' -%></td>
+  </tr>
+<% end %>
+<% ArticleSection.find(:all, :conditions => 'public = "1"').each do |section| %>
+<tr><th colspan='3'><%= section.article_section_name -%></th></tr>
+<% section.users.select {|u| u.has_role?('editor')}.reject {|u| u.has_role?('senior_editor')}.each do |user|%>
+  <tr>
+    <td><%= user.full_name -%></td>
+    <td><%= user.potential_coi_info -%></td>
+    <td><%= user.latest_committed_blanket_coi_form ? user.latest_committed_blanket_coi_form.create_date.strftime('%x') : 'COI Outstanding' -%></td>
+  </tr>
+<% end %>
+<% end %>
+</table>

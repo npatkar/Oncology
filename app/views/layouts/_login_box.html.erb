@@ -1,0 +1,32 @@
+    <div id="loginform">
+      <div id="head-sidebar">USER SIGN IN</div>
+        <div style="padding-top:15px">
+  <% form_tag :signin, :method => :post, :name => 'loginform' do -%>
+    <%= text_field_tag 'username', 'Username',
+                       :style => 'border:1px solid #ccc; padding:6px; margin:6px; width:200px;', 
+                       :onfocus => "if(this.value=='Username')this.value='';",
+                       :onblur => "if(this.value=='')this.value='Username';" %>
+
+      <br />
+
+    <%= password_field_tag 'plain_password', 'Password',
+                           :style => 'border:1px solid #ccc; padding:6px; margin:6px; width:200px;',
+                           :onfocus => "if(this.value=='Password')this.value='';this.type='password'",
+                           :onblur => "if(this.value==''){this.value='Password';this.type='text'}" %>
+      <br />
+
+    <!-- Uncomment this if you want this functionality
+    <p><label for="remember_me">Remember me:</label>
+    <%#= check_box_tag 'remember_me' %></p>
+    -->
+          <span style="padding-left:130px;">
+            <a href="javascript:document.forms['loginform'].submit();"><%= image_tag 'smt_btn.jpg', :width=>82, :height=>35 -%></a>
+          </span>
+  <% end -%>
+      <span style="padding-right:80px;">
+        <%= link_to 'Forgot Your Password?', :controller => :users, :action => :forgot_password -%>
+      </span>
+
+    </div>
+  </div>
+

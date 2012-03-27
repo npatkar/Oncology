@@ -1,0 +1,11 @@
+ 
+ <%if !@user.article_sections.empty?%>
+ <ol>
+ <%@user.article_sections.each do|ar|%>
+	  <li><%= h ar.article_section_name%></li>
+ <%end%>	
+ </ol>		
+ <%else%>
+      Empty
+ <%end%>
+ 

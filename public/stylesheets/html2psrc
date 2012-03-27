@@ -1,0 +1,27 @@
+/* Global configuration file for html2ps */
+
+@html2ps {
+  package {
+    path: "/usr/X11R6/bin:/usr/bin";
+
+  /* Added by Anthony: 16 Mar 2009 */
+  /* reference: http://user.it.uu.se/~jan/html2psug.html#SW */
+    PerlMagick: 1;
+    ImageMagick: 1;
+    netpbm: 1;
+    TeX: 1;
+    dvips: 0;
+    libwww-perl: 0;
+  }
+  paper {
+    type: A4;
+  }
+  hyphenation {
+    en {
+      file: "/usr/share/texmf/tex/generic/hyphen/hyphen.tex";
+    }
+    pl {
+      file: "/usr/share/texmf/tex/generic/hyphen/plhyph.tex";
+    }
+  }
+}

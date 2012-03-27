@@ -1,0 +1,33 @@
+<h2>Rejected Articles Report</h2>
+<p><%= link_to '[ Export to Excel ]', :action => :rejected_manuscripts_export, :per_page => @per_page -%> </p>
+<%= form_tag :action => :rejected_manuscripts -%>
+
+<div id="rejected_manuscripts">
+  <div id="action_bar">
+      <%= submit_tag 'Refresh' -%>
+  </div>
+
+  <table style="clear: both; width: 100%;" class="admin_table"> 
+    <tr>
+      <th style='width: 20%;'>
+        Date Received <%= select_tag('date_range', options_for_select([['Anytime',0], ['within last 90 days',90], ['within last year',365], ['within last 2 years', 730], ['within the last 3 years', 1095]], @date_range)) -%>
+      </th>
+      <th style='width: 20%;'>Corresponding Author</th>
+      <th>Title</th>
+    </tr>
+    <% @articles.each do |key, group| %>
+      <tr><th colspan='3'><%= ArticleSection.find(key).article_section_name -%></th></tr>
+      <% group.each do |article| %>
+        <tr>
+          <td><%= article.date_final_decision -%></td>
+          <% article && ri = article.role_instances.find_by_role_id(1) %>
+          <td><%= ri ? ri.user.name : 'No Corresponding Author' -%></td>
+          <td><%= article.title -%></td>
+        </tr>
+        
+      <% end %>
+    <% end %>
+  </table>
+</div>
+
+</form>

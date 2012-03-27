@@ -1,0 +1,10 @@
+	
+	<h2><%=@field=="section_editor_correspondence" ? "Edit Section Editor Correspondence" : "Edit Recused Section Editor Notes"%></h2>
+	
+	<%remote_form_for :article,@article_submission_reviewer, :url => {:controller => "admin", :action => "save_notes_for_reviewer_page"},:html =>{:id=>'reviewer_notes_form'} do|f|%>
+	    <%=f.text_area @field,:cols => 40, :rows => 15, :class =>"mceEditor"%>
+  		<input type="text" name="id" value="#{@article_submission_reviewer.id}"/>
+	    <%= submit_tag 'Submit' :onclick=>"this.style.display='none';tinyMCE.triggerSave();" -%>
+	<%end%>
+
+<%= render :partial => '/admin/tinymce_init' -%>	

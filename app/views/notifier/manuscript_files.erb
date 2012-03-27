@@ -1,0 +1,26 @@
+<h2>Files for: <%= @article_submission.title %></h2>
+<p>Corresponding Author: <%= @article_submission.corresponding_author.full_name %></p>
+
+<p>(Right click a file and choose 'Save As' to save to your computer.)</p>
+<%unless @article_submission.isVideo?%>
+<%manuscript_path = App::Config::base_url.chop + @article_submission.manuscript.file.url
+  cover_path = App::Config::base_url.chop + @article_submission.cover_letter.file.url
+  other_files = "" %>
+ <%else%>
+   <%=@article_submission.manuscript_video_link%>
+ <%end%> 
+<%#=link_to "Mansuscript" , manuscript_path%><%#=link_to "Cover Letter" , cover_path%><%#i=0%>
+<%#@article_submission.additional_files.each do |af| %><%#i+=1%><%#=link_to "file(#{i})", App::Config::base_url.chop + af.file.url%><%#end%>
+Manuscript: <%= manuscript_path %><br />
+Cover Letter: <%= cover_path %><br />
+<% if @article_submission.permission %>
+  <%permission_path = App::Config::base_url.chop + @article_submission.permission.file.url%>
+Permissions: <%= permission_path %><br />
+<% end %>
+<%i=0%>
+<p>Additional Files:</p>
+<%@article_submission.additional_files.each do |af| %>
+<%i+=1%>
+<%=App::Config::base_url.chop + af.file.url%><br />
+<%end%>
+

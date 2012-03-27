@@ -1,0 +1,21 @@
+
+
+<% form_for(@manuscript_type||ManuscriptType.new) do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :order_num %><br />
+    <%= f.text_field :order_num,:size=>2 %>
+  </p>
+  <p>
+  	  <%= f.label :enabled %><br />
+    <%= f.check_box :enabled %>
+  	</p>
+  <p>
+  	<%name = @manuscript_type ? "Update":"Create"%>
+	<%= f.submit name%>
+  </p>
+<% end %>

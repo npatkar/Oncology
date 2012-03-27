@@ -1,0 +1,12 @@
+ 
+ <%values = @is_editor ? @user.sections : @user.article_sections%>
+ <%unless values.empty?%>
+ <ol>
+ <%values.each do|ar|%>
+	  <li><%= h ar.article_section_name%></li>
+ <%end%>	
+ </ol>		
+ <%else%>
+      Empty
+ <%end%>
+ 

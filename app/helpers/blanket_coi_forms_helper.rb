@@ -1,0 +1,2 @@
+module BlanketCoiFormsHelper
+end

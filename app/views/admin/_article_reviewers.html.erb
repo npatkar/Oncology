@@ -1,0 +1,24 @@
+
+<h3 style="margin-bottom:10px">Reviewers</h3>
+
+<%form_remote_tag :url => {:controller => "admin", :action => "update_reviewers"},:html =>{:id=>'reviewer_form'} do%>
+<%= select_tag 'section_id', options_from_collection_for_select(ArticleSection.all, 'article_section_id', 'article_section_name', @section.id),
+:onchange=> remote_function(
+         :url => {:controller=>:admin,:action => :switch_reviewer_subjects}, 
+         :with => "$('reviewer_form').serialize()")%>
+<div style="margin-top:10px; height: 30em; overflow:scroll;">
+<%@avail_reviewers.each do |rev|%>
+	 <div>
+	       <%= check_box_tag "reviewer_ids[]", rev.id,@article_submission.reviewers.include?(rev) %>	
+		   <%= h rev.name%>
+		   <%="X: #{ArticleSubmissionReviewer.num_not_reviewed(rev)}"%>
+		   <%="Num Completed: #{ArticleSubmissionReviewer.num_comments_submitted(rev)}"%>
+	</div>
+<%end%>
+<%if @section.reviewers.empty?%>
+   There Are No Reviewers For This Section
+<%end%>
+</div>
+<%= hidden_field_tag 'id' ,@article_submission.id %>
+ <div style="margin-top:20px"><%= submit_tag 'Save or Update' %></div>
+<%end%>

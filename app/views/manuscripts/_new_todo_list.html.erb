@@ -1,0 +1,53 @@
+<div class="todo-block">
+  <% progress,contribution = article_submission.progress(@user) %>
+	
+  <h3 id ="manuscript_progress_header"><%= get('manuscripts_checklist_title') -%></h3>
+  <ol id="progress_list">
+	  <li><div>
+	    <%= link_to(get('manuscripts_checklist_complete_general_info_page'), :controller=>'article_submissions', :action=>'general', :id=>article_submission.id) -%>
+	  </div><%=progress_link progress[:general][:completed?]%></li>
+     
+	  <li><div>
+	    <%= link_to(get('manuscripts_checklist_complete_reviewers_page'), :controller=>'article_submissions', :action=>'reviewers', :id=>article_submission.id) -%>
+	  </div><%=progress_link progress[:reviewers][:completed?]%></li>
+	  <li><div>
+            <%= link_to(get('manuscripts_checklist_complete_fees_page'), :controller=>'article_submissions', :action=>'fees', :id=>article_submission.id) -%>
+	  </div><%=progress_link progress[:fees][:completed?]%></li>
+	  <li><div>  
+	    <%= link_to(get('manuscripts_checklist_complete_checklist_page'), :controller=>'article_submissions', :action=>'checklist', :id=>article_submission.id) -%>
+	  </div><%=progress_link progress[:checklist][:completed?]%></li>	  
+	  <li><div>
+	     <%text = progress[:coi][:completed?] ? get('manuscripts_checklist_update_coi_page') + " <br/>(#{progress[:coi][:time_stamp]})" : get('manuscripts_checklist_complete_coi_page') %>
+	     <%= link_to text, :controller=>'manuscript_coi_forms', :action=>'init', :contribution_id=>contribution.id -%>
+	  </div><%=progress_link progress[:coi][:completed?]%></li>
+	  <li><div>	  	
+	    <%= link_to(get('manuscripts_checklist_complete_copyright_page'), :controller=>'forms', :action=>'copyright_assignment', :contribution_id=>contribution.id) -%>
+	  </div><%=progress_link progress[:copyright][:completed?] %></li>
+	  <li><div>
+	    <%= link_to(get('manuscripts_checklist_complete_auth_resp_page'), :controller=>'forms', :action=>'author_responsibilities', :contribution_id=>contribution.id) -%>	  
+	    </div><%=progress_link progress[:responsibilities][:completed?] %></li>
+
+	  <%unless article_submission.isVideo?%>
+	     <li><div><%= get('manuscripts_checklist_upload_manuscript') -%></div><%=progress_link progress[:manuscript][:completed?]%></li>
+	     <li><div><%= get('manuscripts_checklist_upload_cover_letter') -%></div><%=progress_link progress[:cover_letter][:completed?]%></li>
+	   <%else%>
+	    <li><div><%= get('manuscripts_checklist_upload_video_manuscript') %></div><%=progress_link progress[:manuscript_video][:completed?]%></li>  
+	   <%end%>
+	   
+	    <%unless article_submission.sole_author%>
+	   	 <li><div>
+	    <%= get('manuscripts_checklist_complete_coauthors_page') -%>
+	      </div><span id="<%="#{article_submission.id}_coauthor_progress"%>"> 
+		    <%=progress_link progress[:coauthors][:completed?]%> 
+		  </span>
+		  </li>
+	    <%end%>
+   </ol>
+	<div class='clear'></div>	
+</div><!--  /.todo-block -->
+
+   <% if current_user != @article_submission.corresponding_author   # view for the Corresponding Author %>
+      <%= render :partial=>'coauthor_forms', :locals => {:article_submission => @article_submission, :user => current_user} %>			
+   <%end%>
+  			
+  

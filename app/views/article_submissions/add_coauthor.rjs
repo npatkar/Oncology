@@ -1,0 +1,12 @@
+
+page << "AjaxPopup.CreateBox($('coauthors'),true)"
+if @coauthor.new_record? or @coauthor.user_can_edit == current_user.id
+  page.insert_html :bottom, :coauthors, :partial => 'coauthor',
+    :locals => { :coauthor => @coauthor, :index => params[:index] }
+else
+  page.insert_html :bottom, :coauthors, :partial => 'coauthor_brief',
+    :locals => { :coauthor => @coauthor, :index => params[:index] }  
+end
+
+page.replace :add_coauthor_link, :partial => 'add_coauthor_link',
+  :locals => { :index => (params[:index].to_i(10) + 1) }

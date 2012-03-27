@@ -1,0 +1,22 @@
+<div id="user_nav" class="dontprint">
+  <% if logged_in? %>
+    <%= current_user.email -%>
+    <%#= link_to "Manuscripts", :controller=>'manuscripts', :id=>current_user.id -%>
+    <%# if current_user.can_fill_out_blanket_coi? %>
+      <%#= link_to "Blanket Financial Disclosure Form", :controller=>'blanket_coi_forms', :action=>'new', :user_id=>current_user.id -%>
+    <%# end %>
+    <%#= link_to "My Information", :controller=>'users', :action=>'edit', :id=>current_user.id -%>
+    <%#= link_to "Sign out", :controller => :users, :action => :logout -%>
+    <% if current_user.has_admin? %>
+      :
+      <%= link_to 'Admin Menu', :controller => 'admin' -%> . 
+      <%= link_to "Users", :controller=>'users' -%> . 
+      <%= link_to "Submissions", :controller=>'admin', :action => 'article_submissions' -%> .
+      <a href="http://amphub.alphamed.net/" target="_blank">Pubforecaster</a>
+      <%= if current_user.has_role?(:admin) then render :partial => '/layouts/toggle_edit_link' end %>
+    <% end %>
+    
+  <% else %>
+    <%#= link_to "Sign in", :controller => :users, :action => :login -%>
+  <% end %>
+</div>

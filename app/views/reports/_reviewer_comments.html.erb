@@ -1,0 +1,107 @@
+
+<h4 style="color:red">
+<span>Comments Received</span> as of <span>
+<%=fmt_date_time comments.time_of_status(:reviewer_comments_submitted)%></span>
+
+</h4>
+
+
+
+<!--
+<h2><%=comments.article_submission_reviewer.reviewer.full_name%>'s Review</h2>-->
+<table id="radio_table">  
+<thead><th>Question</th><th>Score</th></thead>
+<tr>
+	<td><%= UserTemplate.get_template('reviewer_form_question_1')%></td>	
+	<td><%=comments.get_rating(:apropriateness)%></td>
+</tr> 
+<tr>  
+    <td><%= UserTemplate.get_template('reviewer_form_question_2')%></td>
+	<td><%=comments.get_rating(:bridges_gap)%></td>
+</tr>
+
+<tr><td><%= UserTemplate.get_template('reviewer_form_question_3')%></td>  
+	<td><%=comments.get_rating(:question=>:clinical_relevance)%></td>
+	
+</tr>
+
+<tr> 
+     <td><%= UserTemplate.get_template('reviewer_form_question_4')%></td>    
+	    <td><%=comments.get_rating(:scientific_quality)%></td>
+</tr>
+
+<tr>
+    <td><%= UserTemplate.get_template('reviewer_form_question_5')%></td>
+	<td><%=comments.get_rating(:positive_impact)%></td>
+
+</tr>
+
+
+<tr> 
+     <td><%= UserTemplate.get_template('reviewer_form_question_6')%></td> 
+     <td><%=comments.get_rating(:usefullness_to_practioner)%>
+</tr>
+
+<tr>  
+    <td><%=UserTemplate.get_template('reviewer_form_question_7')%></td>    
+    <td><%=comments.get_rating(:clarity_of_writing)%></td>
+</tr>
+
+
+<tr>
+	<td><%=UserTemplate.get_template('reviewer_form_question_8_yes_no')%></td> 
+   <td><%=comments.get_rating(:study_conforms)%></td>
+
+</tr>
+<tr><td><%=UserTemplate.get_template('reviewer_form_question_9_yes_no')%></td>
+	<td><%=comments.get_rating(:evidence_based)%></td>  
+</tr>
+<tr>
+	<td><%=UserTemplate.get_template('reviewer_form_question_10_yes_no')%></td>
+   <td><%=comments.get_rating(:fair_topic)%></td>
+</tr>
+<tr><td><%=UserTemplate.get_template('reviewer_form_question_11_yes_no')%></td>  
+     <td><%=comments.get_rating(:stats_need_validation)%></td>
+</tr>
+<tr><td><%=UserTemplate.get_template('reviewer_form_question_12_yes_no')%></td>
+   <td><%=comments.get_rating(:appropriate_for_cme)%></td>
+</tr>
+</table>
+
+<% unless comments.reviewer_comment_revisions.empty?%>
+ <%revision = comments.reviewer_comment_revisions.last%>
+<%end%>
+
+<h3>Recommendation:</h3>
+<table>
+  <tr><td><%= UserTemplate.get_template('reviewer_form_question_13_recommendation') -%></td><td><%=  comments.accept_with_revision ? 'Yes' : 'No' -%></td></tr>
+  <tr><td><%= UserTemplate.get_template('reviewer_form_question_14_recommendation') -%></td><td></td>
+  <tr><td style='padding-left:10px;'><%= UserTemplate.get_template('reviewer_form_question_15_recommendation') -%></td><td><%=  comments.accept_with_revisions_text ? 'Yes' : 'No' -%></td></tr>
+  <tr><td style='padding-left:10px;'><%= UserTemplate.get_template('reviewer_form_question_16_recommendation') -%></td><td><%=  comments.accept_with_revisions_figures ? 'Yes' : 'No'  -%></td></tr>
+  <tr><td style='padding-left:10px;'><%= UserTemplate.get_template('reviewer_form_question_17_recommendation') -%></td><td><%=  comments.accept_with_revisions_grammer ? 'Yes' : 'No'  -%></td></tr>
+  <tr><td><%= UserTemplate.get_template('reviewer_form_question_18_recommendation') -%></td><td><%=  comments.get_further_info ? 'Yes' : 'No'  -%></td></tr>
+  <tr><td><%= UserTemplate.get_template('reviewer_form_question_19_recommendation') -%></td><td><%=  comments.reject ? 'Yes' : 'No'  -%></td></tr>
+  <tr><td><%= UserTemplate.get_template('reviewer_form_question_20_recommendation') -%></td><td><%=  comments.will_review_revised ? 'Yes' : 'No'  -%></td></tr>
+</table>
+<p>
+<h3>Remarks To Editor</h3>
+   <%unless comments.latest_revision('remarks_to_editor').blank?  %>
+   <%=comments.latest_revision('remarks_to_editor')%>
+   <%else%>
+   <%id = comments.article_submission_reviewer.article_submission.id%>
+    Comments have not been sanitized, go to the 
+	<a href="/admin/manage_manuscript_review/<%=id%>">Manage Review Page</a> to edit
+   <%end%>
+</p>
+<p>
+<h3>Comments To Author</h3>
+   <%unless comments.latest_revision('comments_to_author').blank?  %>
+   <%=comments.latest_revision('comments_to_author')%>
+   <%else%>
+   <%id = comments.article_submission_reviewer.article_submission.id%>
+    Comments have not been sanitized, go to the 
+	<a href="/admin/manage_manuscript_review/<%=id%>">Manage Review Page</a> to edit
+   <%end%>
+</p>
+
+

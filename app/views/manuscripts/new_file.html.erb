@@ -1,0 +1,12 @@
+<h1><%= get('uplolad_manuscript_header') -%></h1>
+
+<%= form_tag('/upload/postfile.php', :multipart => true) %> 
+  <p>
+	<label for="uploadedfile">Manuscript: </label> <%= file_field_tag "uploadedfile" %>
+  </p>
+  <p>
+    <%= submit_tag("Upload") %>
+  </p>
+</form>
+
+<%= link_to 'Back', :action=>:index -%>

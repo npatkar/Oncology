@@ -1,0 +1,28 @@
+
+
+
+<table>
+	
+<tr>
+	<th>Reviewer Name</th>
+    <th>Manuscript Title</th>
+	<th>Accepted Date</th>
+	<th>Actions</th>
+</tr>	
+	
+<%@rev_list.each do|rev|%>
+
+ <tr>
+ 	<td><%=rev.reviewer.full_name%></td>
+	<td><%=rev.article_submission.title if rev.article_submission%></td>
+	<td><%=rev.current_entity_status.created_at%></td>
+	<td> 
+	    <%=link_to_function "Send Packet","AjaxPopup.OpenBoxWithUrl(this,true,'/admin/reviewer_packet/#{rev.id}',null,true)"%>
+	</td>
+ </tr>
+
+
+<%end%>	
+	
+	
+</table>

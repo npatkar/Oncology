@@ -1,0 +1,18 @@
+<h1>Listing active_statuses</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% for active_status in @active_statuses %>
+  <tr>
+    <td><%= link_to 'Show', active_status %></td>
+    <td><%= link_to 'Edit', edit_active_status_path(active_status) %></td>
+    <td><%= link_to 'Delete', active_status, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New active_status', new_active_status_path %>

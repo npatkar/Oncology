@@ -1,0 +1,3 @@
+          <%if current_user.has_role?(:user) && ! user.has_role?(:user) %>
+             <li><%= link_to 'login&nbsp;as', user.auto_sign_in_url -%>)</li>
+         <%end%>

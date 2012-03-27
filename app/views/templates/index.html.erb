@@ -1,0 +1,23 @@
+<h1>Templates</h1>
+
+<table cellpadding='10px'>
+  <tr>
+  	<th>Title</th>
+	<th style="width: 20em;">Description</th>
+	<th colspan='3'>Actions</th>
+  </tr>
+
+<% for template in @templates %>
+  <tr>
+  	<td><%= template.title -%></td>
+	<td><%= template.description -%></td>
+    <td><%= link_to 'Edit', edit_template_path(template) -%></td>
+    <td><%= link_to 'Copy', :action => 'clone_template', :id => template.id -%></td>
+    <td><%= link_to 'Delete', template, :confirm => 'Are you sure you want to delete this template? This CANNOT be undone.', :method => :delete -%></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New template', new_template_path %>

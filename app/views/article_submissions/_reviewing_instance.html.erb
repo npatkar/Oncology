@@ -1,0 +1,61 @@
+<div class="reviewer">
+  <% fields_for "reviewers[#{index}]", reviewer.user do |f| %>
+  <%= f.error_messages %>
+
+  <table>
+	<tbody>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag">*</span>Title:
+			</td>
+			<td class="answer">													
+				<%= f.select :pre_title, ['Dr.', 'Mr.', 'Ms.', 'Mrs.', 'Professor'], { :include_blank => true }, :id => "reviewer#{index}_pre_title" %>
+			</td>
+			<td class="errorText"><%= error_message_on  'reviewer', 'pre_title' -%></td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag">*</span>First Name:
+			</td>
+			<td class="answer">
+				      <%= f.text_field :first_name, :size => 20, :id => "reviewer#{index}_first_name" %>
+			</td>
+			<td class="errorText"><%= error_message_on  'reviewer', 'first_name' -%></td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag">*</span>Last Name:
+			</td>
+			<td class="answer">
+				      <%= f.text_field :last_name, :size => 20, :id => "reviewer#{index}_last_name" %>
+			</td>
+			<td class="errorText"><%= error_message_on  'reviewer', 'last_name' -%></td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag">*</span>E-mail Address:
+			</td>
+			<td class="answer">
+				<%= f.text_field :email, :size => 20, :id => "reviewer#{index}_email" %>
+			</td>
+			<td class="errorText"><%= error_message_on  'reviewer', 'email' -%></td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				Institution:
+			</td>
+			<td class="answer">
+				<%= f.text_field :employer, :size => 20, :id => "reviewer#{index}_employer" %>
+			</td>
+			<td class="errorText"><%= error_message_on  'reviewer', 'employer' -%></td>
+		</tr>
+	</tbody>
+  </table>
+  <% end # /form %>
+  <span class="remove_link">X <%= link_to_remote 'Remove', :url => { :action => 'remove_reviewer', :index => index } %></span>
+</div>
+
+<!-- focus on the newly added reviewer -->
+<script type="text/javascript">
+	$("<%= "reviewer1_pre_title" -%>").focus();
+</script>

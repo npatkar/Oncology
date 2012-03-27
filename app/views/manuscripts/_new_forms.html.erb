@@ -1,0 +1,83 @@
+<h3><%= get('forms_title') -%></h3>
+<div class="forms-block">
+	<table cellpadding="5px" cellspacing="0">
+		<thead>
+			<tr>
+				<th></th>
+				<th><%= get('manuscript_coi_label') -%></th>
+				<th><%= get('manuscript_copyright_form_label') -%></th>
+				<th><%= get('manuscript_author_resp_label') -%></th>
+			</tr>
+		</thead>
+		<tbody>
+			<% if current_user == @article_submission.corresponding_author   # view for the Corresponding Author %>
+				<tr>
+					<% contribution = @article_submission.contribution_by_user_id(@article_submission.corresponding_author.id) %>
+				
+					<td><%= @article_submission.corresponding_author.full_name -%> (corresponding author)</td>
+				
+					<td align="center">
+						<% if contribution.latest_manuscript_coi_form %>
+							<% if contribution.latest_manuscript_coi_form.committed  %>
+								Completed: <%= contribution.latest_committed_manuscript_coi_form.committed.strftime("%x") -%><br /> 
+								<%= link_to "(Update COI)", :controller=>'manuscript_coi_forms', 
+														:action=>'init', 
+														:contribution_id=>contribution.id -%>
+							<% else %>
+								Started: <%= contribution.latest_manuscript_coi_form.create_date.strftime("%x") -%><br /> 
+								<%= link_to "(Complete COI)", :controller=>'manuscript_coi_forms', 
+														:action=>'init', 
+														:contribution_id=>contribution.id -%>
+							<% end %>
+						<% else %>
+							<%= link_to "Complete this form", :controller=>'manuscript_coi_forms', 
+															:action=>'init', 
+															:contribution_id=>contribution.id -%>
+						<% end %>
+					</td>
+				
+					<td align="center">
+                                                <% if @article_submission.committed %> 
+                                                  Completed
+                                                <% else %>
+						  <% link_label = contribution.copyright_status ? "Make Changes" : "Complete this form" %>
+						  <%= link_to(link_label, :controller=>'forms', 
+												:action=>'copyright_assignment', 
+												:contribution_id=>contribution.id) -%></td>
+                                                <% end %>
+												
+					<td align="center">
+                                                <% if @article_submission.committed %> 
+                                                  Completed
+                                                <% else %>
+						  <% link_label = contribution.responsibilities_status ? "Make Changes" : "Complete this form" %>
+					    	  <%= link_to(link_label, :controller=>'forms', 
+												:action=>'author_responsibilities', 
+												:contribution_id=>contribution.id) -%></td>
+                                                <% end %>
+
+				</tr>
+				<% @article_submission.coauthors.each do |coauthor| %>
+					<% manuscript_coi_form = @article_submission.latest_manuscript_coi_form_by_user_id(coauthor.id) %>
+					<tr>
+						<%contribution = @article_submission.contribution_by_user_id(coauthor.id)%>					
+						<td><%= coauthor.full_name -%></td>			
+						<td align="center"><%= contribution.manuscript_coi_status  || '<i class="red">incomplete</i>' -%></td>
+						<td align="center"><%= contribution.copyright_status  || '<i class="red">incomplete</i>' -%></td>						
+					</tr>
+				<% end %>
+				<% if ! @article_submission.committed %>
+				  <tr><td colspan="4"><%= button_to "Edit Co-Authors", :controller=>'article_submissions', :action=>'coauthors', :id=>@article_submission.id -%></td></tr>
+				<% end %>
+				
+				
+				
+			<% else # view for the Coauthor %>
+			
+				<%= render :partial=>'coauthor_forms', :locals => {:article_submission => @article_submission, :user => current_user} %>
+				
+			<% end %>
+			
+		</tbody>
+	</table>
+</div><!-- /.forms-block -->

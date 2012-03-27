@@ -1,0 +1,31 @@
+<ul style="list-style-type:none">
+            <li id ='<%="email_supression_link_#{user.id}"%>'>
+                         <% text = user.supress_email ? "Enable Email" : "Supress Email"%>
+                         <% action = user.supress_email ?  "enable_email_sending" : "supress_email_sending"%>
+                         <% message = user.supress_email ? "Email Supression Disabled" : "Email Supression Enables"%>
+                         <%= link_to_remote text,:url =>{:action => action, :id => user.id }%>		 
+						
+            </li>
+       <li>
+	    <%if user.isDisabled?%>
+		  <%= link_to_remote "Enable User", :url=>{:controller => 'users',
+             :action => 'enable_user',
+             :id => user.id} -%>
+		<%else%>
+		 <%= link_to_remote "Disable User", :url=>{:controller => 'users',
+            :action => 'disable_user',
+            :id => user.id} -%>
+	    <%end%>
+
+          </li>     
+		  <li>
+		     <%=link_to_function "Manage Subjects","AjaxPopup.OpenBoxWithUrl(this,true,'/user_subject/list/#{user.id}',null,true)"%>
+           </li>
+		   <%if user.has_role?(:editor)%>
+		     <li>
+		     <%=link_to_function "Manage Section Editor Categories","AjaxPopup.OpenBoxWithUrl(this,true,'/user_subject/list/#{user.id}?role=editor',null,true)"%>
+             </li>
+           <%end%>
+          <%= render :partial => '/users/login_as', :locals => {:user => user} %>
+  </ul>
+  

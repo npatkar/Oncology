@@ -1,0 +1,20 @@
+<% progress,contribution = article_submission.progress(@user) %>
+
+              <div class="show_info <%= complete_or_not progress[:general][:completed?] -%>">
+                <div class="correct-text">
+<%= link_to(get('manuscripts_checklist_complete_general_info_page', nil, false), :controller=>'article_submissions', :action=>'general', :id=>article_submission.id) -%>
+                <div class="correct-img"></div>
+              </div>
+              <div class="show_info <%= complete_or_not progress[:coi][:completed?] -%>">
+                <div class="correct-text">
+                  <a href="#"><span>Complete the Financial Disclosure Form</span></a>
+                </div>
+                <div class="correct-img"></div>
+              </div>
+              <div id="add_coauthor">
+                <div id="add_coauthor_head">
+                  Co-Authors
+                </div><input name="" id="username" style="border:1px solid #ccc; padding:6px; margin:6px; width:200px; color:#CCC" type="text" value="email address" onfocus="document.getElementById('email address').value='';" onblur="document.getElementById('email address').value='username';" /> <a href="#">+ Add a Co-Author</a>
+              </div><br />
+              <br />
+            </td>

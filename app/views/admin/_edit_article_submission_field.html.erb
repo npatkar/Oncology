@@ -1,0 +1,30 @@
+
+	<h2><%=@field=="section_editor_correspondence" ? "Edit Section Editor Correspondence" : "Edit Recused Section Editor Notes"%>
+	</h2>
+	
+	<%remote_form_for :article_submission,@article_submission, :url => {:controller => "admin", :action => "save_notes_for_submission"},:html =>{:id=>'reviewer_notes_form'} do|f|%>
+	    <%=f.text_area @field,:cols => 40, :rows => 15, :class =>"mceEditor"%>
+		<%=hidden_field_tag 'id',@article_submission.id%>
+	    <%= submit_tag 'Submit' ,:onclick=>"this.style.display='none';tinyMCE.triggerSave();" -%>
+	<%end%>
+	
+			<script type="text/javascript">
+			tinyMCE.init({
+				mode : "textareas",
+				theme : "advanced",
+				editor_selector : "mceEditor",
+				plugins : "spellchecker,pagebreak,style,table,advhr,advimage,advlink,iespell,insertdatetime,preview,searchreplace,print,contextmenu,paste,noneditable,visualchars,nonbreaking,xhtmlxtras",
+				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
+				theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor,print",
+				theme_advanced_buttons3 : "moveforward,movebackward,absolute,|,styleprops,spellchecker,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,blockquote,pagebreak,|insertimage",
+				theme_advanced_toolbar_location : "top",
+				theme_advanced_toolbar_align : "left",
+				theme_advanced_resizing : true,
+				cleanup_on_startup : true,
+	            cleanup: true,
+        relative_urls : false,
+        remove_script_host : false
+
+			 
+			}); 
+   </script>

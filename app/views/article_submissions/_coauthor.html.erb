@@ -1,0 +1,222 @@
+<%
+  if @article_submission and coauthor and ! coauthor.new_record?
+    contribution = Contribution.find_by_article_submission_and_user(@article_submission.id, coauthor.id)
+  end
+  
+  contribution ||= Contribution.new
+
+  @coauthor = coauthor
+%>
+
+<div id="coauthor_<%= index %>" class="coauthor">
+	<div class="block"><%= get('coauthor_doesnt_exist_header') -%></div>
+	
+  <% fields_for "coauthors[#{index}]", coauthor do |f| %>
+  <%= f.error_messages %>
+
+  <table>
+	<tbody>
+			<tr>
+				<td nowrap="nowrap" class="questionlabel">
+					<span class="requiredflag"></span>Email:
+				</td>
+				<td class="answer">													
+					<%= f.hidden_field :email, :size => 20, :id => "coauthor#{index}_email" %>
+					<%= coauthor.email %>
+				</td>
+			</tr>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Title:
+			</td>
+			<td class="answer">													
+				<%= f.select :pre_title, ['Dr.', 'Mr.', 'Ms.', 'Mrs.', 'Professor'], { :include_blank => true }, :id => "coauthor#{index}_pre_title" %>
+			</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag">*</span>First Name:
+			</td>
+			<td class="answer">
+		  		<%= f.text_field :first_name, :size => 20, :id => "coauthor#{index}_first_name" %>
+			</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Middle Name:
+			</td>
+			<td class="answer">
+				<%= f.text_field :middle_name %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag">*</span>Last Name:
+			</td>
+			<td class="answer">
+				      <%= f.text_field :last_name, :size => 20, :id => "coauthor#{index}_last_name" %>
+			</td>
+		</tr>
+		
+		<% [1,2].each do |n| %>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Degree <%= n -%>:
+			</td>
+			<td class="answer">
+				<%= f.select "degree#{n}", degrees_for_select, { :include_blank => true } %>
+				<span id="coauthor_degree<%= n -%>_other_span" <%= hide_on(false, @coauthor.send("degree#{n}") == 'Other') -%>>
+					-> 
+					<%= f.text_field "degree#{n}_other" %>
+				</span> 
+				<%= observe_field "coauthors_#{index}_degree#{n}", :function => "check_field(element, value)"  %>
+			</td>
+		</tr>
+		<% end %>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Institution:
+			</td>
+			<td class="answer">
+				<%= f.text_field :employer %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Department:
+			</td>
+			<td class="answer">
+				<%= f.text_field :department %>
+			</td>
+		</tr>											
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Position Title:
+			</td>
+			<td class="answer">
+				<%= f.text_field :position_title %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Address 1:
+			</td>
+			<td class="answer">
+				<%= f.text_field :address_1 %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Address 2:
+			</td>
+			<td class="answer">
+				<%= f.text_field :address_2 %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>City:
+			</td>
+			<td class="answer">
+				<%= f.text_field :city %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>State/Province:
+			</td>
+			<td class="answer">
+				<%= state_province_select(f) %>
+				<span class="note">required for US/Canada addresses.</span>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Zip/Postal Code:
+			</td>
+		  	<td class="answer">
+		  		<%= f.text_field :zip_postalcode, :size => '15', :maxlength => '15' %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Country:
+			</td>
+			<td class="answer">
+				<%= country_select(f) %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Telephone:
+			</td>
+		 	<td class="answer">
+		 		<%= f.text_field :phone_preferred, :size => '18', :maxlength => '30' %>
+		 	</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Fax:
+			</td>
+			<td class="answer">
+				<%= f.text_field :phone_fax, :size => '18', :maxlength => '30' %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag"></span>Website:
+			</td>
+			<td class="answer">
+				http://<%= f.text_field :url, :size => '30', :maxlength => '70' %>
+			</td>
+		</tr>
+		
+		<tr><td colspan="2">&nbsp;</td></tr>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				Co-Author Contribution(s):
+			</td>
+			<td class="answer">	
+				<%= render :partial => "contribution_types_multiple", 
+					   :locals => {
+									:user => coauthor,
+									:contribution => contribution,
+									:id_prefix => "coauthor#{index}",
+									:name_prefix => "coauthors[#{index}]"
+								  } %>
+			</td>
+		</tr>
+		<tr><td colspan="2">
+			<span class="remove_link">X <%= link_to_remote 'Remove', :url => { :action => 'remove_coauthor', :index => index } %></span></td>
+		</tr>
+		
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag">Is First Author?</span>
+			</td>
+			<td colspan="2">
+				<%=check_box_tag "coauthors[#{index}][first_author]",1,contribution.first_author,{:class=>"first_author_box",:onclick=>"ArticleSubmissionFunctions.handleFirstAuthorClick(this)"}%>
+	       </td>
+		</tr>
+		</tbody>
+	</table>
+  <% end # /fields_for %>
+</div><!-- /#<%= "coauthor_#{index}" -%> -->
+
+
+<!-- focus on the newly added coauthor -->
+<script type="text/javascript">
+	$("<%= "coauthor#{index}_pre_title" -%>").focus();
+</script>

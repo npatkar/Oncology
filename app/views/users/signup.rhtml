@@ -1,0 +1,15 @@
+<%= error_messages_for :user %>
+<% form_for :user do |f| -%>
+
+	<%= render :partial => 'f' -%>
+
+	<table align="center" bgcolor="#cccccc" border="0" cellpadding="8" cellspacing="0" width="100%">
+		<tbody>
+			<tr>
+				<td  colspan="3" align="right">
+				    <%= submit_tag " Register " %>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+<% end -%>

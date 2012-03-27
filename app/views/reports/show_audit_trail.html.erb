@@ -1,0 +1,13 @@
+<h2>Audit Trail Instance</h2>
+
+ <div class='audit_trail'> 
+  <p><label>Time:</label> <%= @audit_trail.created_at.strftime("%x %H:%M") -%></p>
+
+  <p><label>User:</label> <%= @audit_trail.user.name -%></p>
+
+  <p><label>User acted on:</label> <%= @audit_trail.user_acted_on && @audit_trail.user_acted_on.name -%></p>
+
+  <p><label>Article Submission:</label> <%= @audit_trail.article_submission && @audit_trail.article_submission.title -%></p>
+
+  <p><label>Details:</label> <%= @audit_trail.details -%></p>
+</div>

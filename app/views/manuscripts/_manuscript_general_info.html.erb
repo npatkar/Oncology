@@ -1,0 +1,6 @@
+<div class='manuscript-general-info'>
+	<span class="ms-title">Manuscript Number: <span><%= @article_submission.manuscript_number || 'Not assigned' -%></span></span><br />
+	<% if false %><span class="ms-title">Manuscript Status: <span class="ms-title-status"><%= article_submission.current_status_name('human_friendly_name') -%></span></span><br /><% end %>
+	<span class="ms-title">Your Role: <span><%= article_submission.users_role_with_this_submission(@user) -%></span></span><br />
+	<span class="ms-title">Revision: <span><%= article_submission.version_name -%></span></span><br />
+</div>

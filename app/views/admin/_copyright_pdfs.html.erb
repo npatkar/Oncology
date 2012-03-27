@@ -1,0 +1,8 @@
+<% if article_submission.copyright_pdfs.length > 0 %>
+  <h3>Copyright Assignment Forms</h3>
+  <ul>
+    <li><%= article_submission.contributions.collect {|c| c.copyright_pdf ? pdf_link_with_del(c.copyright_pdf) : "No Copyright Assignment form for - #{c.user.full_name}"}.join("</li><li>") %></li>
+  </ul>
+<% else %>
+  <p>No Copyright Assignment Forms</p>
+<% end %>

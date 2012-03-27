@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <%= render :partial=>'/layouts/head' -%>
+  <body style="text-align:center">
+    <div class="main_container">
+    
+
+    <div id='page'>
+      <a id="top"></a>
+    <%= render :partial=>'/layouts/header' -%>
+
+    <div id="content">
+      <% if flash[:notice] %>
+        <div id="flash_notice"><%= flash[:notice] %></div>
+      <% end %>
+      <%= yield %>
+    </div>
+
+    <%= render :partial=>'/layouts/footer' -%>
+
+
+
+    <% if @footer_text %>
+      <!-- footer text start -->
+      <%= @footer_text %>
+      <!-- footer text end -->
+    <% end %>
+    <% if defined? @focus_on %>
+      <script type="text/javascript">
+        $("<%= @focus_on -%>").focus();
+      </script>
+    <% end %>
+
+
+    <!-- google analytics tracking code -->
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+
+    <script type="text/javascript">
+      try {
+        var pageTracker = _gat._getTracker("UA-8825811-2");
+        pageTracker._trackPageview();
+      } catch(err) {}</script>
+    <!-- /google analytics tracking code -->
+  </div>
+  </div>
+  </body>
+</html>

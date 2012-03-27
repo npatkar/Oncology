@@ -1,0 +1,33 @@
+
+<ul class="nobullet">
+	<% selected_contribution_types = contribution.contribution_types %>
+	<% ContributionType.find_all_by_public('1', :order => :display_order).each do |ctype| %>
+		<% index = selected_contribution_types.index(ctype)%>
+		<li><%= check_box_tag "contribution_types[]", 
+					ctype.id, 
+					index,	# Set to true, if we did find the ctype in our list of selected_contribution_types
+					{ :id => id_prefix + "_contribution_type_#{ctype.id}", 
+					  :name => name_prefix + "[contribution_types][]" } %>
+		<% index.nil? or selected_contribution_types.delete_at(index) %>
+		<label for="<%= id_prefix -%>_contribution_type_<%= ctype.id -%>"><%=h ctype.title -%></label></li>
+	<% end %>
+	<li>
+		<% checked = selected_contribution_types.size > 0 %>
+		<%= check_box_tag "#{name_prefix}[contribution_type_other]", 
+						  -1, 
+						  checked,
+		      			  { :id => "#{id_prefix}_contribution_type_other" } %>
+                <label for="<%= id_prefix -%>_contribution_type_other"><%= get('contribution_type_other_label') -%></label>
+		<span id="<%= id_prefix -%>_contribution_type_other_span" <%= hide_on(false, checked) -%> >
+			->
+			<input id="<%= id_prefix -%>_contribution_type_other_text"
+				   name="<%= name_prefix -%>[contribution_type_other_text]"
+				   size="30"
+				   maxlength="50"
+				   type="text"
+				   value="<%= checked ? selected_contribution_types[0].title : '' -%>" />
+		</span>
+		<%= observe_field "#{id_prefix}_contribution_type_other", :function => "check_field(element, value)" %>
+	</li>
+</ul>			
+

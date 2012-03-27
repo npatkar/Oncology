@@ -1,0 +1,4 @@
+<h2>Article Submission Reviewers</h2>
+<h3>Have email invites in logs without having had status of 'reviewer_invited_awaiting_response'</h3>
+<% asrs = ArticleSubmissionReviewer.find(:all).collect{|asr| if asr.email_logs.find_by_category('reviewer_invite_link') && !asr.entity_statuses.find_by_status_id(18) then asr.id else nil end }.compact %>
+<p>IDs of ArticleSubmissionReviewers: <%= asrs.join(", ") -%></p>

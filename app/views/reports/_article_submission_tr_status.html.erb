@@ -1,0 +1,9 @@
+<tr style="">
+        <td><%= article_submission.article ? article_submission.article.manuscript_num : 'Not Imported' -%></td>
+        
+        <td><%= article_submission.first_submission.committed ? article_submission.first_submission.committed.strftime("%m/%d/%y") : '' -%></td>
+        
+        <td><%= link_to article_submission.title, {:controller => :admin, :action => :article_submissions, :search => article_submission.title}, :target => '_blank' -%></td>
+        
+        <td><%= article_submission.current_status_name -%></td>
+</tr>

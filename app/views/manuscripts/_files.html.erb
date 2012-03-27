@@ -1,0 +1,197 @@
+<div id="head-sidebar"><%= get('files_title', nil, false) -%></div>
+
+<% unless @article_submission.isVideo? %>
+  <div class="file-<%= even_or_odd -%>">
+    <div class="sidebar-files-head"><%= get('cover_letter_title', nil, false) -%></div>
+    <span class="sidebar-files-texts"><%=get('cover_letter_text', nil, false) -%></span>
+    <br />
+    
+      <% if !@article_submission.hiding_original_file_or_files?(:cover_letter) and @article_submission.cover_letter.file  -%>
+        <span class="sidebar-files-title">
+          <%= link_to File.basename(@article_submission.cover_letter.file.url), 
+                                    @article_submission.cover_letter.file.url, 
+                                    :target => 'blank',
+                                    :title => 'Download File' -%>&nbsp;&nbsp;
+        </span>
+        <span class="sidebar-files-remove">
+          <%= link_to( image_tag('mini-x.png'), {:controller => "article_submissions", 
+                                 :action => 'remove_cover_letter',
+                                 :id => @article_submission.id,
+                                 :cover_letter_id => @article_submission.cover_letter.id}, 
+                                 {:confirm => 'Are you sure to remove this cover_letter? This CANNOT be undone!',
+                                 :class => 'no-underline'} ) -%>
+          <%= link_to( "remove", {:controller => "article_submissions", 
+                                 :action => 'remove_cover_letter',
+                                 :id => @article_submission.id,
+                                 :cover_letter_id => @article_submission.cover_letter.id}, 
+                                 :confirm => 'Are you sure to remove this cover_letter? This CANNOT be undone!' ) -%>
+        </span>
+      <% elsif @article_submission.cover_letter and ! @article_submission.cover_letter.file %>
+        <% @article_submission.cover_letter.destroy # Remove any corrupt uploads %>
+        <% logger.info("!!!! PROBLEM: WE JUST DELETED A COVER LETTER THAT HAD NO FILE... (_files.html.erb)!!!!") %>
+      <% else %>
+      <span class="sidebar-files-title">
+        <%= get('no_cover_letter_placeholder')%>
+      </span>
+      <% end %>
+    <%= upload_form_tag({:controller => "article_submissions",
+                           :action => "upload_cover_letter",
+                           :id => @article_submission.id}) %>
+        <%= upload_column_field 'cover_letter', 'file', {:size => '30'} -%> &nbsp;
+        <%= submit_tag(" Upload ") -%>
+    </form>
+
+  </div>
+  
+  <div class="file-<%= even_or_odd -%>">
+    <div class="sidebar-files-head"><%= get('manuscript_upload_title', nil, false) -%></div>
+    <span class="sidebar-files-texts"><%= get('manuscript_upload_text', nil, false) -%></span>
+    <br />
+    <% if !@article_submission.hiding_original_file_or_files?(:manuscript) and @article_submission.manuscript.file  %>
+      <span class="sidebar-files-title">
+        <%= link_to File.basename(@article_submission.manuscript.file.url), 
+            @article_submission.manuscript.file.url, 
+            :target => 'blank',
+            :title => 'Download' -%>&nbsp;&nbsp;
+      </span>
+      <span class="sidebar-files-remove">
+        <%= link_to(image_tag('mini-x.png'), {:controller => "article_submissions", 
+                        :action => 'remove_manuscript',
+                        :id => @article_submission.id,
+                        :manuscript_id => @article_submission.manuscript.id}, 
+                        {:confirm => 'Are you sure to remove this manuscript? This CANNOT be undone!',
+                               :class => 'no-underline'} ) -%>
+        <%= link_to("remove", {:controller => "article_submissions", 
+                        :action => 'remove_manuscript',
+                        :id => @article_submission.id,
+                        :manuscript_id => @article_submission.manuscript.id}, 
+                        :confirm => 'Are you sure to remove this manuscript? This CANNOT be undone!' ) -%>
+      </span>    
+    <% elsif @article_submission.manuscript and ! @article_submission.manuscript.file %>
+        <% @article_submission.manuscript.destroy # Remove any corrupt uploads %>
+    <% else %>
+      <span class="sidebar-files-title">
+        <%= get('no_manuscript_placeholder')%>
+      </span>
+    <% end %>
+<% form_for :manuscript, :url => { :action => "create"}, :html => { :multipart => true } do |f| %>
+  <%= f.file_field :pfile%>
+<%= f.hidden_field :article_submission_id, { :value => @article_submission.id } %>
+<%= submit_tag(" Upload ") -%>
+<% end %>   
+  </div>
+  
+<% else %>
+  <div class="file-<%= even_or_odd -%>">
+    <div class="sidebar-files-head"><%= get('video_link_upload_title', nil, false) -%></div>
+    <span class="sidebar-files-texts"><%= get('video_link_upload_texts', nil, false) -%></span>
+    <br />
+    <div>Enter link to video manuscript</div>
+      <% form_remote_tag :url => {:controller => "article_submissions", :action => "upload_video_link"}  do -%>
+        <%= text_field_tag :manuscript_video_link%>
+        <%= hidden_field_tag :id, @article_submission.id%>
+        <%= submit_tag 'Add Link' %>
+      <% end %>
+      <div id="video_link_div">
+        <% unless @article_submission.manuscript_video_link.blank? %>       
+          Video Link: <a href="<%= @article_submission.manuscript_video_link %>"><%= @article_submission.manuscript_video_link -%></a>
+          <%= link_to_remote "remove", :url => {:controller => "article_submissions", :action => "remove_video_link", :id => @article_submission.id },:update => {:success => "video_link_div"} -%>
+        <% else %>
+          Enter the Video URL
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end # unless @article_submission.isVideo? %>
+
+
+
+<div class="file-<%= even_or_odd -%>">
+    <div class="sidebar-files-head"><%= get('figures_upload_title', nil, false) -%></div>
+    <span class="sidebar-files-texts"><%=get('figures_upload_text', nil, false) -%></span>
+    <br />
+    <% if !@article_submission.hiding_original_file_or_files?(:additional_files)%>
+      <% @article_submission.additional_files_to_show.each do |additional_file| %>
+        <% if additional_file.file %>
+          <span class="sidebar-files-title">
+            <%= link_to File.basename(additional_file.file.url), 
+                      additional_file.file.url, 
+                      :target=>'blank',
+                      :title=>'Download File' -%>&nbsp;&nbsp;
+          </span>
+          <span class="sidebar-files-remove">
+            <%= link_to(image_tag('mini-x.png'), {:controller => "article_submissions", 
+                                   :action => 'remove_additional_file',
+                                   :id => @article_submission.id,
+                                   :additional_file_id => additional_file.id}, 
+                                  {:confirm => 'Are you sure you want to remove this file? This CANNOT be undone.',
+                                  :class => 'no-underline',
+                                  :title => 'Remove'}) -%>
+            <%= link_to("remove", {:controller => "article_submissions", 
+                                   :action => 'remove_additional_file',
+                                   :id => @article_submission.id,
+                                   :additional_file_id => additional_file.id}, 
+                                  :confirm => 'Are you sure you want to remove this file? This CANNOT be undone.',
+                                  :title => 'Remove') -%>
+          </span>
+          <br/>
+        <% else %>
+          <% additional_file.destroy # Remove corrupt additional_file %>
+          <% logger.info("!!!!! PROBLEM, REMOVED A CORRUPT ADDITIONAL FILE. (_files.html.erb) (additional_file.id: #{additional_file.id})") %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= upload_form_tag({:controller => "article_submissions", 
+                         :action => "upload_additional_file", 
+                         :id => @article_submission.id}) -%>
+      <%= upload_column_field 'additional_file', 'file', {:size => '30'} -%> &nbsp;
+      <%= submit_tag " Upload " -%>
+    </form>
+</div>
+
+
+<div class="file-<%= even_or_odd -%>">
+  <div class="sidebar-files-head"><%= get('perm_upload_title', nil, false) -%></div>
+  <span class="sidebar-files-texts"><%= get('perm_upload_text', nil, false) -%></span>
+  <br />
+  <% if !@article_submission.hiding_original_file_or_files?(:permission) and @article_submission.permission.file -%>
+    <span class="sidebar-files-title">
+      <%= link_to File.basename(@article_submission.permission.file.url),
+            @article_submission.permission.file.url, 
+            :target => 'blank',
+            :title => 'Download File' -%>&nbsp;&nbsp;
+    </span>
+    <span class="sidebar-files-remove">
+      <%= link_to(image_tag('mini-x.png'), {:controller=>"article_submissions",
+                  :action => 'remove_permissions',
+                  :id => @article_submission.id,
+                  :permission_id => @article_submission.permission.id},
+                  {:confirm => 'Are you sure to remove this permission? This CANNOT be undone!',
+                   :class => 'no-underline'} ) %>
+      <%= link_to("remove", {:controller=>"article_submissions",
+                  :action => 'remove_permissions',
+                  :id => @article_submission.id,
+                  :permission_id => @article_submission.permission.id},
+            :confirm => 'Are you sure to remove this permission? This CANNOT be undone!' ) %>
+    </span>
+  <% elsif @article_submission.permission and ! @article_submission.permission.file %>
+    <% @article_submission.permission.destroy # Remove any corrupt uploads %>
+    <% logger.info("!!!!! PROBLEM, REMOVED A CORRUPT PERMISSIONS FILE. (_files.html.erb) (@article_submission.permission.file.id: #{article_submission.permission.file.id})") %>
+  <% else %>
+    None
+    <%= get('no_permission_placeholder') -%>
+  <% end %>
+  <%= upload_form_tag({:controller => "article_submissions",
+                       :action => "upload_permissions",
+                       :id => @article_submission.id}) -%>
+    <%= upload_column_field 'permission', 'file', {:size => '30'} -%> &nbsp;
+    <%= submit_tag " Upload " -%>
+  </form>  
+</div>
+
+
+<%unless @article_submission.parent.article_submissions.empty? %>
+<div class="file_upload_block">
+    <%=render :partial=>"revision_links" %>
+</div>
+<%end %>

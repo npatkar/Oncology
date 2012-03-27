@@ -1,0 +1,19 @@
+<h2>Manuscripts in Review Detailed Report</h2>
+
+<%= form_tag :action => :manuscripts_status -%>
+
+<div id="manuscripts_report">
+  <table style="clear: both; width: 100%;" class="admin_table"> 
+  <tr style="">
+        <th>No</th>
+        <th>Submitted</th>
+        <th>Title</th>
+        <th>Status</th>
+  </tr>
+  <% @article_submissions.each do |as| %>
+    <%= render :partial => 'article_submission_tr_status', :locals => {:article_submission => as} %>
+  <% end %>
+  </table><br />
+</div>
+
+</form>

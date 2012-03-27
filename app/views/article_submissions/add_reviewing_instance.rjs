@@ -1,0 +1,7 @@
+
+page.insert_html :bottom, :reviewing_instances, :partial => 'reviewing_instance',
+  :locals => { :reviewing_instance => @reviewing_instance, :index => params[:index] }
+
+page.replace :add_reviewing_instance_link, :partial => 'add_reviewing_instance_link',
+  :locals => { :index => (params[:index].to_i(10) + 1) }
+  

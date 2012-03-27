@@ -1,0 +1,34 @@
+
+
+@html2ps {
+  header {
+    right: "header text";
+  }
+}
+
+BODY {
+  color: #ff0000; 
+  border: 1px solid black;
+}
+
+
+BODY {
+  font-size: 12pt;
+  font-family: Helvetica;
+}
+
+A {
+  border: none;
+  text-decoration: none;
+}
+A:link {
+  border: none;
+  text-decoration: none;
+}
+
+@page {
+  margin-left: 1cm;
+  margin-right: 1cm;
+  margin-top: 2cm;
+  margin-bottom: 2cm;
+}

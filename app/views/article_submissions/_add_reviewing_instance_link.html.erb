@@ -1,0 +1,5 @@
+<div id="add_reviewing_instance_link">
+  <%= link_to_remote 'Add a Reviewer. No more than 3',
+    :url => { :action => 'add_reviewing_instance', :index => index },
+	:condition => "$$('.reviewing_instance').length < 3" %>
+</div>

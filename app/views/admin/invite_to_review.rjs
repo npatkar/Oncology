@@ -1,0 +1,9 @@
+
+
+
+
+page.replace_html "ajax_popup_content",:partial=>"invite_to_review"#, :locals =>{:section => @section}
+
+
+
+

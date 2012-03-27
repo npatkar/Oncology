@@ -1,0 +1,6 @@
+<% if article_submission.review_pdf %>
+  <span>Submission Summary:</span>
+  <%= pdf_link_with_del(article_submission.review_pdf) -%>
+<% else %>
+  <p>No Summary PDF</p>
+<% end %>

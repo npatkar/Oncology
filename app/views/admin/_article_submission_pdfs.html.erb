@@ -1,0 +1,11 @@
+<div class="pdfsx details_block">
+ <%= render :partial => '/admin/manuscript_coauthor_forms', :locals => {:article_submission => article_submission} %>
+ <%= render :partial => '/admin/submission_review', :locals => {:article_submission => article_submission} %>
+ 
+  <%if article_submission.initial_charge && article_submission.initial_charge.charge_pdf%>
+       <h3>Credit Card Charge Form</h3>
+          <ul>
+            <li><%=pdf_link(article_submission.initial_charge.charge_pdf)%></li>
+		 </ul>
+   <%end%>
+</div>

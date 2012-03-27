@@ -1,0 +1,4 @@
+<%= link_to_remote 'Send COI reminder', {
+                   :confirm => 'Send COI reminder email to this author?',
+                   :url => { :action => :send_coi_reminder_to_author, :contribution_id => contribution.id },
+} -%>

@@ -1,0 +1,14 @@
+<div id="add_coauthor_link">
+	<%= get('coauthor_add_instructions') -%>
+<br/>
+	<div id='add_coauthor_message'></div>
+<br />
+  <label>Email:</label> <%= text_field_tag :coauthor_email %>
+  <%= image_tag 'spinner.gif', :id => :spinner, :style => 'display: none;' %>
+  &nbsp; <span id='link'>
+  	<%= link_to_remote '<span class="blue bold">+</span> Add a Co-Author',
+    	:url => { :action => 'add_coauthor', :index => index },
+		:loading => '$("spinner").show(); $("link").hide()',
+    	:submit => 'add_coauthor_link' %>
+  </span>
+</div>

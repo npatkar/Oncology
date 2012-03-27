@@ -1,0 +1,32 @@
+<% manuscript_coi_form = @article_submission.latest_manuscript_coi_form_by_user_id(current_user.id) %>
+<%article_submission_review = @article_submission.article_submission_review_by_user_id(current_user) %>
+<% article_submission_review = @article_submission.article_submission_review_by_user_id(current_user) %>
+<% asr = ArticleSubmissionReviewer.find_by_user_and_article_submission(@user,article_submission) %>
+
+<% if article_submission_review.manuscript_coi_status or 
+	  (article_submission_review.latest_manuscript_coi_form and article_submission_review.latest_manuscript_coi_form.committed) %>
+	  <% text = 'Update your financial disclosure form'; completed = true %>
+<% else %>
+	  <% text = 'Complete your financial disclosure form'; completed = false %>
+<% end %>
+	  
+
+<%= render :partial => 'todo_item', :locals => {:text => link_to(text, 
+																 :controller => 'manuscript_coi_forms', 
+																 :action => 'init', 
+																 :article_submission_reviewer_id => article_submission_review.id),
+												:completed => completed }
+-%>
+
+  <% if asr.reviewer_comment && asr.reviewer_comment.isSubmitted? %>
+  	<% text = 'View manuscript comments'; complete = true %>
+  <% else %>
+  	<% text = 'Enter manuscript comments'; complete = false; %>
+  <% end %>
+	
+<%= render :partial => 'todo_item', :locals => {:text => link_to('Enter your manuscript comments', 
+																 :controller => "article_submission_reviewers", 
+																 :action => "reviewer_comments",
+																 :id => asr.id),
+												:completed => completed }
+-%>

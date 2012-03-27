@@ -1,0 +1,71 @@
+<tr style="">
+        <th colspan='2' valign='top' style=''> Submitted: <%= article_submission.first_submission.committed ? article_submission.first_submission.committed.strftime("%m/%d/%y") : 'Not Committed (shouldn\'t have been "In Review")' -%><br /><%= article_submission.days_since_committed -%> days ago</td>
+        <th valign='top'  colspan='99'><%= article_submission.article ? article_submission.article.manuscript_num : 'Not Imported' -%> &mdash; <%= link_to article_submission.title, {:controller => :admin, :action => :article_submissions, :search => article_submission.title}, :target => '_blank' -%></td>
+       <!-- <td valign='top' ><%= article_submission.current_entity_status.created_at.strftime("%m/%d/%y") -%></td>
+        <td valign='top' ><%= article_submission.days_in_current_status -%> days</td>-->
+</tr>
+
+<tr>
+        <th valign='top' style='border-bottom: 2px solid #555;'>Reviewer</th>
+        <th valign='top' style='width: 18%; border-bottom: 2px solid #555;'>Invited</th>
+        <th valign='top' style='width: 18%; border-bottom: 2px solid #555;'>Response</th>
+        <th valign='top' style='width: 18%; border-bottom: 2px solid #555;'>Sent Packet</th>
+        <th valign='top' style='width: 18%; border-bottom: 2px solid #555;'>Sent Reminder</th>
+        <th valign='top' style='width: 18%; border-bottom: 2px solid #555;'>Received Comments</th>
+</tr>
+
+<% article_submission.article_submission_reviewers.each do |asr| %>
+        <tr>
+                <td valign='top' ><%= asr.user ? asr.user.name : 'Reviewer not in the DB' -%> <!--(<%= asr.email_logs.length -%> total emails)--></td>
+                <td valign='top'>
+                <% if asr.current_status.key == 'reviewer_not_yet_invited' %>
+                        Not Invited
+                <% elsif asr.current_status.key == 'reviewer_invited_awaiting_response' %>
+                        <%= fmt_date(asr.emails_sent_at(EmailLog::SENT_REVIEWER_INVITE)).join(", ") -%>
+                <% else %> 
+                        <%= fmt_date(asr.emails_sent_at(EmailLog::SENT_REVIEWER_INVITE)).join(", ") -%>
+                <% end %>
+                </td>
+                <td valign='top'>
+                <% if asr.time_of_status('reviewer_declined') %>
+                        Declined:<br />
+                        <%= fmt_date(asr.time_of_status('reviewer_declined')) -%>
+                <% elsif asr.time_of_status('reviewer_declined_with_alternate') %>
+                        Declined w/ Alt:<br />
+                        <%= fmt_date(asr.time_of_status('reviewer_declined_with_alternate')) -%>
+                <% elsif asr.time_of_status('reviewer_accepted') %>
+                        Accepted:<br />
+                        <%= fmt_date(asr.time_of_status('reviewer_accepted')) -%>
+                <% else %>
+                        ***
+                <% end %> 
+                </td>
+                <td valign='top'>
+                <% if asr.time_of_status('reviewer_need_comments') %>
+                        <%= fmt_date(asr.times_of_status('reviewer_need_comments')) -%>
+                <% else %>
+                        ***
+                <% end %>
+                </td>
+                <td valign='top'>
+                <% if asr.emails_sent_at(EmailLog::SENT_REVIEWER_CHECK_IN) %>
+                        <%= fmt_date(asr.emails_sent_at(EmailLog::SENT_REVIEWER_CHECK_IN)).join(", ") -%>
+                        <% if asr.emails_sent_at('reviewer_packet').length > 1 %>                        
+                                <% asr_packet_emails = asr.emails_sent_at('reviewer_packet') %>
+                                <% asr_packet_emails.delete_at(0) %>
+                                , <%= fmt_date(asr_packet_emails).join(", ") -%>
+                        <% end %>
+                <% else %>
+                        ***
+                <% end %>
+                </td>
+                <td valign='top'>
+                <% if asr.time_of_status('reviewer_received_comments') %>
+                        <%= fmt_date(asr.times_of_status('reviewer_received_comments')) -%>
+                <% else %>
+                        ***
+                <% end %>
+                </td>
+
+        </tr>
+<% end %>

@@ -1,0 +1,79 @@
+<div id="head-sidebar">Reviewer Files</div>
+
+<%unless article_submission.isVideo? %>
+  <% if @article_submission.cover_letter and @article_submission.cover_letter.file  -%>
+    <div class="file-<%= even_or_odd -%>">
+      <div class="sidebar-files-head"><%= get('cover_letter_title', nil, false) -%></div>
+      <span class="sidebar-files-title">
+          <%= link_to 'Download ' + File.basename(article_submission.cover_letter.file.url), article_submission.cover_letter.file.url, 
+              :target=>'blank',:title=>'Download File' -%>
+      </span>
+    </div>
+  <%end%>
+<%end%>
+
+
+
+
+<%unless article_submission.isVideo? %>
+  <%#TODO figure out whether we want to display the updated_manuscript%>
+  <% manuscript = article_submission.updated_manuscript || article_submission.manuscript%>
+  <div class="file-<%= even_or_odd -%>">
+  <div class="sidebar-files-head">Manuscript</div>
+   <span class="sidebar-files-title">
+     <% if manuscript%>
+       <%= link_to 'Download manuscript', App::Config::base_url.chop + manuscript.file.url%>
+     <% else %>
+       None
+     <% end %>
+    </span>
+  </div>
+<% else %>
+  <div class="file-<%= even_or_odd -%>">
+  <div class="sidebar-files-head">Video Submission</div>
+	  <span class="sidebar-files-title">
+		 <% if article_submission.manuscript_video_link %>
+		 <%= link_to 'Open: ' + @article_submission.manuscript_video_link,@article_submission.manuscript_video_link%>
+	  <% else %>
+		 No Video Link Uploaded
+	  <% end %>
+	  </span>
+  </div>
+<% end %>
+
+
+
+
+
+
+<div class="file-<%= even_or_odd -%>">
+  <div class="sidebar-files-head">Additional Files</div>
+  <% if article_submission.additional_files.length > 0 %>
+    <% article_submission.additional_files.each do |additional_file| %>
+      <% if additional_file.file %>
+        <span class="sidebar-files-title">
+          <%= link_to 'Download: ' + File.basename(additional_file.file.url), additional_file.file.url, :title => 'Download File' -%>
+        </span>
+      <% end %>
+    <% end %>
+  <% else %>
+    <span class="sidebar-files-title">
+      None
+    </span>
+  <% end %>
+</div>
+
+
+<div class="file-<%= even_or_odd -%>">
+  <div class="sidebar-files-head">Permissions</div>
+    <span class="sidebar-files-title">
+      <% if article_submission.permission %>
+        <%= link_to 'Download ' + File.basename(article_submission.permission.file.url), article_submission.permission.file.url, :target=>'blank',
+    :title=>'Download File' -%>
+      <% else %>
+        None
+      <% end %>
+  </span>
+</div>
+
+ 

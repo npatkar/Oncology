@@ -1,0 +1,9 @@
+<%form_remote_tag :url => {:controller => "admin", :action => "save_admin_notes"},:html =>{:id=>'admin_notes_form'} do%>
+	<textarea name="notes" rows="20" cols="40" id="notes" class="mceEditor" style="text-align:left">
+		<%=@as.admin_notes%>
+	</textarea>
+    <%=hidden_field_tag 'id',@as.id%>	
+	<br/>
+	<%=submit_tag 'Save Comments'-%>
+<%end%>
+

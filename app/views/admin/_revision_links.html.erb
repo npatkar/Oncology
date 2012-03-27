@@ -1,0 +1,22 @@
+
+<%submissions = Array.new%>
+<%unless article_submission.is_original?%>
+<%submissions = submissions.concat(article_submission.siblings)%>
+<%else%>
+  <%submissions << article_submission%>
+<%end%>
+<%submissions.each do |as|%>
+<span>
+  
+  <%text = as.is_original? ? "Original Revision" : "Revision:#{as.version}"%>
+ <%= link_to "#{text}", :controller => 'reports',
+                        :action => 'article_submission_review',
+                        :id => as.id -%>
+						:
+<%= link_to "Download Files", :controller => 'admin',
+                        :action => 'download_files',
+                        :id => as.id -%></span>
+	<%= "|" unless as == submissions.last%>
+	
+	
+<%end%> 

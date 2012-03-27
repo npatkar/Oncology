@@ -1,0 +1,11 @@
+
+<%= get('manuscript_type_submission_instructions')%>
+
+
+<table id="manu_type_links_table">
+<% for manuscript_type in @manuscript_types %>
+  <tr>
+    <td><span><%= link_to manuscript_type.name, :controller=>'article_submissions', :action=>'new', 'type_id'=>manuscript_type.id%></span></td>
+  </tr>
+<% end %>
+</table>

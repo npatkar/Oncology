@@ -1,0 +1,13 @@
+
+
+
+
+ <h2 style="text-align:center"><%= get('process_invite_header', @article_submission_reviewer.reviewer) -%></h2>
+ 
+  <%if @status_key == "reviewer_accepted"%>
+  <%= get('process_invite_body') -%>  
+  <%else%>
+      Thank you for your consideration.
+  <%end%>
+  
+

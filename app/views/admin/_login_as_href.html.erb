@@ -1,0 +1,5 @@
+          <%if current_user.has_role?(:user) && ! user.has_role?(:user) %>
+             <%= user.auto_sign_in_url -%>
+         <% else %>
+           asdf 
+         <%end%>

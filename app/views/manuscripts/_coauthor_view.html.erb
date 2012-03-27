@@ -1,0 +1,21 @@
+<% @title = @article_submission.title %>
+
+<table border="0" cellspacing="0" cellpadding="4" style="margin-top:10px;">
+  <tr>
+  <td valign="top">
+    <%= render :partial => 'manuscript_general_info', :locals => {:article_submission => article_submission, :user => user} %>
+<%= render :partial => 'coauthor_forms', :locals => {:user => user, :article_submission => article_submission }%>
+
+  </td>
+
+  <td width="474" valign="top" align="center" rowspan="2">
+  </td>
+  </tr>
+</table>
+
+
+<div id="bottom-links">
+  <div>
+        <%= link_to 'Back to My Manuscripts', :controller => 'manuscripts' -%>
+  </div>
+</div>

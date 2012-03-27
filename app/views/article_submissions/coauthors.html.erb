@@ -1,0 +1,28 @@
+<% @title = "Edit Manuscript Details" %>
+
+<div class="block"><%= get('coauthors_instructions') -%></div>
+
+<%= error_messages_for :user, :header_message=>"Your form could not be saved", :message=>"Please correct the following errors:"  %>
+<%= form_tag :action => 'update_coauthors', :id => @article_submission.id %>
+	<div id="coauthors">
+	   <% @coauthors.each_with_index do |ca, index| %>
+		  <% if ca.new_record? or ca.user_can_edit == current_user.id %>
+	      	<%= render :partial => 'coauthor', :locals => {:index => index, :coauthor => ca} %>
+		  <% else %>
+		    <%= render :partial => 'coauthor_brief', :locals => {:index => index, :coauthor => ca }  %>
+	  	  <% end %>
+		<% end %>
+	</div><!-- end #coauthors -->
+	
+	<%= render :partial => 'add_coauthor_link', :locals => {:index => @coauthors.size} %>
+		
+	<div class="note coauthors"><%= get('contribution_note')%></div>
+	
+	<div class="button-nav">
+		<%=render :partial=>'submit_tags'%>	
+<!--	<%= submit_tag " Previous Page ", :name=>'previous' %>
+		&nbsp;&nbsp;
+		<%= submit_tag " Continue to Next Page ", :name=>'next' %>				-->
+	</div>
+	
+</form>

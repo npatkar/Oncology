@@ -1,0 +1,192 @@
+<% @subtitle = "Author Responsibilities" %>
+<% @title = "Manuscript Submission" %>
+<%= error_messages_for :contribution, :header_message=>"Your form could not be saved", :message=>"Please correct the following errors:" %>
+
+<div class="block"><%= get('author_responsibilities_header') -%></div>
+
+<div class="block"><%= get('auth_account_sponsor_header') -%></div>
+
+<div class="form-section">
+<%= form_tag({:action => 'update_author_responsibilities', :contribution_id => @contribution.id}, {:id => "form"}) %>
+
+
+
+
+
+
+
+
+<div class="question">
+  <div class="question-text">
+    <label><%= get('author_resp_agree') -%></label>
+  </div>
+  <div class="answer"><%= yes_no_radio 'contribution', 'agree_contents', @contribution.agree_contents %>
+					<span id="contribution_agree_contents_span" <%= hide_on(true, @contribution.agree_contents) -%> >
+						&nbsp;&nbsp;&nbsp;
+						<span class="note"><%= get('author_resp_details_agree') -%></span> 
+						<br />
+						<%= text_area 'contribution', :agree_contents_details, :rows=>"2", :cols=>"40" %>
+					</span>
+  </div>
+  <div class="clear"></div>
+</div>
+
+
+<div class="question">
+  <div class="question-text">
+    <%= get('author_resp_sole_submission') -%></label>
+  </div>
+  <div class="answer">
+	<%= check_box 'contribution', :sole_submission, {}, '1', '0'  -%>
+  </div>
+  <div class="clear"></div>
+</div>
+
+
+<div class="question">
+  <div class="question-text">
+    <label><%= get('author_resp_received_payment') -%> </label>
+  </div>
+  <div class="answer"> 
+					<%= yes_no_radio 'contribution', :received_payment, @contribution.received_payment %>
+					<span id="contribution_received_payment_span" <%= hide_on(false, @contribution.received_payment) -%> >
+						&nbsp;&nbsp;&nbsp;
+						<span class="note"><%= get('author_resp_details_received_payment') -%></span> 
+						<br />
+						<%= text_area 'contribution', :received_payment_details, :rows=>"2", :cols=>"40" %>
+					</span>
+  </div>
+  <div class="clear"></div>
+</div>
+
+<div class="question">
+  <div class="question-text">
+    <label> <%= get('author_resp_tobacco') -%> </label>
+  </div>
+  <div class="answer"> 
+	<%= check_box 'contribution', :tobacco, {}, 1, 0  -%>
+  </div>
+  <div class="clear"></div>
+</div>
+
+<div class="question">
+  <div class="question-text">
+						<label> <%= get('author_resp_published_elsewhere')%> </label>
+  </div>
+  <div class="answer">
+					<%= yes_no_radio 'contribution', :published_elsewhere, @contribution.published_elsewhere %>					
+  </div>
+  <div class="clear"></div>
+</div>
+
+<div class="question">
+  <div class="question-text">
+	<label> <%= get('author_resp_dna_research') -%> </label>
+  </div>
+  <div class="answer">
+					<%= yes_no_radio 'contribution', :dna_research, @contribution.dna_research %>
+  </div>
+  <div class="clear"></div>
+</div>
+
+<div class="question">
+  <div class="question-text">
+    <label> <%= get('author_resp_human_experiment') -%> </label>
+  </div>
+  <div class="answer">
+					<%= yes_no_radio 'contribution', :human_experiment, @contribution.human_experiment %>
+  </div>
+  <div class="clear"></div>
+</div>
+
+<div class="question">
+  <div class="question-text">
+    <label> <%= get('author_resp_clintrials') -%> </label>
+  </div>
+  <div class="answer">
+    <%= yes_no_radio 'contribution', :clintrials, @contribution.clintrials %>
+  </div>
+  <div class="clear"></div>
+</div>
+
+<div class="question">
+  <div class="question-text">
+    <label> <%= get('author_resp_consort_guidelines') -%> </label>
+  </div>
+  <div class="answer">
+    <%= yes_no_radio 'contribution', :consort_guidelines, @contribution.consort_guidelines %>
+  </div>
+  <div class="clear"></div>
+</div>
+
+<div class="question">
+  <div class="question-text">
+    <label> <%= get('author_resp_proprietary_guidelines') -%> </label>
+  </div>
+  <div class="answer">
+    <%= yes_no_radio 'contribution', :proprietary_guidelines, @contribution.proprietary_guidelines %>
+	<span id="contribution_proprietary_guidelines_span" <%= hide_on(true, @contribution.proprietary_guidelines) -%> >
+    	  &nbsp;&nbsp;&nbsp;
+	  <span class="note"><%= get('author_resp_details_proprietary_guidelines') -%></span> 
+	  <br />
+	  <%= text_area 'contribution', :proprietary_guidelines_details, :rows=>"2", :cols=>"40" %>
+	</span>
+  </div>
+  <div class="clear"></div>
+</div>
+
+<fieldset>
+<legend><%= get('author_resp_medical_questions_title') -%></legend>
+<div class="question">
+  <div class="question-text"><label><%= get('author_resp_assisted_label') -%></label></div>
+  <div class="answer"><%= yes_no_radio 'contribution', :assisted, @contribution.assisted %>
+	<span class="note"><%= get('author_resp_assisted_note') -%></span> 
+		<span id="contribution_assisted_span" <%= hide_on(false, @contribution.assisted) -%> >
+			&nbsp;&nbsp;&nbsp;
+			<span class="note"><%= get('author_resp_assisted_if_yes') -%></span> 
+			<br />
+			<%= text_area 'contribution', :assisted_details, :rows=>"2", :cols=>"40" %>
+		</span>
+  </div>
+  <div class="clear"></div>
+</div>
+
+
+<% [1,2,3,6,4,5].each do |n| %>
+  <% if n == 2 %>
+   <%= yes_no_question :contribution, "arynq#{n}", :required => false, :table => false, :details_on => false -%>
+  <% else %>
+   <%= yes_no_question :contribution, "arynq#{n}", :required => false, :table => false -%>
+  <% end %>
+<% end %>
+</fieldset>
+
+
+<div class="question">
+  <div class="question-text">
+    <label> <%= get('author_resp_agree_policies') -%> </label>
+  </div>
+  <div class="answer">
+    <%= yes_no_radio 'contribution', :agree_policies, @contribution.agree_policies %>
+    <span id="contribution_agree_policies_span" <%= hide_on(true, @contribution.agree_policies) -%> >
+	&nbsp;&nbsp;&nbsp;
+	<span class="note"><%= get('author_resp_details_agree_policies') -%></span> 
+	<br />
+	<%= text_area 'contribution', :agree_policies_details, :rows=>"2", :cols=>"40" %>
+   </span>
+  </div>
+  <div class="clear"></div>
+</div>
+
+<%= yes_question :contribution, "arynq7", :required => false, :table => false -%>
+
+<h3>Author Signature:</h3>
+<%= signature_block('contribution', "Author Responsibilities Form", 'responsibilities_') %>
+
+     <% unless @generating_pdf %>
+        <div class="button-nav dontprint"><%= submit_tag " I Agree ", :accesskey => 'r', :name=>'next' %></div>
+     <% end %>
+
+</form>
+</div><!-- /.form-section -->
+<div class="clear"></div>

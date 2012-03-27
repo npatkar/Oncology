@@ -1,0 +1,29 @@
+<% manuscript_coi_form = @article_submission.latest_manuscript_coi_form_by_user_id(current_user.id) %>
+<% contribution = @article_submission.contribution_by_user_id(current_user.id) %>
+
+
+<% if contribution.manuscript_coi_status or 
+			  (contribution.latest_manuscript_coi_form and contribution.latest_manuscript_coi_form.committed) %>
+	  <% text = 'Update your financial disclosure form'; completed = true %>
+<% else %>
+	  <% text = 'Complete your financial disclosure form'; completed = false %>
+<% end %>
+
+
+
+<%= render :partial => 'todo_item', :locals => {:text => link_to(text, 
+                                                         :controller => 'manuscript_coi_forms', 
+														 :action => 'init', 
+														 :contribution_id => contribution.id),
+												:completed => completed }
+-%>
+
+
+<% text = contribution.copyright_status ? "Update your copyright assignment" : "Complete your copyright assignment" %>
+
+<%= render :partial => 'todo_item', :locals => {:text => link_to(text, :controller => 'forms', 
+																 :action => 'copyright_assignment', 
+																 :contribution_id => contribution.id),
+												:completed => completed }
+-%>
+

@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<%= render :partial=>'/layouts/head' -%>
+	<body>
+		
+		<table class="bf" align="center" cellpadding="0" cellspacing="0" width="98%">
+			<tbody>
+				<tr>
+					<td rowspan="2">
+						<table cellspacing="10" width="100%">
+		
+							<tbody>
+								<tr>
+									<td>
+									<%= render :partial=>'/layouts/header' -%>
+		
+			<!-- = render :partial=>'article_nav' -->
+		<div class="clearing"></div>
+		
+		
+		<div id="content">
+			<% if flash[:notice] %>
+				<div id="flash_notice"><%= flash[:notice] %></div>
+			<% end %>
+			<%= yield %>			
+		</div>
+		
+										<%= render :partial=>'/layouts/footer' -%>	
+									</td>
+								</tr>
+							</tbody>
+		
+						</table>
+						
+					</td>
+		<!-- right drop shadow -->
+					<td class="b9" height="3" width="3">
+						&nbsp;
+					</td>
+				</tr>
+		<!-- right drop shadow -->
+				<tr>
+					<td class="b3" width="3">
+		
+						&nbsp;
+					</td>
+				</tr>
+		<!-- bottom drop shadow -->
+				<tr class="b3">
+					<td colspan="2" height="3">
+						<table cellpadding="0" cellspacing="0">
+							<tbody>
+								<tr>
+		
+									<td class="b9" height="3" width="3">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+<% if @footer_text %>
+  <!-- footer text start -->
+  <%= @footer_text %>
+  <!-- footer text end -->
+<% end %>
+	
+		<% if defined? @focus_on %>
+			<script type="text/javascript">
+				$("<%= @focus_on -%>").focus();
+			</script>
+		<% end %>		
+			
+<!-- google analytics tracking code -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-8825811-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- /google analytics tracking code -->
+
+	</body>
+</html>

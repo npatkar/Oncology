@@ -1,0 +1,21 @@
+<h1>Listing contribution_types</h1>
+
+<table>
+  <tr>
+     <th>Order</th>
+     <th>Public?</th>
+     <th>Title</th>
+  </tr>
+
+<% for contribution_type in @contribution_types %>
+  <tr>
+    <td><%= contribution_type.display_order -%></td>
+    <td><%= contribution_type.public ? 'Yes': 'No' -%></td>
+    <td><%= link_to contribution_type.title, edit_contribution_type_path(contribution_type) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New contribution_type', new_contribution_type_path %>

@@ -1,0 +1,38 @@
+<h2><%=@article_submission.title%></h2>
+<table style="clear: both; width: 100%;" class="admin_table">
+	<tr>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Last Coi Submitted</th>
+		<th>Last Reminder Sent</th>
+		
+	</tr>
+
+<%@coi_holders.each do |holder|%>
+  <%if holder.instance_of?(Contribution)
+      type = "Co-Author"
+       key = EmailLog::SENT_AUTHOR_COI_REMINDER
+    else
+      type = "Reviewer"
+       key = EmailLog::SENT_REVIEWER_COI_REMINDER
+    end
+
+     emails = holder.emails(key)
+    cois = holder.manuscript_coi_forms.reject{|m|m.sig_time.blank?}
+    arr = []
+    arr.concat(emails)
+    arr.concat(cois)
+    arr.sort_by do |val|
+      val.instance_of?(ManuscriptCoiForm) ? val.sig_time : val.created_at
+     end
+   %> 
+   <%arr.each do |val|%>
+	  <tr>
+	  	<td><%=holder.user.name%></td>
+		<td><%=holder.instance_of?(Contribution) ? "Co-Author" :"Reviewer"%></td>
+		<td><%=val.instance_of?(ManuscriptCoiForm) ? "#{fmt_date_time(val.send("sig_time"))} (#{pdf_link(val.pdf)})" : "N/A"%></td>
+		<td><%=val.instance_of?(EmailLog) ? fmt_date_time(val.created_at): "N/A" %></td>
+	  </tr>
+  <%end%>
+<%end%>
+</table>

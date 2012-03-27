@@ -1,0 +1,29 @@
+<h2>Current Reviewers Report</h2>
+<%= form_tag :action => :current_reviewers -%>
+
+
+<% asrs = ArticleSubmissionReviewer.find(:all, :include => [:entity_statuses]) %>
+
+<div id="current_reviewers">
+  <table style="clear: both; width: 100%;" class="admin_table"> 
+    <tr>
+      <th style='width: 10%;'>Date Accepted</th>
+      <th style='width: 5%;'>Name</th>
+      <th>Manuscript Title</th>
+      <th style='width: 10%;'>Comments Due</th>
+      <th style='width: 5%;'>Days to Comment</th>
+    </tr>
+    <% asrs.each do |asr| %>
+      <% next unless asr.current_status_key == 'reviewer_need_comments' %>
+      <tr style="<%= color_background asr -%>">
+        <td><%= asr.current_status_date -%></td>
+        <td><%= asr.user.name -%></td>
+        <td><%= link_to asr.article_submission.title, {:controller => :admin, :action => :article_submissions, :search => asr.article_submission.title} -%></td>
+        <td><%= asr.effective_comments_deadline.strftime('%x') -%></td>
+        <td><%= asr.days_to_comment -%></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+</form>

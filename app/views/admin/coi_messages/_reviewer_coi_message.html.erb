@@ -1,0 +1,15 @@
+
+<%form_remote_tag :url => {:controller => "admin", :action => "send_custom_coi_reminder_to_reviewer"},:html =>{:id=>'reviewer_message_form'} do%>
+	<textarea name="message" rows="20" cols="40" id="message" class="mceEditor">
+			<%=UserTemplate.get_template('reviewer_manuscript_coi_link', @a_s_r)%>
+  	</textarea>
+    <%=hidden_field_tag 'id',@a_s_r.id%>	
+   <%= submit_tag 'Send Message',:onclick=>"this.style.display='none';tinyMCE.triggerSave();" -%>
+<%end%>
+
+ <%= link_to 'Edit This Template', '/edit_user_template?template_alias=reviewer_manuscript_coi_link',:popup => true%>
+
+
+<%= render :partial => '/admin/tinymce_init' -%>
+
+

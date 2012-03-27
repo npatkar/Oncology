@@ -1,0 +1,15 @@
+
+
+<div>  
+	<p style='font-weight:bold'>Cadmus Submission Failed for submission <%=@log.article_submission.title%></p>
+	
+	<p>Zip File Name: <%=@log.file_name%></p>
+	
+	<p>Article Submission ID: <%=@log.article_submission.id%></p>
+	
+	<p>Failure Reason: <%=@log.failure_reason%></p>
+	
+	<%unless @log.stack_trace.blank?%>
+	<p>Stack Trace:<br/><br/> <%=@log.stack_trace%></p>
+	<%end%>
+</div>

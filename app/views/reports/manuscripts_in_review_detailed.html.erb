@@ -1,0 +1,21 @@
+<h2>Manuscripts in Review Detailed Report</h2>
+  <!--<ul>
+  <li>Less than 2 weeks in current status</li>
+  <li style='background-color: yellow'>2-4 weeks in status</li>
+  <li style='background-color: orange'>5-6 weeks in status</li>
+  <li style='background-color:#ff7744'>more than 6 weeks in status</li>
+  </ul>-->
+<%= form_tag :action => :manuscripts_in_review_detailed -%>
+
+<% article_submissions = ArticleSubmission.find_all_in_current_status('article_submission_in_review') %>
+
+<div id="manuscripts_in_review">
+  <table style="clear: both; width: 100%;" class="admin_table"> 
+  <% article_submissions.each do |as| %>
+    <%= render :partial => 'article_submission_tr_review_view_detailed', :locals => {:article_submission => as} %>
+    <tr><td colspan='99' height='5px' border='0' style='border: none;'>&nbsp;</td></tr>
+  <% end %>
+  </table><br />
+</div>
+
+</form>

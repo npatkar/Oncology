@@ -1,0 +1,70 @@
+<% progress,contribution = article_submission.progress(@user) %>
+
+<%= render :partial => 'todo_item', :locals => {:text => link_to(get('manuscripts_checklist_complete_general_info_page', nil, false),
+                                                                :controller=>'article_submissions', 
+                                                                :action=>'general', 
+                                                                :id=>article_submission.id),
+                                                :completed => progress[:general][:completed?] } 
+-%>
+
+<%= render :partial => 'todo_item', :locals => {:text => link_to(get('manuscripts_checklist_complete_reviewers_page', nil, false), 
+                                                                :controller=>'article_submissions',
+                                                                :action=>'reviewers', 
+                                                                :id=>article_submission.id),
+                                                :completed => progress[:reviewers][:completed?] } 
+-%>
+
+<%= render :partial => 'todo_item', :locals => {:text => link_to(get('manuscripts_checklist_complete_fees_page', nil, false),
+                                                                :controller=>'article_submissions',
+                                                                :action=>'fees',
+                                                                :id=>article_submission.id),
+                                                :completed => progress[:fees][:completed?] } 
+-%>
+
+<%= render :partial => 'todo_item', :locals => {:text => link_to(get('manuscripts_checklist_complete_checklist_page', nil, false),
+                                                                :controller=>'article_submissions',
+                                                                :action=>'checklist',
+                                                                :id=>article_submission.id),
+                                                :completed => progress[:checklist][:completed?] } 
+-%>
+
+<%= render :partial => 'todo_item', :locals => {:text => link_to(get('manuscripts_checklist_update_coi_page', nil, false),
+                                                                :controller=>'manuscript_coi_forms',
+                                                                :action=>'init', :contribution_id=>contribution.id),
+                                                :completed =>  progress[:coi][:completed?] }
+-%>
+
+<%= render :partial => 'todo_item', :locals => {:text => link_to(get('manuscripts_checklist_complete_copyright_page', nil, false),
+                                                                :controller=>'forms',
+                                                                :action=>'copyright_assignment',
+                                                                :contribution_id=>contribution.id),
+                                                :completed => progress[:copyright][:completed?] } 
+-%>
+
+<%= render :partial => 'todo_item', :locals => {:text => link_to(get('manuscripts_checklist_complete_auth_resp_page', nil, false),
+                                                                :controller=>'forms',
+                                                                :action=>'author_responsibilities',
+                                                                :contribution_id=>contribution.id),
+                                                :completed => progress[:responsibilities][:completed?] } 
+-%>
+
+<% unless article_submission.isVideo? %>
+  <%= render :partial => 'todo_item', :locals => {:text => get('manuscripts_checklist_upload_manuscript'),
+                                                  :completed => progress[:manuscript][:completed?] } 
+  -%>
+  <%= render :partial => 'todo_item', :locals => {:text => get('manuscripts_checklist_upload_cover_letter'),
+                                                  :completed => progress[:cover_letter][:completed?] } 
+  -%>
+<% else %>
+  <%= render :partial => 'todo_item', :locals => {:text => get('manuscripts_checklist_upload_video_manuscript'),
+                                                  :completed => progress[:manuscript_video][:completed?] } 
+  -%>
+<% end %>
+
+
+<% unless article_submission.sole_author %>
+  <%= render :partial => 'todo_item', :locals => {:text => get('manuscripts_checklist_complete_coauthors_page'),
+                                                  :completed => progress[:coauthors][:completed?] } 
+  -%>
+<% end %>
+

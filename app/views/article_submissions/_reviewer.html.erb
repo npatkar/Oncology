@@ -1,0 +1,59 @@
+<div class="reviewer">
+  <% prefix = "reviewer#{index.to_s}[" %>
+  <% reviewer ||= {} %>
+  <%# logger.info("***** displaying reviewer: #{reviewer.inspect}") %>
+  <% fields_for "reviewer#{index}", reviewer do |f| %>
+  <%= f.error_messages %>
+
+  <h3>Reviewer <%= index -%></h3>
+  <table>
+	<tbody>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag">*</span>Pre-Title:
+			</td>
+			<td class="answer">													
+				<%= select_tag  prefix + 'pre_title' + ']', options_for_select(['', 'Dr.', 'Mr.', 'Ms.', 'Mrs.', 'Professor'], reviewer[:pre_title]), :id => prefix + "pre_title" %>
+			</td>
+			<td class="errorText"><%= error_message_on  'reviewer', 'pre_title' -%></td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag">*</span>First Name:
+			</td>
+			<td class="answer">
+				      <%= text_field_tag prefix + 'first_name'  + ']', reviewer[:first_name], :size => 20, :id => prefix + "first_name" %>
+			</td>
+			<td class="errorText"><%= error_message_on  'reviewer', 'first_name' -%></td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag">*</span>Last Name:
+			</td>
+			<td class="answer">
+				      <%= text_field_tag prefix + 'last_name' + ']',  reviewer[:last_name], :size => 20, :id => prefix + "last_name"  %>
+			</td>
+			<td class="errorText"><%= error_message_on  'reviewer', 'last_name' -%></td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag">*</span>E-mail Address:
+			</td>
+			<td class="answer">
+				<%= text_field_tag prefix + 'email' + ']',  reviewer[:email], :size => 20, :id => prefix + "email"  %>
+			</td>
+			<td class="errorText"><%= error_message_on  'reviewer', 'email' -%></td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag">*</span>Institution:
+			</td>
+			<td class="answer">
+				<%= text_field_tag prefix + 'employer' + ']', reviewer[:employer], :size => 20, :id => prefix + "employer" %>
+			</td>
+			<td class="errorText"><%= error_message_on  'reviewer', 'employer' -%></td>
+		</tr>
+	</tbody>
+  </table>
+  <% end # /fields_for %>
+</div>

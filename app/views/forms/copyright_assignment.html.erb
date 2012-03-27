@@ -1,0 +1,40 @@
+<% @subtitle = "Copyright Transfer Form" %>
+<% @title = "Manuscript Submission" %>
+
+<br />
+<%# error_messages_for :contribution, :header_message=>"Your form could not be saved", :message=>"Please correct the following errors:" -%>
+
+<%= form_tag({:action => 'update_copyright_assignment', :contribution_id => @contribution.id}, {:id => "form"}) %>
+<%= error_messages_for :contribution %>
+Manuscript Title: 
+<br />
+<h3 style="display: inline;"><%=h @contribution.article_submission.title -%></h3> 
+
+<br />
+<br />
+Authors:
+<br />
+<h3 style="display: inline;">
+	<%=h "#{@contribution.article_submission.corresponding_author.full_name}" -%> (corresponding author); &nbsp;
+	<%=h @contribution.article_submission.coauthors.collect {|ca| ca.full_name}.join("; ") %>
+</h3> 
+<br />
+<br />
+<div class="block"><%= get('copyright_transfer_text') -%></div>
+<br />
+<h3>Author Signature:</h3>
+
+<%= signature_block('contribution', "Copyright Form", 'copyright_') %>
+
+<% unless @generating_pdf %>
+<div class="dontprint button-nav">
+		<p align="right">
+			<%= submit_tag " I Agree ", :name=>'next' -%>
+		</p>
+	</form>
+</div>
+
+<br />
+<br />
+<div align="center" class="dontprint"><h3><%= get('please_print') -%></h3></div>
+<% end %>

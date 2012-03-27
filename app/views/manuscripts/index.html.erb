@@ -1,0 +1,19 @@
+<% @title = "My Manuscripts" %>
+
+<% @user.latest_version_submissions.each do |asubmission| 
+	@article_submission = asubmission
+%>
+  <div style='padding: 1em 0;'>
+    <%= @article_submission.title -%><br />
+    <label>Manuscript Number:</label> <%= @article_submission.manuscript_number || 'Not assigned' -%><br />
+    <% if false %><label>Current Status:</label> <%=@article_submission.current_status_name('human_friendly_name')%><br /><% end %>
+    <label>Your Role:</label> <%= @article_submission.users_role_with_this_submission(@user) -%><br />
+    <label>Revision:</label> <%= @article_submission.version_name -%><br />
+    <label>Actions:</label> <%= link_to 'View Submission', :action => 'edit', :id => @article_submission.id -%>
+  </div>
+<% end %>
+
+<%= get('manuscript_start_new_label') -%>
+<div class="center">
+  <%=button_to_function "Submit A New Mansucript","AjaxPopup.OpenBoxWithUrl(this,true,'/manuscript_links',null)"%>
+</div>

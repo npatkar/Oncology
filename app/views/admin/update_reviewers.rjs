@@ -1,0 +1,6 @@
+
+unless @no_popup
+page << "AjaxPopup.CloseWindow()"
+end
+page.replace_html "reviewers_#{@article_submission.id}",:partial=>"article_reviewers_list", :locals =>{:article_submission => @article_submission}
+page.visual_effect :highlight, "reviewers_#{@article_submission.id}"

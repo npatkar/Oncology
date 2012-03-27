@@ -1,0 +1,13 @@
+<% submissions = Array.new %>
+<% submissions << @article_submission.parent %>
+<% submissions = submissions.concat(@article_submission.article_submissions) %>
+
+<% submissions.each do |as| %>
+  <span>
+    <%= as.version == 1 ? "Original Manuscript Files" :"Version:#{as.version}" %>
+						:
+    <%= link_to "Download", :controller => 'article_submissions',
+                            :action => 'download_files',
+                            :id => as.id -%>
+  </span><br/>
+<% end %> 

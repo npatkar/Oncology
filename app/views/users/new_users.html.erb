@@ -1,0 +1,24 @@
+<h1>Add Users</h1>
+<p>You can add many users at a time with this form. You only need the first and last name, plus their email address. Email addresses cannot be shared for users existing or to be added. The user will be added to the system with enough privileges to log in and request a password reset link, or can be sent an email with a COI link to automatically sign the user in.</p>
+<p>The users copied to this box must be in this format (1 user per line):</p>
+<p><%= text_field_tag 'xyz', "Email-Address       First-Name      Last-Name", :size=>50, :disabled=>true -%></p>
+<p>The email address and first name MUST NOT contain any spaces. The last name may contain spaces</p>
+
+<div id="add_users_form">
+    <div id='users_to_add_wrapper'>
+		<%= text_area_tag 'users_to_add', nil, :cols=>50, :rows=>25 %>
+	</div>
+	<p>
+		Role to associate these users: <%= select_tag('role_id', options_for_select(Role.find(:all).collect{|r| [r.role_title, r.id]}.unshift(['No role', nil]) )) -%>
+	</p>
+	<div>
+		<%= link_to_remote('&lt;Check Users&gt;', :url=>{:action=>'check_users'}, :submit=>'add_users_form')-%> &nbsp; &nbsp; 
+		<%= link_to_remote('&lt;Strip Problem Users&gt;', :url=>{:action=>'strip_problem_users'}, :submit=>'add_users_form')-%> &nbsp; &nbsp; 
+		<%= link_to_remote('&lt;Add Users&gt;', :url=>{:action=>'add_users'}, :submit=>'add_users_form')-%>
+		<%= form_indicator %>
+	</div>
+</div>
+
+
+<div id="summary">
+</div>

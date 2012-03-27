@@ -1,0 +1,6 @@
+
+link = link_to_remote "Enable Email",:url => { :action => "enable_email_sending", :id => @user.id },:success => "alert('User Emailing Enabled')",:failure => "alert('Process Failed. Please Try Again')"
+
+page.replace_html "email_supression_link_#{@user.id}",:text => link
+
+

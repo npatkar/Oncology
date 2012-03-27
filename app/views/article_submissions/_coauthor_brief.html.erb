@@ -1,0 +1,62 @@
+<%
+  if @article_submission and coauthor and ! coauthor.new_record?
+    contribution = Contribution.find_by_article_submission_and_user(@article_submission.id, coauthor.id)
+  end
+  
+  contribution ||= Contribution.new
+
+  @coauthor = coauthor
+%>
+
+<div id="coauthor_<%= index %>" class="coauthor">
+	<div class="block"><%= get('coauthor_already_exists_header') -%></div>
+	
+  <% fields_for "coauthors[#{index}]", coauthor do |f| %>
+  <%= f.error_messages %>
+  <%= f.hidden_field :email %>
+  <p>
+	<label>Coauthor:<label> <%= coauthor.full_name -%>
+  </p>
+  <p>
+	<label>Email:</label> <%= coauthor.email -%>
+  </p>
+  <table>
+	<tbody>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				Contribution(s):
+			</td>
+			<td class="answer">
+				<%= render :partial => "contribution_types_multiple", 
+					   :locals => {
+									:user => coauthor,
+									:contribution => contribution,
+									:id_prefix => "coauthor#{index}",
+									:name_prefix => "coauthors[#{index}]"
+								  } %>
+			</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" class="questionlabel">
+				<span class="requiredflag">Is First Author?</span>
+			</td>
+			<td colspan="2">
+				
+				
+				<%=check_box_tag "coauthors[#{index}][first_author]",1,contribution.first_author,{:class=>"first_author_box",:onclick=>"ArticleSubmissionFunctions.handleFirstAuthorClick(this)"}%>
+	     
+	       </td>
+		</tr>
+		<tr><td colspan="2">
+			<span class="remove_link">X <%= link_to_remote 'Remove', :url => { :action => 'remove_coauthor', :index => index } %></span></td>
+		</tr>
+		</tbody>
+	</table>
+  <% end # /fields_for %>
+</div><!-- /#<%= "coauthor_#{index}" -%> -->
+
+
+<!-- focus on the newly added coauthor -->
+<script type="text/javascript">
+	$("<%= "coauthor#{index}_pre_title" -%>").focus();
+</script>

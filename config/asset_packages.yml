@@ -1,0 +1,21 @@
+--- 
+javascripts: 
+- base: 
+  - prototype
+  - controls
+  - application
+  - all_min
+  - effects
+  - prototype-1.6.0.3
+  - redbox
+  - dragdrop
+  - lowpro
+stylesheets: 
+- base: 
+  - scaffold
+  - main
+  - ie
+  - pdf_override
+  - redbox
+  - ie6
+  - html2ps

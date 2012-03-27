@@ -1,0 +1,53 @@
+<% @title = article_submission.title %>
+
+<table border="0" cellspacing="0" cellpadding="4" style="margin-top:10px;">
+  <tr>
+    <td valign="top">
+      <%= render :partial => 'manuscript_general_info', :locals => {:article_submission => article_submission, :user => user} %>
+      <% if article_submission.committed? %>
+        <%= render :partial => 'corr_author_closed_todo_list', :locals => {:article_submission => article_submission, :user => user} %>
+      <% else %>
+        <%= render :partial => 'corr_author_todo_list', :locals => {:article_submission => article_submission, :user => user} %>
+        <%= render :partial => 'coauthors' %>
+      <% end %>
+    </td>
+    
+    <% unless article_submission.committed? %>
+    <td width="474" valign="top" align="center" rowspan="2">
+      <div id="sidebar">
+        <% if article_submission.committed? %>
+          <%#= render :partial => 'files_closed', :locals => {:article_submission => article_submission, :user => user} %>
+        <% else %>
+          <%= render :partial => 'files', :locals => {:article_submission => article_submission, :user => user} %>
+        <% end %>
+      </div>
+    </td>
+    <% end %>
+  </tr>
+</table>
+
+
+
+<div id="bottom-links">
+  <% unless article_submission.committed? %>
+  <div>
+    <% progress, contr = article_submission.progress(user) %>
+    <% if article_submission.isComplete?(progress) %>
+      <%= button_to("Complete Submission Process", :action => "review", :id => article_submission.id) -%>
+    <% else %>
+      Complete the steps above to be able to submit.
+    <% end %>
+  </div>
+   <div>
+    <% form_tag({:action => "remove_article_submission"}, {:id => "remove_form", :name => "remove_form"}) do %>
+      <%= hidden_field_tag("id", article_submission.id) %>
+      <%= submit_tag "Delete Article Submission", :name => 'remove', 
+                                                  :onclick => "AjaxPopup.CreateModalBox(this,true,'Please confirm you want to remove this manuscript. This cannot be undone.', 'Yes', 'No', function(){$('remove_form').submit()}, AjaxPopup.CloseWindow); return false;" -%>
+    <% end %>
+  </div>  
+  <% else %>
+  <% end %>
+  <div>
+        <%= link_to 'Back to My Manuscripts', :controller => 'manuscripts' -%>
+  </div>
+</div>

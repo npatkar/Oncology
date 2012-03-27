@@ -1,0 +1,63 @@
+               <div class="details_left">
+               	<div class="details_block">
+               	<%if article_submission.version%>
+				   <h3><%="Version:#{article_submission.version}"%></h3>
+				   <%=render :partial=>"revision_links",:locals=>{:article_submission=>article_submission}%>
+				 <%end%>
+				<h3>Actions</h3>
+				<%if article_submission.admin_urgent != true%>
+			      <%= link_to_remote "Mark Urgent", :url=>{:controller => 'admin',:action => 'mark_submission_urgent',:id => article_submission.id} -%>
+			   <%else%>
+			      <%= link_to_remote "Make Normal", :url=>{:controller => 'admin',:action => 'mark_submission_normal',:id => article_submission.id} -%>
+			   <%end%>
+			   &nbsp;
+			    <%=link_to_function("Update Admin Notes","AjaxPopup.OpenBoxWithUrl(this,true,'/admin/add_admin_notes/#{article_submission.id}',null,true)")%>									
+				&nbsp;
+			  <%if article_submission.has_current_status_of?(ArticleSubmission::IN_REVIEW)%>
+				    <%status_id = Status.find_by_key("provisionally_accepted").id%>
+					<%= link_to_remote ("Provisionally Accept",
+			               :url => { :action => "provisionally_accept",  
+			               :id => article_submission.id},:html=>{:id=>"provisional_link_#{article_submission.id}"},
+			               :confirm=>"Are You Sure You Want To Change The Status To Provisionally Accepted",
+			               :success => "change_select_box_value('status_id', #{status_id})") %>
+			   <%end%>
+			   
+			    <%if true || article_submission.has_current_status_of?(:article_submission_staged_for_cadmus) %>
+				
+					     <%=link_to_function("Send To Cadmus","AjaxPopup.CreateModalBox(this,true,'Are You Sure', 'Yes','No',function(){send_to_cadmus(#{article_submission.id})},AjaxPopup.CloseWindow,true)")%>	
+					
+					<%end%>
+			   </div>
+               	 <%= render :partial => '/admin/article_submission_pdfs', :locals => {:article_submission => article_submission} %>
+				 <%= render :partial => '/admin/article_reviewers_list', :locals => {:article_submission => article_submission} %>
+				 <%= render :partial => '/admin/publisher_comments',:locals => {:article_submission => article_submission} %>
+				 <div class="details_block">
+				<h3>Manuscript Status</h3>
+					<%statuses = Entity.find_by_entity_type("article_submission").statuses%>
+					<%= render :partial=>'/admin/change_status_drop_down',:locals=>{:entity=>article_submission,:status=>article_submission.current_status,:statuses=>statuses}%>
+				</div>
+				
+			   
+			 
+			  
+				</div>
+				
+				<div class="details_right">
+				 <%= render :partial => '/admin/article_submission_authors', :locals => {:article_submission => article_submission} %>
+				 <%= render :partial => '/admin/article_submission_files', :locals => {:article_submission => article_submission} %>
+				 <%= render :partial => '/admin/fee_info', :locals => {:article_submission => article_submission} %> 	
+				  <div  class="filesx details_block" id="urgent_links_<%=article_submission.id%>">
+			   
+			   </div>		
+			   
+			   
+			   
+               
+             <div style="clear:both"/>  
+               
+                  		  
+			   
+			
+              
+
+			  
