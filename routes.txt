@@ -1,0 +1,105 @@
+(in /home/amp/manuscriptsubmissions.theoncologist.com/dev/trunk)
+                        statuses GET    /statuses(.:format)                              {:controller=>"statuses", :action=>"index"}
+                                 POST   /statuses(.:format)                              {:controller=>"statuses", :action=>"create"}
+                      new_status GET    /statuses/new(.:format)                          {:controller=>"statuses", :action=>"new"}
+                     edit_status GET    /statuses/:id/edit(.:format)                     {:controller=>"statuses", :action=>"edit"}
+                          status GET    /statuses/:id(.:format)                          {:controller=>"statuses", :action=>"show"}
+                                 PUT    /statuses/:id(.:format)                          {:controller=>"statuses", :action=>"update"}
+                                 DELETE /statuses/:id(.:format)                          {:controller=>"statuses", :action=>"destroy"}
+    article_submission_reviewers GET    /article_submission_reviewers(.:format)          {:controller=>"article_submission_reviewers", :action=>"index"}
+                                 POST   /article_submission_reviewers(.:format)          {:controller=>"article_submission_reviewers", :action=>"create"}
+ new_article_submission_reviewer GET    /article_submission_reviewers/new(.:format)      {:controller=>"article_submission_reviewers", :action=>"new"}
+edit_article_submission_reviewer GET    /article_submission_reviewers/:id/edit(.:format) {:controller=>"article_submission_reviewers", :action=>"edit"}
+     article_submission_reviewer GET    /article_submission_reviewers/:id(.:format)      {:controller=>"article_submission_reviewers", :action=>"show"}
+                                 PUT    /article_submission_reviewers/:id(.:format)      {:controller=>"article_submission_reviewers", :action=>"update"}
+                                 DELETE /article_submission_reviewers/:id(.:format)      {:controller=>"article_submission_reviewers", :action=>"destroy"}
+                                        /r/:t                                            {:controller=>"users", :action=>"reset_password"}
+                                        /user_templates/clear_template_cache             {:controller=>"user_templates", :action=>"clear_template_cache"}
+                                        /edit_user_template                              {:controller=>"user_templates", :action=>"edit"}
+                                        /edit_template_inline                            {:controller=>"user_templates", :action=>"edit_inline"}
+                                        /admin                                           {:controller=>"admin", :action=>"index"}
+                                        /definitions                                     {:controller=>"blanket_coi_forms", :action=>"definitions"}
+                                        /manuscript_links                                {:controller=>"manuscript_types", :action=>"links"}
+                                        /user_subjects                                   {:controller=>"users", :action=>"user_subjects"}
+                          signin        /signin                                          {:controller=>:users, :action=>:login}
+                    charge_types GET    /charge_types(.:format)                          {:controller=>"charge_types", :action=>"index"}
+                                 POST   /charge_types(.:format)                          {:controller=>"charge_types", :action=>"create"}
+                 new_charge_type GET    /charge_types/new(.:format)                      {:controller=>"charge_types", :action=>"new"}
+                edit_charge_type GET    /charge_types/:id/edit(.:format)                 {:controller=>"charge_types", :action=>"edit"}
+                     charge_type GET    /charge_types/:id(.:format)                      {:controller=>"charge_types", :action=>"show"}
+                                 PUT    /charge_types/:id(.:format)                      {:controller=>"charge_types", :action=>"update"}
+                                 DELETE /charge_types/:id(.:format)                      {:controller=>"charge_types", :action=>"destroy"}
+                 active_statuses GET    /active_statuses(.:format)                       {:controller=>"active_statuses", :action=>"index"}
+                                 POST   /active_statuses(.:format)                       {:controller=>"active_statuses", :action=>"create"}
+               new_active_status GET    /active_statuses/new(.:format)                   {:controller=>"active_statuses", :action=>"new"}
+              edit_active_status GET    /active_statuses/:id/edit(.:format)              {:controller=>"active_statuses", :action=>"edit"}
+                   active_status GET    /active_statuses/:id(.:format)                   {:controller=>"active_statuses", :action=>"show"}
+                                 PUT    /active_statuses/:id(.:format)                   {:controller=>"active_statuses", :action=>"update"}
+                                 DELETE /active_statuses/:id(.:format)                   {:controller=>"active_statuses", :action=>"destroy"}
+                article_sections GET    /article_sections(.:format)                      {:controller=>"article_sections", :action=>"index"}
+                                 POST   /article_sections(.:format)                      {:controller=>"article_sections", :action=>"create"}
+             new_article_section GET    /article_sections/new(.:format)                  {:controller=>"article_sections", :action=>"new"}
+            edit_article_section GET    /article_sections/:id/edit(.:format)             {:controller=>"article_sections", :action=>"edit"}
+                 article_section GET    /article_sections/:id(.:format)                  {:controller=>"article_sections", :action=>"show"}
+                                 PUT    /article_sections/:id(.:format)                  {:controller=>"article_sections", :action=>"update"}
+                                 DELETE /article_sections/:id(.:format)                  {:controller=>"article_sections", :action=>"destroy"}
+                          emails GET    /emails(.:format)                                {:controller=>"emails", :action=>"index"}
+                                 POST   /emails(.:format)                                {:controller=>"emails", :action=>"create"}
+                       new_email GET    /emails/new(.:format)                            {:controller=>"emails", :action=>"new"}
+                      edit_email GET    /emails/:id/edit(.:format)                       {:controller=>"emails", :action=>"edit"}
+                           email GET    /emails/:id(.:format)                            {:controller=>"emails", :action=>"show"}
+                                 PUT    /emails/:id(.:format)                            {:controller=>"emails", :action=>"update"}
+                                 DELETE /emails/:id(.:format)                            {:controller=>"emails", :action=>"destroy"}
+                  user_templates GET    /user_templates(.:format)                        {:controller=>"user_templates", :action=>"index"}
+                                 POST   /user_templates(.:format)                        {:controller=>"user_templates", :action=>"create"}
+               new_user_template GET    /user_templates/new(.:format)                    {:controller=>"user_templates", :action=>"new"}
+              edit_user_template GET    /user_templates/:id/edit(.:format)               {:controller=>"user_templates", :action=>"edit"}
+                   user_template GET    /user_templates/:id(.:format)                    {:controller=>"user_templates", :action=>"show"}
+                                 PUT    /user_templates/:id(.:format)                    {:controller=>"user_templates", :action=>"update"}
+                                 DELETE /user_templates/:id(.:format)                    {:controller=>"user_templates", :action=>"destroy"}
+                         degrees GET    /degrees(.:format)                               {:controller=>"degrees", :action=>"index"}
+                                 POST   /degrees(.:format)                               {:controller=>"degrees", :action=>"create"}
+                      new_degree GET    /degrees/new(.:format)                           {:controller=>"degrees", :action=>"new"}
+                     edit_degree GET    /degrees/:id/edit(.:format)                      {:controller=>"degrees", :action=>"edit"}
+                          degree GET    /degrees/:id(.:format)                           {:controller=>"degrees", :action=>"show"}
+                                 PUT    /degrees/:id(.:format)                           {:controller=>"degrees", :action=>"update"}
+                                 DELETE /degrees/:id(.:format)                           {:controller=>"degrees", :action=>"destroy"}
+                           pages GET    /pages(.:format)                                 {:controller=>"pages", :action=>"index"}
+                                 POST   /pages(.:format)                                 {:controller=>"pages", :action=>"create"}
+                        new_page GET    /pages/new(.:format)                             {:controller=>"pages", :action=>"new"}
+                       edit_page GET    /pages/:id/edit(.:format)                        {:controller=>"pages", :action=>"edit"}
+                            page GET    /pages/:id(.:format)                             {:controller=>"pages", :action=>"show"}
+                                 PUT    /pages/:id(.:format)                             {:controller=>"pages", :action=>"update"}
+                                 DELETE /pages/:id(.:format)                             {:controller=>"pages", :action=>"destroy"}
+                           roles GET    /roles(.:format)                                 {:controller=>"roles", :action=>"index"}
+                                 POST   /roles(.:format)                                 {:controller=>"roles", :action=>"create"}
+                        new_role GET    /roles/new(.:format)                             {:controller=>"roles", :action=>"new"}
+                       edit_role GET    /roles/:id/edit(.:format)                        {:controller=>"roles", :action=>"edit"}
+                            role GET    /roles/:id(.:format)                             {:controller=>"roles", :action=>"show"}
+                                 PUT    /roles/:id(.:format)                             {:controller=>"roles", :action=>"update"}
+                                 DELETE /roles/:id(.:format)                             {:controller=>"roles", :action=>"destroy"}
+              contribution_types GET    /contribution_types(.:format)                    {:controller=>"contribution_types", :action=>"index"}
+                                 POST   /contribution_types(.:format)                    {:controller=>"contribution_types", :action=>"create"}
+           new_contribution_type GET    /contribution_types/new(.:format)                {:controller=>"contribution_types", :action=>"new"}
+          edit_contribution_type GET    /contribution_types/:id/edit(.:format)           {:controller=>"contribution_types", :action=>"edit"}
+               contribution_type GET    /contribution_types/:id(.:format)                {:controller=>"contribution_types", :action=>"show"}
+                                 PUT    /contribution_types/:id(.:format)                {:controller=>"contribution_types", :action=>"update"}
+                                 DELETE /contribution_types/:id(.:format)                {:controller=>"contribution_types", :action=>"destroy"}
+                   contributions GET    /contributions(.:format)                         {:controller=>"contributions", :action=>"index"}
+                                 POST   /contributions(.:format)                         {:controller=>"contributions", :action=>"create"}
+                new_contribution GET    /contributions/new(.:format)                     {:controller=>"contributions", :action=>"new"}
+               edit_contribution GET    /contributions/:id/edit(.:format)                {:controller=>"contributions", :action=>"edit"}
+                    contribution GET    /contributions/:id(.:format)                     {:controller=>"contributions", :action=>"show"}
+                                 PUT    /contributions/:id(.:format)                     {:controller=>"contributions", :action=>"update"}
+                                 DELETE /contributions/:id(.:format)                     {:controller=>"contributions", :action=>"destroy"}
+                manuscript_types GET    /manuscript_types(.:format)                      {:controller=>"manuscript_types", :action=>"index"}
+                                 POST   /manuscript_types(.:format)                      {:controller=>"manuscript_types", :action=>"create"}
+             new_manuscript_type GET    /manuscript_types/new(.:format)                  {:controller=>"manuscript_types", :action=>"new"}
+            edit_manuscript_type GET    /manuscript_types/:id/edit(.:format)             {:controller=>"manuscript_types", :action=>"edit"}
+           links_manuscript_type GET    /manuscript_types/:id/links(.:format)            {:controller=>"manuscript_types", :action=>"links"}
+                 manuscript_type GET    /manuscript_types/:id(.:format)                  {:controller=>"manuscript_types", :action=>"show"}
+                                 PUT    /manuscript_types/:id(.:format)                  {:controller=>"manuscript_types", :action=>"update"}
+                                 DELETE /manuscript_types/:id(.:format)                  {:controller=>"manuscript_types", :action=>"destroy"}
+                            root        /                                                {:controller=>"home", :action=>:index}
+                                        /:controller/:action/:id                         
+                                        /:controller/:action/:id(.:format)               
